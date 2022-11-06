@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>apt_operacions_habituals</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="apt operacions habituals"><h2 id="apt operacions habituals" class="header"><a href="#apt operacions habituals">apt operacions habituals</a></h2></div>
+<p>
+:tagapt:<br />
+Última modificació: desembre de 2021       <br />
+</p>
+
+<p>
+El sistema de paquets i d'actualització de Debian (que maneguem amb dpkg i apt) és molt potent. Al final la resta de distribucions que han volgut tenir rolling releases s'ho han acabat copiant més o menys disimuladament.<br />
+</p>
+
+<p>
+Les fonts d'apt es configuren a l'arxiu /etc/apt/sources.list. Un exemple de configuració per testing:<br />
+deb <a href="http://ftp.debian.de/debian/">http://ftp.debian.de/debian/</a> testing contrib main <br />
+deb-src <a href="http://ftp.debian.de/debian/">http://ftp.debian.de/debian/</a> testing main <br />
+</p>
+
+<p>
+deb <a href="http://security.debian.org/">http://security.debian.org/</a> testing/updates main <br />
+deb-src <a href="http://security.debian.org/">http://security.debian.org/</a> testing/updates main <br />
+</p>
+
+<p>
+deb <a href="http://www.debian-multimedia.org/">http://www.debian-multimedia.org/</a> testing main <br />
+</p>
+
+<p>
+Podem fer servir aquesta URL (Debian Sources List generator): <a href="https://debgen.simplylinux.ch/">https://debgen.simplylinux.ch/</a> per a obtenir el nostre fitxer sources.list<br />
+</p>
+
+<p>
+Qualsevol canvi al fitxer sources.list ha d'anar seguit de l'execució de la instrucció:<br />
+</p>
+<blockquote>
+apt update
+</blockquote>
+
+
+<p>
+Per instal.lar un paquet que no es trobi a aquests repositoris, hem de fer:<br />
+</p>
+<blockquote>
+dkpg -i nom_paquet
+</blockquote>
+
+<p>
+Podem instal.lar netselect, que es una eina que esbrina quin es el servidor més ràpid i així el podem posar al nostre sources.list. Si fem:<br />
+</p>
+<blockquote>
+netselect-apt stable
+</blockquote>
+
+<p>
+Ens generarà un arxiu sources.list al directori on hem executat aquesta instrucció. La llista de servidors es troba a <a href="http://www.debian.org/mirrors/mirrors_full/">http://www.debian.org/mirrors/mirrors_full/</a> <br />
+</p>
+
+<ul>
+<li>
+Instal.lar
+<br />        apt install paquet
+
+</ul>
+
+<ul>
+<li>
+Reinstal.lar:
+<br />        apt-get --reinstall install paquet
+
+</ul>
+
+<ul>
+<li>
+Desinstal.lar:
+<br />        apt remove paquet
+
+</ul>
+
+<ul>
+<li>
+Desinstal.lar eliminant arxius de configuració:
+<br />        apt purge paquet
+
+</ul>
+
+<ul>
+<li>
+Instal.lar paquet i desinstal.lar paquet2:
+<br />        apt install paquet paquet2-
+
+</ul>
+
+<ul>
+<li>
+Instal.lar un versió determinada de paquet
+<br />        apt-get install paquet=versió  (o diu paquet hem de posar el nom de paquet, seguit de = i la versió a instal·lar)
+
+</ul>
+
+<ul>
+<li>
+Congelar un paquet en una versió determinada
+<br />        apt-mark hold  paquet
+
+</ul>
+<blockquote>
+Veure paquets congelats
+apt-mark showhold
+</blockquote>
+<blockquote>
+Descongelar un paquet
+apt-mark unhold  paquet 
+</blockquote>
+
+<ul>
+<li>
+Actualitzar sistema
+<br />        apt upgrade
+
+</ul>
+
+<ul>
+<li>
+Upgradar a una nova versió:
+<br />        apt-get dist-upgrade
+<br />        apt full-upgrade
+
+</ul>
+
+<ul>
+<li>
+Netejar arxius descarregats:
+<br />        apt clean
+
+</ul>
+
+<ul>
+<li>
+Veure versions:
+<br />        apt-show-versions -p paquet
+<br />        apt-cache policy vlc
+<br />        apt-cache madison vlc
+
+</ul>
+
+<ul>
+<li>
+Veure llistat de programes actualitzables:
+<br />        apt-show-versions -u
+<br />        apt list --upgradeable
+
+</ul>
+
+
+<ul>
+<li>
+Informació sobre un paquet determinat:
+<br />        apt show paquet
+
+</ul>
+
+<ul>
+<li>
+Informació sobre un paquet INSTAL·LAT:
+<br />        dpkg -s paquet
+
+</ul>
+
+<ul>
+<li>
+Més informació:
+<br />        apt-cache showpkg paquet
+
+</ul>
+
+<ul>
+<li>
+Veure dependències:
+<br />        apt-cache depends paquet
+
+</ul>
+<blockquote>
+també:
+apt-cache show mc | grep -i depends
+</blockquote>
+
+<ul>
+<li>
+Llistat fitxers d'un paquet:
+<br />        apt-file list paquet
+<br />        dpkg -L paquet
+
+</ul>
+
+<ul>
+<li>
+Llistat de TOTS els paquets instal.lats:
+<br />        dkpg -l
+<br />        apt show --installed
+
+</ul>
+
+<ul>
+<li>
+Buscar paquets pel nom (busca al nom del paquet i la descripció):
+<br />        apt search "nom"
+
+</ul>
+
+<ul>
+<li>
+Buscar només sobre el nom del paquet:
+<br />        apt search -names-only "nom"
+
+</ul>
+
+<ul>
+<li>
+Buscar quin paquet te un fitxer determinat (hem d'instal.lar apt-file):
+<br />        apt-file search nom_fitxer o dkpq -S nom_fitxer
+
+</ul>
+
+
+
+<p>
+Si tenim mala memòria, ens facilitarà molt la vida wajig  (<a href="http://www.togaware.com/wajig/)">http://www.togaware.com/wajig/)</a> <br />
+</p>
+
+
+<p>
+cron-apt: Ens permet mantenir actualitzat el nostre sistema Linux. S'ha de tenir en compte, però, que cron-apt descarrega automàticament les actualitzacions però no les instal·la. Ens ho notifica (via mail, p.e.) i nosaltres haurem d'entrar i executar l'actualització fent un:<br />
+</p>
+<blockquote>
+apt full-upgrade
+</blockquote>
+            
+
+<p>
+Cada paquet te al seu directori de documentació (/usr/share/doc/packagename) un arxiu que es diu changelog.Debian.gz que conté la llista de canvis del paquet des de l'última versió. Podem lleguir aquests arxius amb zless, però es millor instal.lar apt-listchanges. Un cop estigui instal.lat, abans de que apt instal.li paquets, ens mostrarà la llista de canvis.<br />
+</p>
+
+<p>
+Tots els scripts dels paquets instal·lats estan a /var/lib/dpkg/info. Aquest directori també hi han uns fitxers .list que contenen la llista de fitxers que pertànyen a cada paquet.<br />
+</p>
+
+<p>
+Si una instal.lació termina de mala manera (l'equip s'apaga en mig d'un apt-get dist-upgrade, p.e.) i després no ens deixa instal.lar ni eliminar cap paquet, podem fer:<br />
+</p>
+<blockquote>
+apt-get -f install
+dpkg --configure -a
+I després tornem a provar. A vegades es necessari executar la segona comanda varies vegades.
+</blockquote>
+
+<p>
+Si tenim problemes després de fer un autoremove, ens pot ajudar veure quins paquets hem eliminat:<br />
+</p>
+<blockquote>
+zgrep -E "^(Remove:|Purge)" /var/log/apt/history.log*
+</blockquote>
+
+<p>
+_________________<br />
+Si volem instal·lar els mateixos paquets d'un sistema a un altre: <br />
+</p>
+
+<p>
+Save the installed packages in the file installed:<br />
+</p>
+<blockquote>
+dpkg -l | grep ^ii | awk '{print $2}' &gt; installed
+</blockquote>
+
+<p>
+In your newly installed Debian-based distro, install the saved packages:<br />
+</p>
+<blockquote>
+sudo apt-get install $(cat installed)
+</blockquote>
+
+
+<p>
+***** <br />
+Útil: Package management reference card for Linux distributions and FreeBSD: <a href="http://distrowatch.com/dwres.php?resource=package-management">http://distrowatch.com/dwres.php?resource=package-management</a> <br />
+</p>
+
+</body>
+</html>
