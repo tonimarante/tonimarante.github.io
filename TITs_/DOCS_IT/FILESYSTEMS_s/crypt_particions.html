@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>crypt_particions</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="crypt particions"><h2 id="crypt particions" class="header"><a href="#crypt particions">crypt particions</a></h2></div>
+<p>
+<span id="crypt particions-Encriptar particions amb dm-crypt i LUKS"></span><strong id="Encriptar particions amb dm-crypt i LUKS">Encriptar particions amb dm-crypt i LUKS</strong><br />
+:tagcryptpart:<br />
+Última actualització: desembre de 2013<br />
+</p>
+
+<p>
+Primer hem d'instal·lar crypsetup i comprovar si tenim carregat el mòdul dm-crypt al nostre kernel:<br />
+</p>
+
+<p>
+<code>apt-get install cryptsetup</code><br />
+</p>
+
+<p>
+<code>lsmod | grep dm_crypt</code><br />
+dm_crypt               22528  0<br />
+</p>
+
+<p>
+Si no el tenim carregat, el carreguem amb:<br />
+</p>
+
+<p>
+<code> modprobe dm_crypt</code><br />
+</p>
+
+<p>
+Encriptem el dispositiu (en el nostre cas és /dev/sdb1):<br />
+</p>
+
+<p>
+<code>cryptsetup luksFormat /dev/sdb1</code><br />
+</p>
+
+<p>
+Ens demana una clau per encriptar-lo. L'avantatge de fer servir LUKS és que podrem moure el dispositiu a un altre ordinador sense problemes, sempre que sapiguem la clau d'encriptació.<br />
+</p>
+
+<p>
+El muntem com a dispositiu a nivell de LUKS:<br />
+</p>
+
+<p>
+<code>cryptsetup luksOpen /dev/sdb1 USBencriptat</code><br />
+Enter passphrase for /dev/sdb1:<br />
+</p>
+
+<p>
+Si encara no està formatat, li donem format normalment. La partició la trobarem a sota de /dev/mapper/<br />
+</p>
+<pre>
+mkfs.ext3 /dev/mapper/USBencriptat
+cryptsetup luksClose USBencriptat
+</pre>
+
+<p>
+A partir d'aquí:<br />
+</p>
+
+<p>
+	Quan el punxem a un ordinador:<br />
+</p>
+<pre>
+cryptsetup luksOpen /dev/sdb1 USBencriptat
+mount /dev/mapper/USBencriptat /mnt/USB
+</pre>
+
+<p>
+	Quan el despunxem:<br />
+</p>
+<pre>
+umount /mnt/USB
+cryptsetup luksClose USBencriptat
+</pre>
+
+</body>
+</html>

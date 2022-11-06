@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>cya</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="CYA .:. Cover Your Ass(ets)"><h1 id="CYA .:. Cover Your Ass(ets)" class="header"><a href="#CYA .:. Cover Your Ass(ets)">CYA .:. Cover Your Ass(ets)</a></h1></div>
+<p>
+:tagcya:<br />
+Última actualització: juliol de 2020<br />
+</p>
+
+<p>
+Easy to use snapshot and restore utility for any Linux (Unix) OS and filesystem powered by BASH<br />
+<a href="https://github.com/cleverwise/cya<br">https://github.com/cleverwise/cya<br</a> />
+</p>
+
+
+<div id="CYA .:. Cover Your Ass(ets)-Instal·lar cya"><h2 id="Instal·lar cya" class="header"><a href="#CYA .:. Cover Your Ass(ets)-Instal·lar cya">Instal·lar cya</a></h2></div>
+<ul>
+<li>
+Posem l'script cya ( <a href="https://raw.githubusercontent.com/cleverwise/cya/master/cya">https://raw.githubusercontent.com/cleverwise/cya/master/cya</a> ) a on vulguem del nostre ordinador i el fem executable (chmod 700 o 755).
+
+<li>
+IMPORTANT: per a tenir-ho a ma i que funcioni l'script de recovery automatitzat, és molt convenient deixar una còpia del fitxer cya a /home/cya/
+
+</ul>
+
+<ul>
+<li>
+Executem un cop:
+
+</ul>
+
+<p>
+<code>    cya script</code><br />
+</p>
+    
+<ul>
+<li>
+Hem de guardar l'script resultant recovery.sh en un USB. Aquest script ens ajudarà a muntar l'entorn chroot i el directori /home/cya per a fer un rollback en cas de necessitat. No obstant, si no disposem d'ell, podrem fer el recovery igualmen si seguim les indicacions de l'apartat "Recovery" d'aquest document.
+
+</ul>
+
+<div id="CYA .:. Cover Your Ass(ets)-Desinstal·lar cya"><h2 id="Desinstal·lar cya" class="header"><a href="#CYA .:. Cover Your Ass(ets)-Desinstal·lar cya">Desinstal·lar cya</a></h2></div>
+<ul>
+<li>
+Desinstal·lar: simplement esborrar l'script cya i el directori /home/cya 
+
+</ul>
+  
+  
+<div id="CYA .:. Cover Your Ass(ets)-Emmagatzematge"><h2 id="Emmagatzematge" class="header"><a href="#CYA .:. Cover Your Ass(ets)-Emmagatzematge">Emmagatzematge</a></h2></div>
+<p>
+Cya guarda els backups en /home/cya/points/<span id="CYA .:. Cover Your Ass(ets)-Emmagatzematge-BACKUP_NAME"></span><strong id="BACKUP_NAME">BACKUP_NAME</strong><br />
+Genera fins a 3 snapshots.<br />
+Si volem configurar cya, hem de modificar el fitxer /home/cya/cya.conf<br />
+Per exemple, si volem modificar el número de snapshots que manté cya, podem indicar aquest paràmetre en el fitxer cya.conf:<br />
+</p>
+
+<p>
+  MAX_SAVES="2"<br />
+</p>
+  
+
+<div id="CYA .:. Cover Your Ass(ets)-Generant Snapshots/Backups"><h2 id="Generant Snapshots/Backups" class="header"><a href="#CYA .:. Cover Your Ass(ets)-Generant Snapshots/Backups">Generant Snapshots/Backups</a></h2></div>
+<p>
+Per generar un snapshot:<br />
+<code>    cya save</code><br />
+</p>
+
+<p>
+Snapshot que el sistema NO esborra:<br />
+<code>    cya keep name *BACKUP_NAME*</code><br />
+</p>
+
+<p>
+Snapshot sobreescrivint un snapshot ja existent:<br />
+<code>    cya keep name *BACKUP_NAME* overwrite</code><br />
+</p>
+ 
+<p>
+Snapshot, arxivant-lo en format tar.gz:<br />
+<code>    cya keep name *BACKUP_NAME* archive</code><br />
+</p>
+
+<p>
+Si volem modificar el nom d'un snapshot, simplement entrarem al directori /home/cya/points/ i canviarem mmanualment el nom de la carpeta que conté l'snapshot.<br />
+</p>
+
+
+<div id="CYA .:. Cover Your Ass(ets)-Recovery"><h2 id="Recovery" class="header"><a href="#CYA .:. Cover Your Ass(ets)-Recovery">Recovery</a></h2></div>
+<p>
+El millor es intentar recuperar el sistema des de un live CD que sigui de la mateixa versió del sistema operatiu que volem recuperar. Hem de seguir aquestes passes:<br />
+</p>
+
+<p>
+Recovery MANUAL:<br />
+</p>
+<ol>
+<li>
+Boot amb un live CD
+
+<li>
+Crear un directori /mnt/cya      
+
+</ol>
+<p>
+<code>        sudo mkdir -p /mnt/cya</code><br />
+</p>
+<ol>
+<li>
+Muntar l'arrel del sistema a recuperar (i /home si es necessari) en el punt de muntatge /mnt/cya. Per exemple:
+
+</ol>
+<p>
+<code>        sudo mount /dev/sda1 /mnt/cya</code><br />
+</p>
+<blockquote>
+(sudo mount /dev/sda3 /mnt/cya/home) això no farà falta si en el sistema a recuperar /home no estava a una partició a banda.
+</blockquote>
+<blockquote>
+Adicionalment, si tenim el backup cya a un disc extern, ens hem d'assegurar (fent un enllaç simbòlic, p.e.) que l'arrel d'aquest backup estarà sota de /home/cya/
+</blockquote>
+    
+<ol>
+<li>
+Executem la restauració
+
+</ol>
+<p>
+<code>        sudo /mnt/cya/home/cya/cya restore</code><br />
+</p>
+        
+
+<p>
+Recovery AUTOMATITZAT<br />
+NOTA: Això només funcionarà si el sistema a recuperar te la carpeta /home/cya amb els snapshots, i aquests no en troben un disc extern. Si els snapshots de cya els tenim en un disc extern, hem de fer el recovery manual de manera obligatòria.<br />
+</p>
+
+<ol>
+<li>
+Boot amb un live CD
+
+<li>
+Executem l'script recovery.sh (que teniem guardat, resultat de fer un cya script)
+<br />    NOTA: si tot va bé, aquest script farà el mateix que els punts 2,3 i 4 del
+<br />    procediment de recovery manual explicat més amunt.
+
+<li>
+Executem la restauració
+
+</ol>
+<p>
+<code>        sudo /mnt/cya/home/cya/cya restore</code><br />
+</p>
+
+
+<div id="CYA .:. Cover Your Ass(ets)-Backup de carpetes personals"><h2 id="Backup de carpetes personals" class="header"><a href="#CYA .:. Cover Your Ass(ets)-Backup de carpetes personals">Backup de carpetes personals</a></h2></div>
+<p>
+Per a fer backups dels directoris home, necessitem definir primer perfils al fitxer /home/cya/cya.conf<br />
+Per exemple, si volem fer backup del directory /home/jan al disc /mnt/WD_mybook/Jan, haurem d'afegir aquesta línia a cya.conf:<br />
+</p>
+
+<p>
+  MYDATA_janWD="/home/jan/ /mnt/WD_mybook/Jan/"<br />
+</p>
+    
+<p>
+IMPORTANT: les dues rutes han d'acabar amb /<br />
+</p>
+
+<p>
+Podem afegir les destinacions que vulguem, fins i tot del mateix origen, p.e.:<br />
+</p>
+
+<p>
+  MYDATA_janMaxtor="/home/jan/ /mnt/Maxtor_HD/Jan/"<br />
+</p>
+    
+<p>
+Per executar aquests backups, farem:<br />
+</p>
+<pre>
+    cya mydata janWD
+    cya mydata janMaxtor
+</pre>
+
+<p>
+Podem definir exclusions afegint línies EXCLUDE a cya.conf, per exemple:<br />
+</p>
+
+<p>
+  EXCLUDE_/home/jan/=".config/openstack/ Downloads/"<br />
+</p>
+
+
+<div id="CYA .:. Cover Your Ass(ets)-Personalitzacions"><h2 id="Personalitzacions" class="header"><a href="#CYA .:. Cover Your Ass(ets)-Personalitzacions">Personalitzacions</a></h2></div>
+<ul>
+<li>
+Execució via cron:
+<br />    Podem afegir a cron una entrada com: 
+<br />    5 2 * * 1 /home/<span id="CYA .:. Cover Your Ass(ets)-Personalitzacions-USER"></span><strong id="USER">USER</strong>/bins/cya save &gt;/dev/null 2&gt;&amp;1
+
+</ul>
+
+
+<ul>
+<li>
+Modificació de directoris dels que fa backup cya:
+<br />    Per saber els directoris dels quals cya fa backup, podem fer:
+
+</ul>
+<p>
+<code>        cya directories</code><br />
+</p>
+<blockquote>
+Si volem excloure alguns d'aquests directoris, ho podem especificar al fitxer
+cya.conf, directiva OVERRIDE_BACKUP_DIRECTORIES, per exemple:
+OVERRIDE_BACKUP_DIRECTORIES="/boot/ /var/"
+</blockquote>
+
+
+<ul>
+<li>
+Excloure subdirectoris als backups de cya:
+<br />    Exemple amb la directiva EXCLUDE de cya.conf:
+<br />      EXCLUDE_/var/="tmp/ logs/ log/syslog"
+
+</ul>
+
+
+<ul>
+<li>
+Afegir directoris als snapshots que fa cya:
+<br />    Si pel contrari, el que volem es afegir directoris als backups que fa cya,
+<br />    ho podem fer amb la directiva BACKUP_DIRECTORIES de cya.conf. Per exemple:
+<br />      BACKUP_DIRECTORIES="/tmp/ /DISC_EXTERN/"
+
+</ul>
+    
+<ul>
+<li>
+* * * * * * * * * * * * * * * * * *
+
+</ul>
+
+</body>
+</html>

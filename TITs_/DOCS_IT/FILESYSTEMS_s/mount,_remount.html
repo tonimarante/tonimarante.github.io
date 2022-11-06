@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>mount,_remount</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="mount, remount"><h2 id="mount, remount" class="header"><a href="#mount, remount">mount, remount</a></h2></div>
+<p>
+Última actualització: abril de 2009<br />
+*<span id="mount, remount-Remount sistema de fitxers"></span><strong id="Remount sistema de fitxers">Remount sistema de fitxers</strong>*<br />
+</p>
+
+
+<p>
+Per remontar un sistema que estigui en lectura (rescat):<br />
+</p>
+
+<p>
+<code>mount -n -o remount,rw /dev/hda2 </code><br />
+</p>
+
+<div id="mount, remount-Muntar particions per UUID"><h5 id="Muntar particions per UUID" class="header"><a href="#mount, remount-Muntar particions per UUID">Muntar particions per UUID</a></h5></div>
+<p>
+Última actualització: març de 2014  <br />
+</p>
+
+<p>
+Si tenim disc externs (USB o altres) el més adeqüat es -sobre tot si son més d'un- muntar-los per UUID per a evitar problemes. <br />
+La recomanació seria muntar-los des de /etc/rc.local amb una instrucció mount:<br />
+</p>
+
+<p>
+<code>	mount -U e3897082-3240-42b4-b15e-356a8f8cde52  /mnt/fotos   -t  xfs</code><br />
+<code>	mount -U e761f4e6-d4cd-4b3e-a784-c5bba48e405d  /mnt/dades -t  ext4</code><br />
+</p>
+
+<p>
+En comptes de fer-ho declararant-los a /etc/fstab, ja que si hem d'arrencar sense que algun dels discs estiguin punxats, si fstab no el troba aturarà el procés d'arrencada.<br />
+</p>
+
+</body>
+</html>

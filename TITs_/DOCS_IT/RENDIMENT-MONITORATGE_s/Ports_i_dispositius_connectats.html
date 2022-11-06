@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>Ports_i_dispositius_connectats</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="Ports i dispositius connectats"><h2 id="Ports i dispositius connectats" class="header"><a href="#Ports i dispositius connectats">Ports i dispositius connectats</a></h2></div>
+<p>
+Última actualització: març de 2015<br />
+</p>
+
+
+<p>
+Amb aquest script podem obtenir la llista de ports disponibles al nostre equip i que hi tenim connectat:<br />
+</p>
+
+<pre>
+#!/bin/bash
+
+for sysdevpath in $(find /sys/bus/usb/devices/usb*/ -name dev); do
+    (
+        syspath="${sysdevpath%/dev}"
+        devname="$(udevadm info -q name -p $syspath)"
+        [[ "$devname" == "bus/"* ]] &amp;&amp; continue
+        eval "$(udevadm info -q property --export -p $syspath)"
+        [[ -z "$ID_SERIAL" ]] &amp;&amp; continue
+        echo "/dev/$devname - $ID_SERIAL"
+    )
+done
+</pre>
+
+<p>
+Font: <a href="http://unix.stackexchange.com/questions/144029/command-to-determine-ports-of-a-device-like-dev-ttyusb0<br">http://unix.stackexchange.com/questions/144029/command-to-determine-ports-of-a-device-like-dev-ttyusb0<br</a> />
+</p>
+
+<hr />
+<p>
+Com a resultat obtindrem, p,e:<br />
+</p>
+
+<p>
+/dev/ttyUSB0 - Prolific_Technology_Inc._USB-Serial_Controller_D<br />
+/dev/dri/controlD65 - DisplayLink_TOSHIBA_Video_Dock_0110-000000<br />
+/dev/fb1 - DisplayLink_TOSHIBA_Video_Dock_0110-000000<br />
+/dev/snd/controlC1 - 0d8c_USB_Sound_Device<br />
+...<br />
+</p>
+
+<p>
+Ara podrem connectar via port sèrie amb putty o similar: <a href="../../../dev/ttyUSB0,.html">/dev/ttyUSB0,</a> speed 38400<br />
+</p>
+
+</body>
+</html>

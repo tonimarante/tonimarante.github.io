@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>raid-mdadm</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="raid-mdadm"><h2 id="raid-mdadm" class="header"><a href="#raid-mdadm">raid-mdadm</a></h2></div>
+<p>
+Última actualització: setembre de 2015 <br />
+</p>
+
+<p>
+Haurem d'instal·lar mdadm i hdparm per poder treballar amb Raid. Normalment voldrem fer:<br />
+</p>
+
+<p>
+-Raid-1 (mirall), format per 2 discos. Un serà una rèplica de l'altre.<br />
+-Raid-5. Format per 3 o més discos. Sempre perdem la capacitat d'un d'ells.<br />
+</p>
+
+<p>
+A tenir en compte que la partició /boot només pot residir a un Raid-1<br />
+</p>
+
+<p>
+Crear un raid-1:<br />
+</p>
+
+<p>
+<code>	mdadm --create --verbose /dev/md0 --level=1 --raid-devices=2 /dev/sdb /dev/sdc</code><br />
+</p>
+
+
+<p>
+Consultar estat del raid:<br />
+</p>
+
+<p>
+<code>	mdadm --detail /dev/md0</code><br />
+</p>
+
+
+<p>
+Afegir un disc al raid (per exemple ha petat un disc i l'hem canviat per un de nou que hem afegit):<br />
+</p>
+
+<p>
+<code>	mdadm /dev/md0 -a /dev/sdc</code><br />
+</p>
+
+
+<p>
+Si volem afegir un disc que abans ja formava part d'un raid, el tindrem que "netejar":<br />
+<code>mdadm --zero-superblock /dev/sdc</code><br />
+</p>
+
+<p>
+Si tenim que "engegar" un array (per què durant l'arranc no s'ha pogut inicialitzar, p.e.):<br />
+</p>
+
+<p>
+<code>	mdadm -A /dev/md0 /dev/sdb /dev/sdc </code><br />
+</p>
+
+
+<p>
+Si agafem els discos d'un raid i els portem a un altre màquina:<br />
+Fem servir la instrucció de crear un raid nou. El tornarà a muntar correctament sense destruir les dades existents:<br />
+</p>
+
+<p>
+<code>	mdadm --create --verbose /dev/md0 --level=1 --raid-devices=2 /dev/sdb /dev/sdc</code><br />
+</p>
+
+
+<p>
+Si agafem els discos d'un raid i els portem a un altre màquina i a més ens falta un disc per què ha petat:<br />
+Diem de crear un raid nou, i li diem que un disc no hi és:<br />
+</p>
+
+<p>
+<code>	mdadm --create --verbose /dev/md5 --level=5 --raid-devices=4 /dev/sda /dev/sdb /dev/sdc missing</code><br />
+</p>
+
+
+<p>
+En teoria no fa falta ficar cap configuració al fitxer mdadm.conf, però és molt recomanable. Sobre tot, si tenim problemes serà molt agraït el tenir els arrays ben configurats a aquest fitxer:<br />
+</p>
+
+<p>
+<code>	mdadm --detail --scan &gt;&gt; /etc/mdadm/mdadm.conf </code><br />
+</p>
+
+
+
+
+
+
+<p>
+Un exemple pràctic: tenim 2 discs en RAID1 i se'ns ha petat un disc:<br />
+</p>
+
+<p>
+Imaginem que tenim un RAID1 amb dos discs: /dev/sda i /dev/sdb. L'últim està espatllat i l'hem de substituir per un de nou.<br />
+</p>
+
+<p>
+Mirem l'estat del RAID:<br />
+</p>
+
+<p>
+<code>cat /proc/mdstat</code><br />
+</p>
+
+<p>
+Identifiquem (comprovar número de sèrie per a treure el disc correcte) el disc petat:<br />
+</p>
+
+<p>
+<code>hdparm -i /dev/sdb</code><br />
+</p>
+
+<p>
+Eliminem el disc petat del RAID:<br />
+</p>
+<pre>
+mdadm --manage /dev/md0 --fail /dev/sdb
+mdadm --manage /dev/md0 --remove /dev/sdb
+</pre>
+
+<p>
+Apaguem l'equip, treiem el disc petat i afegim un de nou. Quan tenim l'equip un altre cop en marxa:<br />
+</p>
+
+<p>
+<code>sfdisk -d /dev/sda |  sfdisk /dev/sdb</code><br />
+</p>
+
+<p>
+Això és si els dos discs son exactament iguals en capacitat i ens serveix per a establir el particionat del segon disc idèntic a l'existent al primer disc. Si no, podem particionar manualment el segon disc amb parted, p.e.<br />
+</p>
+
+<p>
+Afegim el nou disc al RAID:<br />
+</p>
+
+<p>
+<code>mdadm --manage /dev/md0 --add /dev/sdb</code><br />
+</p>
+
+<p>
+El RAID començarà a recomposarse. Podem comprovar com va el procés:<br />
+</p>
+
+<p>
+<code>cat /proc/mdstat</code><br />
+</p>
+
+
+
+<ul>
+<li>
+* * * * * * * * * * * * * * * * *
+
+</ul>
+
+
+<p>
+<a href="/home/bmw/ownCloudxal/VW/TITs_/DOCS_IT/FILESYSTEMS_s/raid-mdadm.jpg">file:./raid-mdadm.jpg</a><br />
+</p>
+
+</body>
+</html>

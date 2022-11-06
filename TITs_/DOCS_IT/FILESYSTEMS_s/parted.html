@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>parted</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="parted"><h2 id="parted" class="header"><a href="#parted">parted</a></h2></div>
+<p>
+*<span id="parted-Treballant amb parted"></span><strong id="Treballant amb parted">Treballant amb parted</strong>*<br />
+Última actualització: març de 2013<br />
+</p>
+
+<p>
+"parted  is  a  disk partitioning and partition resizing program.  It allows you to create, destroy, resize, move and  copy ext2, linux-swap, FAT, FAT32, and reiserfs partitions.  It can create, resize, and move Macintosh HFS partitions, as well as detect jfs, ntfs, ufs, and xfs partitions.  It is useful for creating space for new operating systems, reorganising disk usage, and copying data to new hard disks."<br />
+</p>
+
+<p>
+Veure quins discs tenim al sistema:<br />
+<code>parted -l</code><br />
+</p>
+
+<p>
+Si entrem simplement amb "parted", selecciona automàticament el primer disc del sistema. Si volem treballar amb un altre disc haurem d'especificar el disc:<br />
+<code>parted /dev/sdb</code><br />
+</p>
+
+<p>
+o bé, un cop entrats a parted, seleccionar el disc desitjat:<br />
+(parted) select /dev/sdb<br />
+</p>
+
+<p>
+Si volem ajuda:<br />
+<code>(parted) help</code><br />
+</p>
+
+<p>
+Crear nou disklabel (taula de particions)<br />
+<code>(parted) mktable gpt</code><br />
+(alguns altres tipus de disklabel: bsd, mac, msdos, loop...)<br />
+</p>
+
+<p>
+Llista particions existents a aquest disc:<br />
+<code>(parted) print</code><br />
+</p>
+
+<p>
+Crear una nova partició:<br />
+<code>(parted) mkpart primary 0 1GB</code><br />
+Warning: The resulting partition is not properly aligned for best performance.<br />
+Per a evitar aquest avís de warning en comptes de indicar que comencem en 0, indiquem 1:<br />
+<code>(parted) mkpart primary 1 1GB</code><br />
+</p>
+
+<p>
+Espai lliure al disc:<br />
+<code>(parted) print free</code><br />
+</p>
+
+<p>
+Model: ATA VBOX HARDDISK (scsi)<br />
+Disk /dev/sdb: 2405MB<br />
+Sector size (logical/physical): 512B/512B<br />
+Partition Table: gpt<br />
+Number  Start   End      Size         File system   Name     Flags<br />
+		17,4kB   1049kB   1031kB    Free Space<br />
+ 1     1049kB   1000MB  999MB                        primary<br />
+		1000MB  2405MB  1405MB  Free Space<br />
+</p>
+
+<p>
+Crear una segona partició secundaria fins al final del disc:<br />
+<code>(parted) mkpart secondary 1000MB 100%</code><br />
+</p>
+
+<p>
+<code>(parted) print </code><br />
+</p>
+                                                       
+<p>
+Model: ATA VBOX HARDDISK (scsi)<br />
+Disk /dev/sdb: 2405MB<br />
+Sector size (logical/physical): 512B/512B<br />
+Partition Table: gpt<br />
+Number  Start   End     Size    File system  Name       Flags<br />
+ 1      1049kB  1000MB  999MB                primary<br />
+ 2      1000MB  2404MB  1404MB               secondary<br />
+</p>
+
+<p>
+Esborrar la segona partició:<br />
+<code>(parted) rm 2</code><br />
+</p>
+
+<p>
+Redimensionar la primera partició:<br />
+<code>(parted) resize 1 500MB 800MB</code><br />
+(hem d'indicar número de partició, nou inici i nou final. Aquesta operació ens avisa que per a redimensionar filesystems es millor utilitzar eines especialitzades com e2fsprogs)<br />
+</p>
+
+<p>
+Copiar particions:<br />
+<code>(parted) cp 1 2</code><br />
+</p>
+
+
+<p>
+Alinear correctament les particions<br />
+Unes línies més amunt hem vist com parted se'ns queixava de problemes d'alineació de la partició. Hem vist que la solució passa per desplaçar el començament.<br />
+Ens podem trobar també amb el mateix problema quan intentem crear un filesystem a una partició (segurament creada amb fdisk) d'un RAID mdadm:<br />
+</p>
+
+<p>
+<code>mkfs.ext4 /dev/md0p1</code><br />
+mke2fs 1.42.5 (29-Jul-2012)<br />
+/dev/md0p1 alignment is offset by 63488 bytes.<br />
+This may result in very poor performance, (re)-partitioning suggested.<br />
+</p>
+
+<p>
+Tenim dues possibles solucions:<br />
+</p>
+
+<p>
+	Reparticionar, tal com suggereix el missatge. Amb parted eliminarem les particions existents i crearem les necessàries, comprovant i aplicant el desplaçament correctament per a  que la partició quedi correctament alineada.<br />
+	Formatar el RAID sense particions, es a dir que les eliminarem i utilitzarem el disc sencer sense particionar:    mkfs.ext4 /dev/md0<br />
+</p>
+
+</body>
+</html>

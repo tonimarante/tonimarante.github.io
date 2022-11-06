@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>raspberry,_format_SD_bootable</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="raspberry, format SD bootable"><h2 id="raspberry, format SD bootable" class="header"><a href="#raspberry, format SD bootable">raspberry, format SD bootable</a></h2></div>
+<p>
+*<span id="raspberry, format SD bootable-Formatejar una SD des de Linux per a instal·lar una Raspberry Pi"></span><strong id="Formatejar una SD des de Linux per a instal·lar una Raspberry Pi">Formatejar una SD des de Linux per a instal·lar una Raspberry Pi</strong>*<br />
+Última actualització: gener de 2017<br />
+</p>
+
+<p>
+Per a instal·lar alguna distribució a la Rasberry a partir de NOOBS o Berryboot primer necessitem formatar la SD d'una manera determinada. Explico aquí com fer-ho amb parted.<br />
+Tenir en compte que això esborrarà tot el contingut de la targeta SD.<br />
+</p>
+
+<p>
+Si la nostra targeta es /dev/sdb, executem amb sudo o com a root:<br />
+</p>
+
+<p>
+<code>	parted </code><br />
+</p>
+
+<p>
+		mklabel msdos<br />
+</p>
+
+<p>
+		mkpart primary ext2 1 100%<br />
+</p>
+
+<p>
+		set 1 boot on<br />
+		set 1 lba on<br />
+		q   (per sortir de parted)<br />
+</p>
+
+<p>
+<code>	mkfs.vfat /dev/sdf1</code><br />
+</p>
+
+<p>
+I ja està. Ara despunxem la SD i la tornem a punxar i li copiem a dintre els fitxers de NOOBS o Berryboot. <br />
+Amb la raspberry apagada, li posem la SD i tornem a alimentar-la. <br />
+</p>
+
+</body>
+</html>

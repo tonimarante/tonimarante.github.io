@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>kodi,_bbdd_remota</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="Connectar base de dades remota (en comptes de local) en kodi"><h2 id="Connectar base de dades remota (en comptes de local) en kodi" class="header"><a href="#Connectar base de dades remota (en comptes de local) en kodi">Connectar base de dades remota (en comptes de local) en kodi</a></h2></div>
+<p>
+Última actualització: desembre de 2019<br />
+</p>
+
+<p>
+Ens pot interessar tenir la base de dades de Kodi en remot, en comptes de tenir-la al mateix Kodi. Ens pot ser útil si tenim varis Kodi atacant per xarxa el mateix disc de xarxa (NAS) de cara a veure els mateixos "marcadors de acabat de veure" i "visionat en curs" des de tots els Kodis.<br />
+</p>
+
+<p>
+Primer necessitem tenir a la mateix xarxa un servidor de MySQL o MariaDB funcionant. Aquí: <a href="https://sites.google.com/site/tonimarante/apunts-de-linux-debian/servidors/configurar-basic-i-rapid-un-servidor-owncloud-a-debian-8">https://sites.google.com/site/tonimarante/apunts-de-linux-debian/servidors/configurar-basic-i-rapid-un-servidor-owncloud-a-debian-8</a> , s'explica breument com instal·lar un servidor MariaDB.<br />
+</p>
+
+<p>
+Per defecte el servidor només "escolta" per la ip de localhost 127.0.0.1. Si volem que escolti també per la IP que veuran els Kodi, haurem d'afegir al fitxer /etc/mysql/my.conf una línia bind-address amb la IP corresponent:<br />
+</p>
+
+<p>
+bind-address            = 192.168.1.76<br />
+</p>
+
+<p>
+(o be posar una sola línia bind-adress = 0.0.0.0 per a permetre que el servidor "escolti" per totes les seves interfícies de xarxa)<br />
+</p>
+
+<p>
+Ara reiniciem el servei:<br />
+</p>
+
+<p>
+<code>service mysql restart</code><br />
+</p>
+
+<p>
+Tenim que crear l'usuari kodi al servidor, que ha de tenir permís per a accedir a les bases de dades des de les IP o rang d'IPs a les que tinguem els nostres Kodis. Des del mateix servidor de base de dades:<br />
+</p>
+
+<p>
+mysql -u root -p CREATE USER 'kodi' IDENTIFIED BY 'kodi';<br />
+GRANT ALL ON *<span id="Connectar base de dades remota (en comptes de local) en kodi-."></span><strong id=".">.</strong>* TO 'kodi';   (atenció que hi han dos asteriscs a banda i banda del punt)<br />
+</p>
+<ol>
+<li>
+GRANT ALL PRIVILEGES ON *<span id="Connectar base de dades remota (en comptes de local) en kodi-."></span><strong id=".">.</strong>* TO 'kodi'@'%';      (pla B, si no funciona l'anterior)
+
+</ol>
+<p>
+flush privileges;<br />
+</p>
+
+
+<p>
+A partir d'aqui, el que segueix ho hem de fer a kodi:<br />
+</p>
+
+<ul>
+<li>
+Hem de manipular fitxers de la carpeta /storage/.kodi/userdata. Ho podem fer via ssh o bé accedint via sftp amb un client gràfic com filezilla. Si el Kodi està "embegut" en un dispositiu, com una TV, haurem de fer-li arribat via pendrive USB, o amb apps com <a href="https://play.google.com/store/apps/details?id=com.troypoint.downloader">https://play.google.com/store/apps/details?id=com.troypoint.downloader</a>
+
+<li>
+Si volem mantenir la base de dades actual, la guardarem des de "Configuració / Vídeo / Biblioteca / Exporta la bíblioteca de vídeo". Un cop tinguem la base de dades al servidor MySQL importarem aquesta configuració.
+
+<li>
+Si no volem mantenir la base de dades actual, simplement esborrarem el directori /storage/.kodi/userdata/Database
+
+</ul>
+
+
+<p>
+Per a connectar els kodis al servidor MySQL, hem d'afegir (si no existeix) un fitxer advancedsettings.xml a la ruta /storage/.kodi/userdata/ amb aquest contingut:<br />
+</p>
+<pre>
+OpenELEC:~/.kodi/userdata # cat advancedsettings.xml
+&lt;advancedsettings&gt;
+  &lt;videodatabase&gt;
+	&lt;type&gt;mysql&lt;/type&gt;
+	&lt;host&gt;xxx.xxx.xxx.xxx&lt;/host&gt;
+	&lt;port&gt;3306&lt;/port&gt;
+	&lt;user&gt;kodi&lt;/user&gt;
+	&lt;pass&gt;kodi&lt;/pass&gt;
+  &lt;/videodatabase&gt;
+  &lt;musicdatabase&gt;
+	&lt;type&gt;mysql&lt;/type&gt;
+	&lt;host&gt;xxx.xxx.xxx.xxx&lt;/host&gt;
+	&lt;port&gt;3306&lt;/port&gt;
+	&lt;user&gt;kodi&lt;/user&gt;
+	&lt;pass&gt;kodi&lt;/pass&gt;
+  &lt;/musicdatabase&gt;
+  &lt;videolibrary&gt;
+	&lt;importwatchedstate&gt;true&lt;/importwatchedstate&gt;
+	&lt;importresumepoint&gt;true&lt;/importresumepoint&gt;
+  &lt;/videolibrary&gt;
+&lt;/advancedsettings&gt;
+</pre>
+
+<p>
+A on diu xxx.xxx.xxx.xxx posarem la IP del servidor MySQL.<br />
+Un cop  afegit aquest fitxer advancedsettings.xml reiniciem kodi i ja està.<br />
+</p>
+
+
+<div id="Connectar base de dades remota (en comptes de local) en kodi-Coses a tenir en compte:"><h3 id="Coses a tenir en compte:" class="header"><a href="#Connectar base de dades remota (en comptes de local) en kodi-Coses a tenir en compte:">Coses a tenir en compte:</a></h3></div>
+
+<ul>
+<li>
+Per a sincronitzar correctament varis Kodis, hem de fer servir versions de Kodi que utilitzin el mateix nom de base de dades. Per a saber aquest nom de base de dades, ho podem mirar aquí: <a href="https://kodi.wiki/view/Databases">https://kodi.wiki/view/Databases</a>
+
+</ul>
+
+<p>
+Noms de les bases de dades de les últimes versions:<br />
+Kodi 17 Krypton	Myvideos107<br />
+Kodi 18 Leia    Myvideos116<br />
+Kodi 19 Matrix  Myvideos116<br />
+</p>
+
+
+<ul>
+<li>
+Fer servir exactament les mateixes "connexions" al recursos remots. Per exemple, si estem connectat des de kodi un recurs remot samba anomenat "videoscompartits" d'un servidor amb hostname "NAS1" que te la IP 192.168.1.5, el que no podem fer es connectar uns kodis amb:
+
+</ul>
+<blockquote>
+smb://NAS1/videoscompartits
+</blockquote>
+    
+<p>
+i els altres amb:<br />
+</p>
+<blockquote>
+smb://192.168.1.5/videoscompartits
+</blockquote>
+    
+<p>
+Haurem d'escollir un dels dos formats, preferentment el segon (connexió amb IP) i connectar <span id="Connectar base de dades remota (en comptes de local) en kodi-Coses a tenir en compte:-tots els kodis"></span><strong id="tots els kodis">tots els kodis</strong> amb aquesta mateixa connexió.<br />
+</p>
+
+<ul>
+<li>
+* * * * * * * * * * * * * * * * * *
+
+</ul>
+
+</body>
+</html>

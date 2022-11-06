@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>kernel,_compilar</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="kernel, compilar"><h2 id="kernel, compilar" class="header"><a href="#kernel, compilar">kernel, compilar</a></h2></div>
+<p>
+*<span id="kernel, compilar-Compilar el kernel a Debian"></span><strong id="Compilar el kernel a Debian">Compilar el kernel a Debian</strong>*<br />
+Última actualització: desembre 2012<br />
+</p>
+
+<p>
+Per a compilar un nucli a l'estil Debian necessitem instal·lar algunes coses:<br />
+</p>
+
+<p>
+	Haurem d'utilitzar les eines incloses en el paquet kernel-package. <br />
+	Si configurem amb make menuconfig, ens farà falta instal·lar libncurses5-dev.<br />
+	Si a més, volem que un usuari sense privilegis pugui crear el paquet de Debian, ens farà falta fakeroot.<br />
+	apt-get install build-essential module-assistant, i un cop instal·lat fem m-a prepare<br />
+</p>
+
+<p>
+Ara ens fan falta les fonts del paquet corresponent a la versió de kernel que volem compilar. Imaginem que instal·lem<br />
+</p>
+
+<p>
+<code>apt-get install linux-source-2.6.32</code><br />
+</p>
+ 
+<p>
+Un cop instal·lat el que tenim és un fitxer a /usr/src/linux-source-2.6.32.tar.bz2. Hem extreure aquests arxius en un nou directori. Pensem no hi ha necessitat de fer-ho a /usr/src/; potser millor a qualsevol altre directori (per exemple a ~ /kernel/) ja que per a compilar un nucli no ens fan falta permisos especials. <br />
+</p>
+
+<p>
+A l'hora de compilar un kernel en comptes de configurar tot des de zero, seguramente ens serà millor partir de les opcions del que tenir funcionant a l'equip. Per a això el que hem de fer és agafar el fitxer /boot/config-versió i copiar-ho al directori que conté les fonts del nucli com a .config. Si és el cas, fariem:<br />
+</p>
+
+<p>
+<code>cp  /boot/config-2.6.32-5-686    ~/kernel/linux-source-2.6.32/.config</code><br />
+</p>
+
+<p>
+Quines interfícies tenim disponibles para escollir les nostres configuracions?<br />
+</p>
+
+<p>
+	make menuconfig és una interfície en mode text (ncurses). Ens permet navegar per les opcions en una estructura jeràrquica.<br />
+	Altres interfícies tenen característiques similars, però treballen dins de les interfícies gràfiques més modernes, com ara make xconfig que utilitza una interfície gràfica Qt, i make gconfig que utilitza GTK +<br />
+</p>
+
+<p>
+Un cop configurat tot, queda un fitxer .config a l'arrel de cada carpeta de cada branca dels directoris de les fonts.<br />
+</p>
+
+<p>
+A Debian el que fem quan compilem el kernel és finalment generar un paquet que podrem instal·lar al sistema.  Si ja hem compilat un kernel amb anterioritat i volem tornar a recompilar, hauriem de fer:<br />
+</p>
+
+<p>
+<code>fakeroot make-kpkg clean</code><br />
+</p>
+
+<p>
+Adicionalment si afegim el paràmetre --append-to-version, podem generar un paquet amb un nom diferent. <br />
+</p>
+
+<p>
+Make-kpkg és un script que realment fa: "make dep; make clean; make bzImage; make modules". Fakeroot ens permet compilar el kernel sense ser el superusuari.<br />
+</p>
+
+<p>
+Hem de tenir en compte que make-kpkg fa servir la informació continguda en /etc/kernel-pkg.conf per a generar les capçaleres del kernel. Es recomanable editar aquest fitxer con la informació correcta si tenim intenció de publicar el nostre kernel.<br />
+</p>
+
+<p>
+Un cop tenim tota la configuració feta,<br />
+</p>
+
+<p>
+<code>make-kpkg</code><br />
+</p>
+
+<p>
+compila el kernel i genera el corresponent paquet (o paquets). Tenim aquestes opcions:<br />
+</p>
+
+<p>
+	make-kpkg kernel-image<br />
+	make-kpkg kernel-doc<br />
+	make-kpkg kernel-source<br />
+	make-kpkg kernel-headers<br />
+</p>
+
+<p>
+Els headers (capçaleres) son fitxers .h que estan ubicats al directori include i es contenen informació necessaria per a poder compilar mòduls externs.<br />
+</p>
+
+<p>
+Un cop tenim generat el paquet i l l'instal·lem, queden tres fitxers al directori /boot:<br />
+</p>
+
+<p>
+	vmlinuz-version     (el nou kernel)<br />
+	config-version     (la seva configuració)<br />
+	system.map-version (la taula de símbols, que ajuda als desenvolupadors a entendre els missatges que envia el kernel quan fa un "oops")<br />
+</p>
+
+<p>
+Els mòduls queden instal·lats a:<br />
+</p>
+
+<p>
+	 /lib/modules/version/<br />
+</p>
+
+<p>
+Finalment, un dels scripts del paquet d'instal·lació genera automàticament una imatge initrd.img-version. que s'ubica a /boot i que és un mini sistema que es carrega en memòria i permet arrecar el sistema mínimament fins que arriba a muntar el sistema de fitxers del disc i carrega el kernel real. cd /<br />
+A més, es creen dos enllaços simbòlics anomenats:<br />
+</p>
+
+<p>
+	/vmlinuz<br />
+	initrd.img<br />
+</p>
+
+<p>
+Que apunten al kernel i initrd en curs.<br />
+</p>
+
+</body>
+</html>

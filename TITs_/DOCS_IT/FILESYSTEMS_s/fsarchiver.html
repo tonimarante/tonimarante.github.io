@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>fsarchiver</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="fsarchiver"><h6 id="fsarchiver" class="header"><a href="#fsarchiver">fsarchiver</a></h6></div>
+<p>
+Resum de: FILESYSTEMS:clonar amb fsarchiver<br />
+</p>
+
+
+<p>
+Segurament primer voldrem muntar algun recurs de xarxa:<br />
+<code>mount -t cifs //192.168.1.5/recurs /mnt/smb_remot -o username=nom%password</code><br />
+<code>sshfs username@192.168.1.5/directori_remot  /mnt/ssh_remot  </code><br />
+<hr />
+-(veure info disc i particions)<br />
+<code>	 fsarchiver probe</code><br />
+-(podem guardar vàries particions al mateix fitxer)<br />
+<code>	 fsarchiver savefs debian6.fsa   /dev/sda1 /dev/sda2</code><br />
+-(veure info fitxer fsa)<br />
+<code>	 fsarchiver archinfo debian6.fsa</code><br />
+-(recuperar el fitxer sobre una partició)<br />
+<code>	 fsarchiver restfs debian6.fsa    id=0,dest=/dev/sdc1 id=1,dest=/dev/sdc2    </code><br />
+<hr />
+-Guardar MBR:<br />
+<code>	 dd if=/dev/sda of=mbr.img count=1 bs=512</code><br />
+-Recuperar MBR:<br />
+<code>	 dd if=mbr.img of=/dev/sda count=1 bs=444</code><br />
+-Reconstruir MBR:<br />
+<code>	 Fem  ms-sys -m /dev/sda</code><br />
+<hr />
+Si hem de regenerar MBR fem  ms-sys -m /dev/sda<br />
+Recordem que la partició a arrencar ha d'estar marcada com a activa i arrencable<br />
+</p>
+
+</body>
+</html>

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>rsync</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="rsync"><h2 id="rsync" class="header"><a href="#rsync">rsync</a></h2></div>
+<p>
+Última modificació: agost de 2015<br />
+</p>
+
+<p>
+arj:<br />
+Ens pot anar molt bé per a fer backups. Podem fer, per exemple:<br />
+<code>		arj a -fury -v1000000k  /COPIES_SEG/etc.arj   /etc</code><br />
+a per afegir, f per refresh, u per update, r per recursiu, y per respondre "yes" a totes les preguntes i finalment amb v diem que es vagin fent fitxers amb la mida màxima que indiquem.<br />
+Desaventatges: (o ho podem prendre com un avantatge) amb aquest mètode anem guarden les succesives versions d'un fitxer, amb el qual l'arj de destí sempre anirà creixent.<br />
+Avantantges: els fitxers generats poden ser descomprimits per separat, per tant encara que es faci malbé un d'ells, podrem seguir accedint al contingut de la resta.<br />
+</p>
+
+
+<p>
+rsync:<br />
+Per a mantenir dos directoris amb el mateix contingut (esquerra mana a dreta):<br />
+<code>rsync -atv --delete   /etc   /COPIES_SEG/etc</code><br />
+</p>
+
+<p>
+Primer indiquem origen i després el destí. Si volem fer també subdirectoris:<br />
+<code>rsync -atrv --delete   /etc   /COPIES_SEG/etc</code><br />
+</p>
+
+<p>
+El mateix que l'anterior, però volem veure progrés de les còpies:<br />
+<code>rsync -atrv --delete --progress  /etc   /COPIES_SEG/etc</code><br />
+</p>
+
+<p>
+Treballar només sobre els fitxers i directoris que comencin per P:<br />
+<code>rsync -atrv --delete --progress --include 'P*' --exclude '*' /etc  /COPIES_SEG/etc</code><br />
+</p>
+
+<p>
+Només volem sincronitzar l'estructura de carpetes:<br />
+<code>rsync -v -d  /etc   /COPIES_SEG/etc</code><br />
+</p>
+
+<p>
+Sincro a un equip remot:<br />
+<code>rsync -atrv --delete   /etc   user@192.168.1.10:/home/user/COPIES_SEG/etc</code><br />
+</p>
+
+<p>
+Veure només les diferències abans de fer res:<br />
+<code>rsync -avi  /etc   /COPIES_SEG/etc</code><br />
+ens mostra la llista de fitxers en els que te alguna cosa a fer, amb unes lletres a començament de cada fitxer que poden ser:<br />
+&gt; especifica moviment, en aquest cas es copiarà de destí a origen<br />
+f és un fitxer<br />
+s hi ha diferència de mida entre els fitxers<br />
+t hi ha diferència de data entre els fitxers<br />
+o ha canviat el propietaru<br />
+g ha canviat el grup<br />
+</p>
+
+
+<div id="rsync-Sincronització de fitxers entre dos equips remots amb rsync"><h5 id="Sincronització de fitxers entre dos equips remots amb rsync" class="header"><a href="#rsync-Sincronització de fitxers entre dos equips remots amb rsync">Sincronització de fitxers entre dos equips remots amb rsync</a></h5></div>
+	
+<p>
+	Última modificació: abril de 2015<br />
+</p>
+	
+<p>
+	Si no tenim instal·lat rsync (tant al servidor com al client):<br />
+</p>
+	
+<p>
+<code>	apt-get install rsync</code><br />
+</p>
+	
+<p>
+	En el host remot, a /etc/default/rsync hem de activar rsync a la línia corresponent:<br />
+</p>
+<pre>
+	RSYNC_ENABLE=true
+</pre>
+	
+<p>
+	Al fitxer /etc/rsyncd.conf configurarem les carpetes a compartir/sincronitzar:<br />
+</p>
+<pre>
+	[carpetacompartida]
+	path = /RSYNC/carpeta_compartida
+	host allow = 10.0.0.23, 10.0.0.1
+	host deny = *
+	list = true
+	uid = root
+	gid = root
+	read only = false
+</pre>
+
+<p>
+	Ara, des d'un dels dos equips autoritzats (10.0.0.32 i 10.0.0.1) podem sincronitzar una carpeta (en aquest exemple /root/scripts) amb una carpeta remota del equip en el que corre rsync com a dimoni:<br />
+</p>
+	
+<p>
+<code>	rsync -avz /root/scripts/  IP_host_remot::carpetacompartida</code><br />
+</p>
+
+</body>
+</html>

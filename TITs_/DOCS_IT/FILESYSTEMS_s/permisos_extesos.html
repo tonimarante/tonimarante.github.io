@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>permisos_extesos</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="permisos extesos"><h2 id="permisos extesos" class="header"><a href="#permisos extesos">permisos extesos</a></h2></div>
+<p>
+Última actualització: desembre 2012 <br />
+</p>
+
+<p>
+Aquí parlarem només sobre els permisos extesos. Tinc una plana que parla dels permisos Linux "normals".<br />
+</p>
+
+<p>
+A part dels permisos Linux "normals", tenim 3 tipus de permisos "extra":<br />
+</p>
+
+<p>
+STICKY-BIT (bit t sobre other )<br />
+-posicionat sobre un programa vol dir que aquest queda en memòria per a la seva execució.<br />
+-posicionat sobre un directori, indica que un usuari no pot destruïr o renomenar un fitxer del que no sigui propietari.<br />
+</p>
+
+
+<p>
+SGID (bit s sobre group)<br />
+-posicionat sobre un arxiu de programa, dóna els drets del grup al que l'executa únicament durant l'execució.<br />
+-posicionat sobre un directori, als fitxers creats a dintre se'ls assignarà el grup del directori.<br />
+</p>
+
+<p>
+SUID (bit s sobre owner)<br />
+-posicionat sobre un arxiu de programa, atorga els drets del propietari al que l'executa.<br />
+Aquest bit només ha de ser posicionat sobre arxius com /bin/passwd<br />
+</p>
+
+
+<p>
+Aplicació de permisos (en notació octal):<br />
+</p>
+
+<p>
+<code>chmod 1XXX</code><br />
+</p>
+
+<p>
+t sobre other STICKY FITXER (amb ls veurem --- --- --t)<br />
+Sobre un programa, aquest queda en memòria per a la seva execució.<br />
+</p>
+
+<p>
+---<br />
+</p>
+
+<p>
+<code>chmod 2XXX</code><br />
+</p>
+
+<p>
+s sobre group SETGID FITXER FITXER (amb ls veurem --- --s ---)<br />
+Qualsevol executa aquest arxiu com el grup del fitxer<br />
+</p>
+
+<p>
+---<br />
+</p>
+
+<p>
+<code>chmod 3XXX</code><br />
+</p>
+
+<p>
+s sobre group + t sobre other STICKY+SEGID FITXER (amb ls veurem xxx xxs xxt)<br />
+Sobre un programa, aquest queda en memòria per a la seva execució I Qualsevol executa aquest arxiu com el grup del fitxer<br />
+</p>
+
+<p>
+---<br />
+</p>
+
+<p>
+<code>chmod 4XXX</code><br />
+</p>
+
+<p>
+s sobre user SETUID FITXER (amb ls veurem --s --- ---)<br />
+Qualsevol executa aquest arxiu com el propietari del fitxer<br />
+</p>
+
+<p>
+---<br />
+</p>
+
+<p>
+<code>chmod 5XXX </code><br />
+</p>
+
+<p>
+s sobre user + t sobre other SETUID+STICKY FITXER (amb ls veurem --s --- --t)<br />
+Sobre un programa, aquest queda en memòria per a la seva execució I Qualsevol executa aquest arxiu com el propietari del fitxer<br />
+</p>
+
+<p>
+---<br />
+</p>
+
+<p>
+<code>chmod 6XXX</code><br />
+</p>
+
+<p>
+s sobre user + s sobre group SETUID+SETGID FITXER (amb ls veurem --s --s ---)<br />
+Qualsevol executa aquest arxiu com el propietar del fitxeri i com el grup del fitxer<br />
+</p>
+
+<p>
+---<br />
+</p>
+
+<p>
+<code>chmod 7XXX</code><br />
+</p>
+
+<p>
+s sobre user + s sobre group + t sobre other STICKY+SETUID+SETGID FITXER  (amb ls veurem --s --s --t)<br />
+Tot junt.<br />
+</p>
+
+<p>
+Gràficament:<br />
+</p>
+
+<p>
+<a href="/home/bmw/ownCloudxal/VW/TITs_/DOCS_IT/FILESYSTEMS_s/permisos_extesos.png">file:./permisos_extesos.png</a><br />
+</p>
+
+<p>
+Com aplicar permisos (amb notació no octal):<br />
+</p>
+
+<p>
+Podem aplicar permisos d'una altre manera que no es la notació octal. Aquesta altre manera es utilitzant les lletres u/g/o/a (user, grup, other, all) i especificant si volem fixar (=), afegir (+) o treure (-) un permís o permisos determinats. Es veu fàcil amb exemples:<br />
+</p>
+
+<p>
+Setejar que grup y other només puguin fer lectura:<br />
+<code>chmod g=r, o=r</code><br />
+</p>
+
+<p>
+User pot fer de tot, afegim al que tingui grup els permisos de lectura i escriptura, other li treiem el permís de lectura:<br />
+<code>chmod u=rwx,g+rw,o-r</code><br />
+</p>
+
+<p>
+Fem que tots (user, grup i other) puguin llegir i executar sense tocar el que tinguessin d'escriptura:<br />
+<code>chmod a+rx</code><br />
+</p>
+ 
+
+
+<p>
+Més info:<br />
+man chmod<br />
+info file permissions<br />
+</p>
+
+</body>
+</html>

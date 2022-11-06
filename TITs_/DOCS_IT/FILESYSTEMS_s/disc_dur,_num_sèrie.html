@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>disc_dur,_num_sèrie</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="disc dur, num sèrie"><h2 id="disc dur, num sèrie" class="header"><a href="#disc dur, num sèrie">disc dur, num sèrie</a></h2></div>
+<p>
+*<span id="disc dur, num sèrie-Obtenir número de sèrie de disc dur"></span><strong id="Obtenir número de sèrie de disc dur">Obtenir número de sèrie de disc dur</strong>*<br />
+Última actualització: octubre de 2016<br />
+</p>
+
+<p>
+Quan tenim un equip amb varis discs durs i un d'ells s'espatlla, necessitem número de sèrie del disc avariat per a poder indentificar-lo entre els existents.<br />
+</p>
+
+<p>
+<code>apt-get install hdparm</code><br />
+</p>
+
+<p>
+Un cop tinguem instal·lat hdparm, hem de fer:<br />
+</p>
+
+<p>
+<code>hdparm -i /dev/sda</code><br />
+</p>
+
+<p>
+I obtindrem una sortida com aquesta:<br />
+</p>
+
+<p>
+ Model=ST4000DM000-1F2168, FwRev=CC52, SerialNo=Z30103M1<br />
+ Config={ HardSect NotMFM HdSw&gt;15uSec Fixed DTR&gt;10Mbs RotSpdTol&gt;.5% }<br />
+ RawCHS=16383/16/63, TrkSize=0, SectSize=0, ECCbytes=4<br />
+ BuffType=unknown, BuffSize=unknown, MaxMultSect=16, MultSect=16<br />
+ CurCHS=16383/16/63, CurSects=16514064, LBA=yes, LBAsects=7814037168<br />
+ IORDY=on/off, tPIO={min:120,w/IORDY:120}, tDMA={min:120,rec:120}<br />
+ PIO modes:  pio0 pio1 pio2 pio3 pio4 <br />
+ DMA modes:  mdma0 mdma1 mdma2 <br />
+ UDMA modes: udma0 udma1 udma2 udma3 udma4 udma5 *udma6 <br />
+ AdvancedPM=yes: unknown setting WriteCache=enabled<br />
+ Drive conforms to: unknown:  ATA/ATAPI-4,5,6,7<br />
+</p>
+
+</body>
+</html>

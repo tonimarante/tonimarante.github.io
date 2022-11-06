@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>kodi,_remap_tecles</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="kodi, remap tecles"><h2 id="kodi, remap tecles" class="header"><a href="#kodi, remap tecles">kodi, remap tecles</a></h2></div>
+<p>
+*<span id="kodi, remap tecles-Remapejar tecles del comandament remot en Kodi isengard"></span><strong id="Remapejar tecles del comandament remot en Kodi isengard">Remapejar tecles del comandament remot en Kodi isengard</strong>*<br />
+Última actualització: abril de 2016 <br />
+</p>
+
+<p>
+Primer copiarem el fitxer de sistema remote.xml a la carpeta de l'usuari kodi. Un cop logats via ssh a la raspberry, fem:<br />
+</p>
+
+<p>
+cp /usr/share/kodi/system/keymaps/remote.xml   /storage/.kodi/userdata/keymaps<br />
+</p>
+
+
+<p>
+I ara modificarem el que ens faci falta.<br />
+Per exemple en el meu cas volia asignar la tecla "record" del comandament per a que aparegués el menú contextual (i l'opció d'esborrar):<br />
+</p>
+
+
+<p>
+&lt;keymap&gt;<br />
+  &lt;global&gt;<br />
+	&lt;remote&gt;<br />
+	  &lt;play&gt;PlayPause&lt;/play&gt;<br />
+	  &lt;pause&gt;Pause&lt;/pause&gt;<br />
+	  &lt;stop&gt;Stop&lt;/stop&gt;<br />
+	...<br />
+	  &lt;record&gt;ContextMenu&lt;/record&gt;<br />
+	...<br />
+	  &lt;eight&gt;JumpSMS8&lt;/eight&gt;<br />
+	  &lt;nine&gt;JumpSMS9&lt;/nine&gt;<br />
+	  &lt;print&gt;Screenshot&lt;/print&gt;<br />
+	&lt;/remote&gt;<br />
+  &lt;/global&gt;<br />
+</p>
+
+<p>
+He buscat i modificat la clau "record" (la que està marcada en negreta en el bloc anterior).<br />
+</p>
+
+</body>
+</html>

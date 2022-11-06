@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>freeBSD_dics-RAID</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="FreeBSD, identificació de discs i gestió de RAID"><h1 id="FreeBSD, identificació de discs i gestió de RAID" class="header"><a href="#FreeBSD, identificació de discs i gestió de RAID">FreeBSD, identificació de discs i gestió de RAID</a></h1></div>
+<p>
+:tagfreenas,tagfreeBSD:<br />
+<em>Última actualització: març de 2019</em><br />
+</p>
+
+<p>
+Els disc a freeBSD es diuen de la següent manera:<br />
+</p>
+
+<ul>
+<li>
+Els IDE comencen amb el nom <span id="FreeBSD, identificació de discs i gestió de RAID-ad"></span><strong id="ad">ad</strong> (/dev/da*)
+
+<li>
+Els SCSI comencen amb da
+
+<li>
+Els IDE CD/DVD comencen amb acd
+
+<li>
+Els SCSI CD/DVD comencen amb cd
+
+</ul>
+
+<p>
+Opcions per a obtenir informació dels discs que tenim al sistema:<br />
+</p>
+
+<p>
+<span id="FreeBSD, identificació de discs i gestió de RAID-grep:"></span><strong id="grep:">grep:</strong><br />
+</p>
+
+<p>
+<code>    egrep 'da[0-9]|cd[0-9]' /var/run/dmesg.boot</code><br />
+</p>
+    
+<p>
+o bé:<br />
+</p>
+
+<p>
+<code>    egrep 'ad[0-9]|cd[0-9]' /var/run/dmesg.boot</code><br />
+</p>
+
+
+<p>
+<span id="FreeBSD, identificació de discs i gestió de RAID-atacontrol:"></span><strong id="atacontrol:">atacontrol:</strong><br />
+</p>
+
+<p>
+<code>    atacontrol list</code><br />
+</p>
+    
+<p>
+<span id="FreeBSD, identificació de discs i gestió de RAID-camcontrol:"></span><strong id="camcontrol:">camcontrol:</strong><br />
+</p>
+
+<p>
+<code>    camcontrol devlist</code><br />
+</p>
+
+<p>
+<span id="FreeBSD, identificació de discs i gestió de RAID-gpart:"></span><strong id="gpart:">gpart:</strong><br />
+</p>
+
+<p>
+<code>    gpart show</code><br />
+</p>
+    
+<p>
+GEOM:<br />
+</p>
+
+<p>
+<code>    sh -c '. /usr/share/bsdconfig/device.subr;f_device_menu "" "" "" DISK'</code><br />
+</p>
+
+
+
+<div id="Gestió de disc espatllat en RAID ufs"><h1 id="Gestió de disc espatllat en RAID ufs" class="header"><a href="#Gestió de disc espatllat en RAID ufs">Gestió de disc espatllat en RAID ufs</a></h1></div>
+
+<p>
+Quan s'espatlla un disc que forma part d'un RAID, el que podem fer es treure'l de l'equip i el reiniciem sense ell (així el sistema l'eliminarà automàticament). Ara:<br />
+</p>
+
+<ul>
+<li>
+Apaguem l'equip
+
+<li>
+Instal·lem el nou disc
+
+<li>
+Mirem el nom del disc nou i des de línea de comandaments l'afegim:
+
+</ul>
+
+<p>
+<code>    gmirror insert ufs1 ada1     (ufs1 és el nom del volum en mirror; ada1 seria el nou disc)</code><br />
+</p>
+
+<p>
+Si obtenim l'error: <span id="Gestió de disc espatllat en RAID ufs-&quot;not all disks connected&quot;"></span><strong id="&quot;not all disks connected&quot;">"not all disks connected"</strong> farem:<br />
+</p>
+<pre>
+    gmirror forget ufs1
+    gmirror insert ufs1 ada1
+</pre>
+
+<p>
+Podem veure com va la resincronització amb:<br />
+</p>
+
+<p>
+<code>    gmirror list</code><br />
+</p>
+
+
+
+<p>
+Més informació: <a href="https://www.freebsd.org/doc/handbook/geom.html<br">https://www.freebsd.org/doc/handbook/geom.html<br</a> />
+</p>
+
+</body>
+</html>

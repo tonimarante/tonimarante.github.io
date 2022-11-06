@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>pendrive,_etiqueta</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="pendrive, etiqueta"><h2 id="pendrive, etiqueta" class="header"><a href="#pendrive, etiqueta">pendrive, etiqueta</a></h2></div>
+<p>
+*<span id="pendrive, etiqueta-Canviar l'etiqueta a un pendrive USB"></span><strong id="Canviar l'etiqueta a un pendrive USB">Canviar l'etiqueta a un pendrive USB</strong>*<br />
+Última actualització: desembre 2012 <br />
+</p>
+
+
+<p>
+Per sapiguer que està passant quan punxem un pendrive a l'ordinador fem:<br />
+</p>
+
+<p>
+<code>dmesg | tail</code><br />
+</p>
+
+<p>
+Aquí veurem si el detecta o no, possibles errades i sota quin /dev l'agafa el sistema. Un cop tenir disc i partició identificat, podrem canviar l'etiqueta. <br />
+</p>
+
+<p>
+ATENCIÓ: per a poder canviar l'etiqueta la partició ha d'estar desmuntada.<br />
+</p>
+
+<p>
+Dos escenaris:<br />
+</p>
+
+
+
+<ul>
+<li>
+Pendrive amb format FAT:
+
+</ul>
+
+<p>
+Instal·lem les mtools: <br />
+</p>
+
+<p>
+<code>apt-get install mtools</code><br />
+</p>
+
+<p>
+Suposem que la partició que a la que volem canviar l'etiqueta és /dev/sdc1:<br />
+</p>
+
+<p>
+<code>mlabel -i /dev/sdc1 ::boot_puppy</code><br />
+</p>
+
+
+
+<ul>
+<li>
+Pendrive amb format ext2, ext3 o ext4:
+
+</ul>
+
+<p>
+instal·lem e2fsprogs:<br />
+</p>
+
+<p>
+<code>apt-get install e2fsprogs</code><br />
+</p>
+
+<p>
+Suposem que la partició que a la que volem canviar l'etiqueta és /dev/sdc1:<br />
+</p>
+
+<p>
+<code>e2label /dev/sdc1 boot_puppy</code><br />
+</p>
+
+</body>
+</html>

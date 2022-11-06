@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>ext2_a_ext3</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="ext2 a ext3"><h2 id="ext2 a ext3" class="header"><a href="#ext2 a ext3">ext2 a ext3</a></h2></div>
+<p>
+*<span id="ext2 a ext3-Convertir sistema de fitxers de ext2 a ext3"></span><strong id="Convertir sistema de fitxers de ext2 a ext3">Convertir sistema de fitxers de ext2 a ext3</strong>*<br />
+Última actualització: juny de 2017<br />
+</p>
+
+<p>
+Per convertir de ext3 a ext2:<br />
+</p>
+<pre>
+ umount /dev/hda3
+ tune2fs -O ^has_journal /dev/hda3
+ e2fsck /dev/hda3
+</pre>
+
+<p>
+Un cop fet això, s'ha de reconfigurar /etc/fstab per indicar que el sistema de fitxers ara és ext2.<br />
+</p>
+
+<p>
+Un altre manera podria ser:<br />
+</p>
+
+<p>
+<code> debugfs -w /dev/hda3</code><br />
+debugfs: features -needs_recovery -has_journal<br />
+Filesystem features: dir_index filetype sparse_super<br />
+debugfs: quit<br />
+</p>
+
+<hr />
+
+<p>
+Per tornar a convertir ext2 a ext3:<br />
+</p>
+
+<p>
+<code>tune2fs -j /dev/hda3</code><br />
+</p>
+
+<p>
+En discs durs que no siguin de sistema podem deshabilitar l'espai reservat pel root amb:<br />
+</p>
+
+<p>
+<code>tune2fs -m 0 /dev/hda3</code><br />
+</p>
+
+</body>
+</html>

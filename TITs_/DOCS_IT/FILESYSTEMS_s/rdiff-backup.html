@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>rdiff-backup</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="rdiff-backup"><h1 id="rdiff-backup" class="header"><a href="#rdiff-backup">rdiff-backup</a></h1></div>
+<p>
+Última actualització: maig de 2020<br />
+</p>
+
+<p>
+Rdiff-backup permet fer backups d'un directori cap un altre (ja sigui local o remot), amb versionat.<br />
+</p>
+
+
+<div id="rdiff-backup-Com fer backups"><h2 id="Com fer backups" class="header"><a href="#rdiff-backup-Com fer backups">Com fer backups</a></h2></div>
+<ul>
+<li>
+El cas més simple es quan volem fer un backup d'un directori local a un altre carpeta local:
+
+</ul>
+
+<p>
+<code>    rdiff-backup ~/Origen ~/Destina</code><br />
+</p>
+    
+<ul>
+<li>
+Si volem fer el backup a una destinació remota, la sintaxi és:
+
+</ul>
+
+<p>
+<code>    rdiff-backup ~/Origen usuari@IPmaquinaremota::/directori_remot</code><br />
+</p>
+    
+<p>
+La connexió remota la fa amb SSH. Com és evident, si canviem l'ordre dels directoris, podrem fer un backup d'un directori remot cap a una carpeta del nostre equip local. I fins i tot des de una carpeta remota cap a un altre carpeta remota.<br />
+</p>
+<ul>
+<li>
+Si tenim problemes de connexió al servidor remot, poder utilizar aquesta sintaxi que ens ajudarà a detectar a on està el problema:
+
+</ul>
+
+<p>
+<code>    rdiff-backup --test-server usuari@IPmaquinaremota::/directori_remot</code><br />
+</p>
+
+
+
+<div id="rdiff-backup-Recuperació"><h2 id="Recuperació" class="header"><a href="#rdiff-backup-Recuperació">Recuperació</a></h2></div>
+<ul>
+<li>
+Si necessitem recuperar un fitxer o carpeta de les copies generades per rdiff-backup, només haurem d'anar a la carpeta en la que tenim el backup i recuperar-lo fent un cp, o bé fent servir el mateix rdiff-backup amb aquesta sintaxi:
+
+</ul>
+
+<p>
+<code>    rdiff-backup -r now ~/Destina/Exemple ~/Origen/Exemple</code><br />
+</p>
+    
+<p>
+Com es pot veure a l'exemple anterior, el paràmetre de restauració necessita que li especifiquem de quin dia/hora volem que recuperem aquell fitxer o directori. Aquesta és la potència d'rdiff-backup.<br />
+</p>
+
+<p>
+El que fa rdiff-backup, es generar una carpeta a l'arrel de destinació, anomenada "rdiff-backup-data". Allà guarda tots els increments binaris (versions) dels fitxers guardats, a més d'altre informació.<br />
+</p>
+
+<ul>
+<li>
+Si volem recuperar un fitxer o directori, en la seva versió de fa 5 dies:
+
+</ul>
+
+<p>
+<code>    rdiff-backup -r 5D ~/Destina/Exemple/fitxer ~/Origen/Exemple/fitxer</code><br />
+</p>
+
+<p>
+Tenim diverses maneres d'especificar quina versió volem recuperar, per exemple: <br />
+30m5s <br />
+2020-04-19<br />
+</p>
+
+<ul>
+<li class="done0">
+Podem obtenir quines versions tenim d'un directori o fitxer a la carpeta de backups:
+
+</ul>
+
+<p>
+<code> rdiff-backup -l ~/Destina/README.txt </code><br />
+Found 2 increments:<br />
+README.txt.2020-05-17T13:07:51+02:00.missing   Sun May 17 13:07:51 2020<br />
+README.txt.2020-05-17T13:35:09+02:00.diff.gz   Sun May 17 13:35:09 2020<br />
+</p>
+
+
+<ul>
+<li>
+També podem navegar directament i recuperar del repositori dels fitxers incrementals; rdiff-backup els guarda a la carpeta rdiff-backup-data/increments/
+
+</ul>
+
+<p>
+<code>    rdiff-backup ~/Destina/rdiff-backup-data/increments/README.txt.2020-04-19T11:41:16+02:00.snapshot.gz ~/Origen/README.txt</code><br />
+</p>
+    
+<p>
+rdiff-backup detecta que el origen es un fitxer incremental i automàticament es posa en mode recuperació (per això no hem d'especificar el modificador -r)<br />
+</p>
+    
+
+
+<div id="rdiff-backup-Includes / excludes"><h2 id="Includes / excludes" class="header"><a href="#rdiff-backup-Includes / excludes">Includes / excludes</a></h2></div>
+<ul>
+<li>
+Per exemple podria ser interessant fer exclusions per a evitar loops infinits:
+
+</ul>
+
+<p>
+<code>    rdiff-backup --exclude /media/USBextern  / /media/USBextern</code><br />
+</p>
+    
+<p>
+Encara que rdiff-backup ja fa aquesta feina de detectar i evitar loops infinits.<br />
+</p>
+    
+
+<ul>
+<li>
+Podem excloure múltiples rutes:
+
+</ul>
+    
+<p>
+<code>    rdiff-backup --exclude /media --exclude /mnt --exclude /tmp --exclude /proc  / /media/USBextern</code><br />
+</p>
+    
+<ul>
+<li>
+Includes i excludes combinats (els includes tenen precedència sobre els excludes):
+
+</ul>
+    
+<p>
+<code>    rdiff-backup --include /usr/local --exclude /usr --exclude /proc / /media/USBextern</code><br />
+</p>
+    
+<ul>
+<li>
+Si només volem fer backup dels includes:
+
+</ul>
+
+<p>
+<code>    rdiff-backup --include /home --exclude '**' / /media/USBextern</code><br />
+</p>
+
+<ul>
+<li>
+Podem també passar-li els includes i excludes des d'un fitxer:
+
+</ul>
+    
+<p>
+<code>    rdiff-backup --include-globbing-filelist filelist.txt / /media/USBextern</code><br />
+</p>
+
+<p>
+Les línies d'excludes han de començar amb -<br />
+</p>
+
+
+
+<div id="rdiff-backup-Esborrant versions antigues"><h2 id="Esborrant versions antigues" class="header"><a href="#rdiff-backup-Esborrant versions antigues">Esborrant versions antigues</a></h2></div>
+<p>
+Podem esborrar versions de backup més antic d'una determinada data. Per exemple, per esborrar tot els més antic a 12 setmanes:<br />
+</p>
+
+<p>
+<code>    rdiff-backup --remove-older-than 12W  ~/Destina</code><br />
+</p>
+    
+<p>
+Vol dir que si tenim un fitxer en origen que no ha canviat en un any, no es veure afectat per aquesta instrucció. En canvi, si hem esborrat un fitxer fa 13 setmanes, executant aquesta instrucció si que perdríem tots els seus backups.<br />
+</p>
+
+
+
+<div id="rdiff-backup-Obtenint informació del directori de backup"><h2 id="Obtenint informació del directori de backup" class="header"><a href="#rdiff-backup-Obtenint informació del directori de backup">Obtenint informació del directori de backup</a></h2></div>
+<ul>
+<li>
+Podem fer un find normal de la carpeta de backup per a trobar un directori o fitxer determinat:
+
+</ul>
+
+<p>
+<code>    find ~/Destina -iname 'README*'</code><br />
+</p>
+    
+<ul>
+<li>
+Per a veure els canvis de l'últim dia (afegits, modificats o esborrats):
+
+</ul>
+
+<p>
+<code>    rdiff-backup --list-changed-since 1D ~/Destina</code><br />
+</p>
+    
+    
+<p>
+rdiff-backup, genera una carpeta a l'arrel de destinació, anomenada "rdiff-backup-data". Allà guarda tots els increments binaris (versions) dels fitxers guardats, a més d'altre informació. Per exemple hi han uns fitxers session-statistics (un per sessió de backup) dels que podem extreure informació estadística:<br />
+</p>
+
+<p>
+<code>    rdiff-backup --calculate-average ~/tmp/Destina/rdiff-backup-data/session_statistics*</code><br />
+</p>
+
+    
+
+<ul>
+<li>
+* * * * * * * * * * * * * * * * *
+
+</ul>
+
+</body>
+</html>

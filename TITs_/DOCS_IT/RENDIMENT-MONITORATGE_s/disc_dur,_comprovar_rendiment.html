@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>disc_dur,_comprovar_rendiment</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="disc dur, comprovar rendiment"><h2 id="disc dur, comprovar rendiment" class="header"><a href="#disc dur, comprovar rendiment">disc dur, comprovar rendiment</a></h2></div>
+<p>
+*<span id="disc dur, comprovar rendiment-Comprovar el rendiment de DISCS DURS amb hdmparm i seeker"></span><strong id="Comprovar el rendiment de DISCS DURS amb hdmparm i seeker">Comprovar el rendiment de DISCS DURS amb hdmparm i seeker</strong>*<br />
+Última modificació: Abril de 2011<br />
+</p>
+
+<p>
+-Per a comprovar la velocitat d'accés seqüencial: <br />
+</p>
+
+<p>
+<code>		hdparm -t /dev/sda</code><br />
+</p>
+
+<p>
+(s'entén que en comptes de /dev/sda ficarem el disc que volem testejar. Tenir en compte que hem de fer el test sobre el disc complet, no sobre una partició)<br />
+</p>
+
+<p>
+-Per a comprovar la velocitat d'accés aleatori, podem fer servir la utilitat seeker (<a href="https://github.com/fidlej/seeker)">https://github.com/fidlej/seeker)</a> escrita per Ivo Danihelka (també la podem descarregar d'aquí: <a href="https://drive.google.com/file/d/1imLiL6M_fmErAIhV3uM1TPHnRmnr8LXZ/view?usp=sharing">https://drive.google.com/file/d/1imLiL6M_fmErAIhV3uM1TPHnRmnr8LXZ/view?usp=sharing</a> ). La sintaxi és la següent:<br />
+</p>
+
+<p>
+<code>		./seeker /dev/sda</code><br />
+</p>
+
+<p>
+En el cas de la versió Phyton (més actualitzada) podem fer el test també sobre un fitxer molt gran en comptes de sobre un disc senzer.<br />
+</p>
+
+<p>
+NOTA: aquesta informació ha estat extreta de: <a href="http://www.linuxinsight.com/how_fast_is_your_disk.html<br">http://www.linuxinsight.com/how_fast_is_your_disk.html<br</a> />
+</p>
+
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>permisos</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="permisos"><h2 id="permisos" class="header"><a href="#permisos">permisos</a></h2></div>
+<p>
+*<span id="permisos-Permisos a Linux"></span><strong id="Permisos a Linux">Permisos a Linux</strong>*<br />
+Última actualització: juny 2012<br />
+</p>
+
+<p>
+Si fem un ls -l veurem una cosa semblant a:<br />
+</p>
+
+
+<p>
+	-rw-r--r--  1 bmw grup_sambeiros 2336712 mai  1 21:16 fluxbox.OLD.tar.gz<br />
+	drwxr-xr-x  3 bmw grup_sambeiros    4096 ago 15  2010 gpodder-downloads<br />
+	-rw-r--r--  1 bmw grup_sambeiros   36737 mai  1 21:46 humble_botanicula.pdf<br />
+</p>
+
+<p>
+si el primer caràcter és diferent a "-" significarà que en comptes d'un fitxer serà una cosa diferent, com un directori (d), un enllaç simbòlic (l), un dispositiu de caràcters, etc<br />
+Els 9 caràcters següents son els permisos aplicats sobre el fitxer/directori. Estan agrupats de tres en tres com ugo (user, grup, others) y poden ser un d'aquest caracters:<br />
+</p>
+
+<ul>
+<li>
+    sense permís
+<br />	r     read-only
+<br />	w   read-write
+<br />	x    execució
+
+</ul>
+
+<p>
+En el cas dels permisos aplicats sobre fitxers, el tema és bastant autoexplicatiu:<br />
+</p>
+
+<p>
+	read-only: podrem obrir el fitxer amb cat, p.e. però no el podrem editar.<br />
+	read-write: si és un text, p.e. el podrem obrir amb nano i guardar els canvis.<br />
+	execute: el podrem executar.<br />
+</p>
+
+<p>
+En el cas de que es tracti de permisos aplicats sobre un directori, la cosa és una mica diferent:<br />
+</p>
+
+<p>
+	read-only: vol dir que podrem llistar (ls) els fitxers que hi ha a dintre d'un directori, però no els podrem veure amb cat, p.e. (fins i tot encara que tinguem els permisos suficients sobre el fitxer per a fer-ho)<br />
+	execute: ens permet veure els fitxers que hi conté el directori i fer un cd sobre aquest últim. Això si, hem de tenir en compte que si tenim permís d'execute però no de read-only, podrem fer un cd contra aquest directori i llegir (amb cat p.e.) fitxers si coneixem el seu nom exacte, però no podrem fer un ls (obtindrem un error de permís denegat).<br />
+	read-write: podrem modificar i eliminar el contingut d'aquest directori. Si els fitxers que hi conté estan protegits contra escriptura, igualment els podrem eliminar (el sistema primer ens avisarà, però finalment ens deixarà fer el que vulguem amb ells).<br />
+</p>
+
+<p>
+I la cosa no acaba aquí. Encara podem treballar amb permisos extesos.<br />
+</p>
+
+<p>
+Més info:<br />
+man chmod<br />
+info file permissions<br />
+</p>
+
+</body>
+</html>

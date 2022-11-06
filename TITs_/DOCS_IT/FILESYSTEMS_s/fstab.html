@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>fstab</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="fstab"><h2 id="fstab" class="header"><a href="#fstab">fstab</a></h2></div>
+<p>
+*<span id="fstab-Significat dels últims valors de /etc/fstab"></span><strong id="Significat dels últims valors de /etc/fstab">Significat dels últims valors de /etc/fstab</strong>*<br />
+Última modificació: desembre de 2011<br />
+</p>
+
+<p>
+He modificat desenes (algun centenar diria jo) de vegades fitxers /etc/fstab, però no hi ha manera de que recordi el significat d'alguns dels valors de les últimes columnes. Un recordatori:<br />
+</p>
+
+<p>
+/dev/hda2   /   ext4   defaults   0   1<br />
+</p>
+
+<p>
+-Primera, segona y tercera columna estan clares:  dispositiu, punt de muntatge i tipus de sistema de fitxers (recordar que en aquest últim podem utilitzar el valor "auto").<br />
+</p>
+
+<p>
+-Quarta columna, opcions de muntatge:<br />
+</p>
+
+<p>
+	auto / noauto: si volem que es munti automàticament quan arrenqui el sistema.<br />
+	user / nouser: si volem que un usuari normal pugui muntar el dispositiu. Si està a nouser només el podrà muntar el root.<br />
+	exec / noexec: si volem que es puguin executar binaris a aquesta partició.<br />
+	ro / rw: lectura o lectura i escriptura.<br />
+	sync / async: si el posem a sync quan copiem un fitxer, per exemple, els canvis s'apliquen en aquell moment peti qui peti. Si fem async, el sistema escull quan és el millor moment; potser una mica més tard.<br />
+	defaults: posar defaults és el mateix que posar  rw, suid, dev, exec, auto, nouser, and async.<br />
+</p>
+
+<p>
+-Cinquena columna: dump. Indica si s'ha de fer un dump de la partició; normalment el trobarem a zero i sospito que es feia servir antigament.<br />
+</p>
+
+<p>
+-Sisena columna: fsck. Indica l'ordre en que s'han de chequejar els sistemes de fitxers. Si el posem a zero vol dir que no volem que aquesta partició sigui chequejada. <br />
+</p>
+
+</body>
+</html>

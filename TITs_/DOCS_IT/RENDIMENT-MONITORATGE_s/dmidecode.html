@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>dmidecode</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="dmidecode"><h2 id="dmidecode" class="header"><a href="#dmidecode">dmidecode</a></h2></div>
+<p>
+*<span id="dmidecode-Obtenir informació del sistema amb dmidecode"></span><strong id="Obtenir informació del sistema amb dmidecode">Obtenir informació del sistema amb dmidecode</strong>*<br />
+Última actualització: agost de 2015<br />
+</p>
+
+<p>
+La instrucció dmidecode ens permet obtenir informació del sistema. Tenim aquests codis disponibles:<br />
+</p>
+<pre>
+  Type   Information
+	   ----------------------------------------
+		  0   BIOS
+		  1   System
+		  2   Base Board
+		  3   Chassis
+		  4   Processor
+		  5   Memory Controller
+		  6   Memory Module
+		  7   Cache
+		  8   Port Connector
+		  9   System Slots
+		 10   On Board Devices
+		 11   OEM Strings
+		 12   System Configuration Options
+		 13   BIOS Language
+		 14   Group Associations
+		 15   System Event Log
+		 16   Physical Memory Array
+		 17   Memory Device
+		 18   32-bit Memory Error
+		 19   Memory Array Mapped Address
+		 20   Memory Device Mapped Address
+		 21   Built-in Pointing Device
+		 22   Portable Battery
+		 23   System Reset
+		 24   Hardware Security
+		 25   System Power Controls
+		 26   Voltage Probe
+		 27   Cooling Device
+		 28   Temperature Probe
+		 29   Electrical Current Probe
+		 30   Out-of-band Remote Access
+		 31   Boot Integrity Services
+		 32   System Boot
+		 33   64-bit Memory Error
+		 34   Management Device
+		 35   Management Device Component
+		 36   Management Device Threshold Data
+		 37   Memory Channel
+		 38   IPMI Device
+		 39   Power Supply
+</pre>
+
+<p>
+Alguns exemples d'ús:                              <br />
+</p>
+
+<p>
+[bmw@emachines ~]$ sudo dmidecode -t 4    (informació de la CPU)<br />
+</p>
+<ol>
+<li>
+dmidecode 2.12
+
+</ol>
+<p>
+SMBIOS 2.5 present.<br />
+Handle 0x0004, DMI type 4, 40 bytes<br />
+Processor Information<br />
+	Socket Designation: Socket AM2<br />
+	Type: Central Processor<br />
+	Family: Other<br />
+	Manufacturer: AMD<br />
+	ID: F3 0F 05 00 FF FB 8B 07<br />
+	Version: AMD Athlon(tm) Processor LE-1600<br />
+	Voltage: 1.2 V<br />
+	External Clock: 201 MHz<br />
+	Max Speed: 2200 MHz<br />
+	Current Speed: 2211 MHz<br />
+	Status: Populated, Enabled<br />
+	Upgrade: Socket 940<br />
+	L1 Cache Handle: 0x0008<br />
+	L2 Cache Handle: 0x0009<br />
+	L3 Cache Handle: Not Provided<br />
+	Serial Number: <br />
+	Asset Tag: <br />
+	Part Number: <br />
+	Core Count: 1<br />
+	Core Enabled: 1<br />
+	Thread Count: 1<br />
+	Characteristics:<br />
+		64-bit capable<br />
+</p>
+
+</body>
+</html>
