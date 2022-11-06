@@ -70,105 +70,63 @@ A supergrub2 disk, afegir aquestes entrades a: /SDG2DBOOT/boot/grub/sdg/main.cfg
 
 </ol>
 
-<p>
-menuentry "--USB-- antiX Customize Boot (text menus)" {<br />
-</p>
-<blockquote>
-linux /antiX/vmlinuz quiet splash=v disable=lx menus
-initrd /antiX/initrd.gz
-</blockquote>
-<p>
-}<br />
-menuentry "--USB-- Debian CLI nonfree Live 32bits (user/live)" {<br />
-</p>
-<blockquote>
-set ISO='/ISOS/debian-live-10.7.0-i386-standard+nonfree.iso'
-set VMLINUZ='vmlinuz-4.19.0-13-686'
-set INITRD='initrd.img-4.19.0-13-686'
-loopback loop $ISO
-linux (loop)/live/\(VMLINUZ findiso=\)ISO boot=live config
-initrd (loop)/live/$INITRD
-</blockquote>
-<p>
-}<br />
-menuentry "--USB-- Debian mate nonfree Live 64bits (user/live)" {<br />
-</p>
-<blockquote>
-set ISO='/ISOS/debian-live-10.7.0-amd64-mate+nonfree.iso'
-set VMLINUZ='vmlinuz-4.19.0-13-amd64'
-set INITRD='initrd.img-4.19.0-13-amd64'
-loopback loop $ISO
-linux (loop)/live/\(VMLINUZ boot=live components locales=ca_ES.UTF-8 findiso=\)ISO
-initrd (loop)/live/$INITRD
-</blockquote>
-<p>
-}<br />
-menuentry "--USB-- Kali-Linux 32bits (set root passwd from term)" {<br />
-</p>
-<blockquote>
-set ISO='/ISOS/kali-linux-2020.4-live-i386.iso'
-set VMLINUZ='vmlinuz'
-set INITRD='initrd.img'
-loopback loop $ISO
-linux    (loop)/live/\(VMLINUZ boot=live findiso=\)ISO components splash username=root hostname=kali
-initrd    (loop)/live/$INITRD
-</blockquote>
-<p>
-}<br />
-menuentry "--USB-- Rescatux 0.73" {<br />
-</p>
-<blockquote>
-set ISO='/ISOS/rescatux-0.73.iso'
-set VMLINUZ='vmlinuz2'
-set INITRD='initrd2.img'
-loopback loop $ISO
-root=(loop)
-linux (loop)/live/\(VMLINUZ boot=live config quiet findiso=\)ISO
-initrd (loop)/live/$INITRD
-</blockquote>
-<p>
-}<br />
-menuentry "--USB-- Ubuntu mate Live 64 bits" {<br />
-</p>
-<blockquote>
-set ISO='/ISOS/ubuntu-mate-20.04.1-desktop-amd64.iso'
-loopback loop $ISO
-linux (loop)/casper/vmlinuz boot=casper iso-scan/filename=$ISO splash --
-initrd (loop)/casper/initrd
-</blockquote>
-<p>
-}<br />
-menuentry "--USB--(BIOS/i386) Hiren's Boot CD 15" {<br />
-</p>
-<blockquote>
-linux16 /grub.exe --config-file=/menu_hirens.lst
-</blockquote>
-<p>
-}<br />
-menuentry "--USB--(BIOS/i386) Mini Windows XP-Hiren's Boot CD" {<br />
-</p>
-<blockquote>
-root=(hd0,msdos1)
-chainloader /HBCD/XP/XP.BIN
-chainloader +1
-</blockquote>
-<p>
-}<br />
-menuentry "--USB-2a partició-- HBCD PE x64-Win10 Live (només UEFI)" {<br />
-</p>
-<blockquote>
-set root=(hd0,msdos1)
-chainloader +1
-</blockquote>
-<p>
-}<br />
-</p>
-
-<ol>
-<li>
-----------------------------------------------------------------------------------------
-
-</ol>
+<pre>
+menuentry "--USB-- antiX Customize Boot (text menus)" {
+    linux /antiX/vmlinuz quiet splash=v disable=lx menus
+    initrd /antiX/initrd.gz
+}
+menuentry "--USB-- Debian CLI nonfree Live 32bits (user/live)" {
+    set ISO='/ISOS/debian-live-10.7.0-i386-standard+nonfree.iso'
+    set VMLINUZ='vmlinuz-4.19.0-13-686'
+    set INITRD='initrd.img-4.19.0-13-686'
+    loopback loop $ISO
+    linux (loop)/live/$VMLINUZ findiso=$ISO boot=live config
+    initrd (loop)/live/$INITRD
+}
+menuentry "--USB-- Debian mate nonfree Live 64bits (user/live)" {
+    set ISO='/ISOS/debian-live-10.7.0-amd64-mate+nonfree.iso'
+    set VMLINUZ='vmlinuz-4.19.0-13-amd64'
+    set INITRD='initrd.img-4.19.0-13-amd64'
+    loopback loop $ISO
+    linux (loop)/live/$VMLINUZ boot=live components locales=ca_ES.UTF-8 findiso=$ISO
+    initrd (loop)/live/$INITRD
+}
+menuentry "--USB-- Kali-Linux 32bits (set root passwd from term)" {
+    set ISO='/ISOS/kali-linux-2020.4-live-i386.iso'
+    set VMLINUZ='vmlinuz'
+    set INITRD='initrd.img'
+    loopback loop $ISO
+    linux    (loop)/live/$VMLINUZ boot=live findiso=$ISO components splash username=root hostname=kali
+    initrd    (loop)/live/$INITRD
+}
+menuentry "--USB-- Rescatux 0.73" {
+    set ISO='/ISOS/rescatux-0.73.iso'
+    set VMLINUZ='vmlinuz2'
+    set INITRD='initrd2.img'
+    loopback loop $ISO
+    root=(loop)
+    linux (loop)/live/$VMLINUZ boot=live config quiet findiso=$ISO
+    initrd (loop)/live/$INITRD
+}
+menuentry "--USB-- Ubuntu mate Live 64 bits" {
+    set ISO='/ISOS/ubuntu-mate-20.04.1-desktop-amd64.iso'
+    loopback loop $ISO
+    linux (loop)/casper/vmlinuz boot=casper iso-scan/filename=$ISO splash --
+    initrd (loop)/casper/initrd
+}
+menuentry "--USB--(BIOS/i386) Hiren's Boot CD 15" {
+    linux16 /grub.exe --config-file=/menu_hirens.lst
+}
+menuentry "--USB--(BIOS/i386) Mini Windows XP-Hiren's Boot CD" {
+    root=(hd0,msdos1)
+    chainloader /HBCD/XP/XP.BIN
+    chainloader +1
+}
+menuentry "--USB-2a partició-- HBCD PE x64-Win10 Live (només UEFI)" {
+    set root=(hd0,msdos1)
+    chainloader +1
+}
+</pre>
 
 </body>
 </html>
