@@ -48,17 +48,13 @@ Qualsevol canvi al fitxer sources.list ha d'anar seguit de l'execució de la ins
 
 <p>
 Per instal.lar un paquet que no es trobi a aquests repositoris, hem de fer:<br />
+<code>        dkpg -i nom_paquet</code><br />
 </p>
-<blockquote>
-dkpg -i nom_paquet
-</blockquote>
 
 <p>
 Podem instal.lar netselect, que es una eina que esbrina quin es el servidor més ràpid i així el podem posar al nostre sources.list. Si fem:<br />
+<code>        netselect-apt stable</code><br />
 </p>
-<blockquote>
-netselect-apt stable
-</blockquote>
 
 <p>
 Ens generarà un arxiu sources.list al directori on hem executat aquesta instrucció. La llista de servidors es troba a <a href="http://www.debian.org/mirrors/mirrors_full/">http://www.debian.org/mirrors/mirrors_full/</a> <br />
@@ -67,168 +63,212 @@ Ens generarà un arxiu sources.list al directori on hem executat aquesta instruc
 <ul>
 <li>
 Instal.lar
-<br />        apt install paquet
 
 </ul>
+<p>
+<code>        apt install paquet</code><br />
+</p>
 
 <ul>
 <li>
 Reinstal.lar:
-<br />        apt-get --reinstall install paquet
 
 </ul>
+<p>
+<code>        apt-get --reinstall install paquet</code><br />
+</p>
 
 <ul>
 <li>
 Desinstal.lar:
-<br />        apt remove paquet
 
 </ul>
+<p>
+<code>        apt remove paquet</code><br />
+</p>
 
 <ul>
 <li>
 Desinstal.lar eliminant arxius de configuració:
-<br />        apt purge paquet
 
 </ul>
+<p>
+<code>        apt purge paquet</code><br />
+</p>
 
 <ul>
 <li>
 Instal.lar paquet i desinstal.lar paquet2:
-<br />        apt install paquet paquet2-
 
 </ul>
+<p>
+<code>        apt install paquet paquet2-</code><br />
+</p>
 
 <ul>
 <li>
 Instal.lar un versió determinada de paquet
-<br />        apt-get install paquet=versió  (o diu paquet hem de posar el nom de paquet, seguit de = i la versió a instal·lar)
 
 </ul>
+<p>
+<code>        apt-get install paquet=versió</code>  (o diu paquet hem de posar el nom de paquet, seguit de = i la versió a instal·lar)<br />
+</p>
 
 <ul>
 <li>
 Congelar un paquet en una versió determinada
-<br />        apt-mark hold  paquet
 
 </ul>
+<p>
+<code>        apt-mark hold  paquet</code><br />
+</p>
 <blockquote>
 Veure paquets congelats
-apt-mark showhold
 </blockquote>
+<p>
+<code>            apt-mark showhold</code><br />
+</p>
 <blockquote>
 Descongelar un paquet
-apt-mark unhold  paquet 
 </blockquote>
+<p>
+<code>            apt-mark unhold  paquet </code><br />
+</p>
 
 <ul>
 <li>
 Actualitzar sistema
-<br />        apt upgrade
 
 </ul>
+<p>
+<code>        apt upgrade</code><br />
+</p>
 
 <ul>
 <li>
 Upgradar a una nova versió:
-<br />        apt-get dist-upgrade
-<br />        apt full-upgrade
 
 </ul>
+<p>
+<code>        apt-get dist-upgrade</code><br />
+<code>        apt full-upgrade</code><br />
+</p>
 
 <ul>
 <li>
 Netejar arxius descarregats:
-<br />        apt clean
 
 </ul>
+<p>
+<code>        apt clean</code><br />
+</p>
 
 <ul>
 <li>
 Veure versions:
-<br />        apt-show-versions -p paquet
-<br />        apt-cache policy vlc
-<br />        apt-cache madison vlc
+<pre         apt-show-versions -p paquet>
+        apt-cache policy vlc
+        apt-cache madison vlc
+</pre>
 
-</ul>
-
-<ul>
 <li>
 Veure llistat de programes actualitzables:
-<br />        apt-show-versions -u
-<br />        apt list --upgradeable
 
 </ul>
+<p>
+<code>        apt-show-versions -u</code><br />
+<code>        apt list --upgradeable</code><br />
+</p>
 
 
 <ul>
 <li>
 Informació sobre un paquet determinat:
-<br />        apt show paquet
 
 </ul>
+<p>
+<code>        apt show paquet</code><br />
+</p>
 
 <ul>
 <li>
 Informació sobre un paquet INSTAL·LAT:
-<br />        dpkg -s paquet
 
 </ul>
+<p>
+<code>        dpkg -s paquet</code><br />
+</p>
 
 <ul>
 <li>
 Més informació:
-<br />        apt-cache showpkg paquet
 
 </ul>
+<p>
+<code>       apt-cache showpkg paquet</code><br />
+</p>
 
 <ul>
 <li>
 Veure dependències:
-<br />        apt-cache depends paquet
 
 </ul>
+<p>
+<code>        apt-cache depends paquet</code><br />
+</p>
 <blockquote>
 també:
-apt-cache show mc | grep -i depends
 </blockquote>
+<p>
+<code>        apt-cache show mc | grep -i depends</code><br />
+</p>
 
 <ul>
 <li>
 Llistat fitxers d'un paquet:
-<br />        apt-file list paquet
-<br />        dpkg -L paquet
 
 </ul>
+<p>
+<code>        apt-file list paquet</code><br />
+<code>        dpkg -L paquet</code><br />
+</p>
 
 <ul>
 <li>
 Llistat de TOTS els paquets instal.lats:
-<br />        dkpg -l
-<br />        apt show --installed
 
 </ul>
+<p>
+<code>        dkpg -l</code><br />
+<code>        apt show --installed</code><br />
+</p>
 
 <ul>
 <li>
 Buscar paquets pel nom (busca al nom del paquet i la descripció):
-<br />        apt search "nom"
 
 </ul>
+<p>
+<code>        apt search "nom"</code><br />
+</p>
 
 <ul>
 <li>
 Buscar només sobre el nom del paquet:
-<br />        apt search -names-only "nom"
 
 </ul>
+<p>
+<code>        apt search -names-only "nom"</code><br />
+</p>
 
 <ul>
 <li>
 Buscar quin paquet te un fitxer determinat (hem d'instal.lar apt-file):
-<br />        apt-file search nom_fitxer o dkpq -S nom_fitxer
 
 </ul>
+<p>
+<code>        apt-file search nom_fitxer o dkpq -S nom_fitxer</code><br />
+</p>
 
 
 
@@ -239,10 +279,8 @@ Si tenim mala memòria, ens facilitarà molt la vida wajig  (<a href="http://www
 
 <p>
 cron-apt: Ens permet mantenir actualitzat el nostre sistema Linux. S'ha de tenir en compte, però, que cron-apt descarrega automàticament les actualitzacions però no les instal·la. Ens ho notifica (via mail, p.e.) i nosaltres haurem d'entrar i executar l'actualització fent un:<br />
+<code>            apt full-upgrade</code><br />
 </p>
-<blockquote>
-apt full-upgrade
-</blockquote>
             
 
 <p>
@@ -255,19 +293,17 @@ Tots els scripts dels paquets instal·lats estan a /var/lib/dpkg/info. Aquest di
 
 <p>
 Si una instal.lació termina de mala manera (l'equip s'apaga en mig d'un apt-get dist-upgrade, p.e.) i després no ens deixa instal.lar ni eliminar cap paquet, podem fer:<br />
+<code>        apt-get -f install</code><br />
+<code>        dpkg --configure -a</code><br />
 </p>
 <blockquote>
-apt-get -f install
-dpkg --configure -a
 I després tornem a provar. A vegades es necessari executar la segona comanda varies vegades.
 </blockquote>
 
 <p>
 Si tenim problemes després de fer un autoremove, ens pot ajudar veure quins paquets hem eliminat:<br />
+<code>        zgrep -E "^(Remove:|Purge)" /var/log/apt/history.log*</code><br />
 </p>
-<blockquote>
-zgrep -E "^(Remove:|Purge)" /var/log/apt/history.log*
-</blockquote>
 
 <p>
 _________________<br />
@@ -277,16 +313,18 @@ Si volem instal·lar els mateixos paquets d'un sistema a un altre: <br />
 <p>
 Save the installed packages in the file installed:<br />
 </p>
-<blockquote>
-dpkg -l | grep ^ii | awk '{print $2}' &gt; installed
-</blockquote>
+
+<p>
+<code>    dpkg -l | grep ^ii | awk '{print $2}' &gt; installed</code><br />
+</p>
 
 <p>
 In your newly installed Debian-based distro, install the saved packages:<br />
 </p>
-<blockquote>
-sudo apt-get install $(cat installed)
-</blockquote>
+
+<p>
+<code>    sudo apt-get install $(cat installed)</code><br />
+</p>
 
 
 <p>
