@@ -1,3 +1,5 @@
 # tonimarante.github.io
 
-Hello
+
+Apunts de Linux. (sobretot de) Debian
+[[http://tonimarante.github.io]]
