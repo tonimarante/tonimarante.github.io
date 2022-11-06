@@ -1,0 +1,15 @@
+#!/bin/bash
+ROOT="$HOME/Vimwiki_html/"
+#HTTP="/"
+OUTPUT="$HOME/Vimwiki_html/indexhtmls.htm" 
+cat "$HOME/Vimwiki_html/READMEbase.htm" > "$OUTPUT"
+echo "<UL>" >> "$OUTPUT"
+for filepath in $(find "$ROOT"  -maxdepth 10 -mindepth 1 -name '*.html' | sort); do
+    FITXER=$(basename "$filepath")
+    echo "    <LI> <font size="+1" face="Arial"> <a href=\"$filepath\">  $FITXER</a></LI>" >> "$OUTPUT"
+done
+echo "</UL>" >> "$OUTPUT"
+echo "</body>" >> "$OUTPUT"
+echo "</html>" >> "$OUTPUT"
+
+
