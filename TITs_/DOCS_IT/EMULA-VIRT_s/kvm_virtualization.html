@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>kvm_virtualization</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="kvm virtualization"><h2 id="kvm virtualization" class="header"><a href="#kvm virtualization">kvm virtualization</a></h2></div>
+<p>
+Virtualització amb KVM en Debian 8<br />
+Última modificació: maig de 2017<br />
+</p>
+
+<p>
+Per a posar en marxa KVM a Debian 8, hem d'instal·lar:<br />
+</p>
+
+<p>
+apt install qemu-kvm libvirt-daemon-system virt-manager libvirt-clients gir1.2-spice-client-gtk-3.0<br />
+</p>
+ 
+<p>
+Per a poder gestionar màquines virtuales des del nostre usuari normal, l'hem d'afegir a 2 grups:<br />
+</p>
+
+<pre>
+adduser elnostreusuari llibvirt
+adduser elnostreusuari llibvirt-qemu
+</pre>
+
+<p>
+I reiniciem l'equip.<br />
+</p>
+
+<p>
+Desde virt-manager podrem gestionar fàcilment la creació i gestió de les nostres màquines virtuals. Coses a tenir en compte:<br />
+</p>
+
+<p>
+Una màquina virtual es composa de un disc virtual i un fitxers de configuració.<br />
+</p>
+
+<p>
+	-Els discs virtuals de les màquines es van guardant a /var/lib/libvirt/images<br />
+	-Els fitxers de configuració es guarden a /etc/libvirt/qemu/<br />
+</p>
+
+<p>
+Podem gestionar les màquines virtuals també des del terminal amb la instrucció virsh. Per exemple, podem editar manualment el fitxer de configuració d'una màquina virtual si fem:<br />
+</p>
+
+<p>
+<code>virsh edit nom_maquina_virtual</code><br />
+</p>
+
+
+<p>
+A tenir en compte:<br />
+</p>
+
+<p>
+	Si quan li passem la ISO per a instal·lar el sistema operatiu desitjat, ens diu que no la pot accedir, el que farem es deixar-li aquesta ISO a la carpeta /var/lib/libvirt/images. Per defecte no tindrem accés a aquesta carpeta; com a root li haurem d'aplicar els permisos necessaris per a que poguem deixar aquí els fitxers .ISO.<br />
+	Actualment KVM no disposa d'acceleració gràfica i per tant no podrem executar entorns d'escriptori 3D i tindrem problemes per a veure vídeos, quan de més alta resolució, pitjor.<br />
+	Si la resolució de pantalla està limitada a 1024x768, el que farem serà configurar la targeta gràfica virtual com VGA i aplicar a l'equip guest el fitxer xorg.conf adjunt.<br />
+</p>
+
+
+<p>
+xorg.conf:<br />
+</p>
+<pre>
+Section "ServerLayout"
+	Identifier     "KVM xorg.conf"
+	Screen      0  "Screen0" 0 0
+	InputDevice    "Mouse0" "CorePointer"
+	InputDevice    "Keyboard0" "CoreKeyboard"
+EndSection
+
+Section "Module"
+	Load  "record"
+	Load  "dri"
+	Load  "extmod"
+	Load  "glx"
+	Load  "dbe"
+	Load  "dri2"
+EndSection
+
+Section "InputDevice"
+	Identifier  "Keyboard0"
+	Driver      "kbd"
+EndSection
+
+Section "InputDevice"
+	Identifier  "Mouse0"
+	Driver      "vmmouse"
+	Option        "Protocol" "SysMouse"
+	Option        "Device" "/dev/sysmouse"
+	Option        "ZAxisMapping" "4 5 6 7"
+EndSection
+
+Section "Monitor"
+	Identifier   "Monitor0"
+	VendorName   "Monitor Vendor"
+	ModelName    "Monitor Model"
+	HorizSync       20.0 - 50.0
+	VertRefresh     40.0 - 80.0
+	Option          "DPMS"
+
+EndSection
+
+Section "Device"
+	Identifier  "Card0"
+	Driver      "vesa"
+	VendorName  "KVM - std"
+	BoardName   "GD 5446"
+	BusID       "PCI:0:2:0"
+EndSection
+
+Section "Screen"
+	Identifier "Screen0"
+	Device     "Card0"
+	Monitor    "Monitor0"
+	SubSection "Display"
+		Viewport   0 0
+		Modes "1600x1200"
+	EndSubSection
+EndSection
+</pre>
+
+
+
+<p>
+Més informació: <a href="https://wiki.debian.org/KVM<br">https://wiki.debian.org/KVM<br</a> />
+</p>
+
+<p>
+Tags: Debian, virt, virtualization, libvirt, KVM,<br />
+</p>
+
+</body>
+</html>

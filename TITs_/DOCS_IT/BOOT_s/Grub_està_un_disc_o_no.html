@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>Grub_està_un_disc_o_no</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="Grub està un disc o no"><h2 id="Grub està un disc o no" class="header"><a href="#Grub està un disc o no">Grub està un disc o no</a></h2></div>
+<p>
+:taggrub:<br />
+*<span id="Grub està un disc o no-Comprovar si grub està instal·lat a un disc"></span><strong id="Comprovar si grub està instal·lat a un disc">Comprovar si grub està instal·lat a un disc</strong>*<br />
+Última modificació: maig de 2018<br />
+</p>
+
+<p>
+Podem mirar si grub està grub a un disc examinant els primers the 512 bytes del disc.<br />
+Si suposem que el nostre disc és /dev/sda:<br />
+</p>
+
+<p>
+<code>dd bs=512 count=1 if=/dev/sda 2&gt;/dev/null | strings</code><br />
+</p>
+
+<p>
+El resultat serà tal com:<br />
+</p>
+
+<p>
+ZRr=<br />
+`|f <br />
+\|f1<br />
+GRUB<br />
+Geom<br />
+Hard Disk<br />
+Read<br />
+Error<br />
+</p>
+
+<p>
+Veiem llavors que GRUB està instal·lat.  <br />
+</p>
+
+</body>
+</html>

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>Debian_lleugera</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="Debian lleugera"><h2 id="Debian lleugera" class="header"><a href="#Debian lleugera">Debian lleugera</a></h2></div>
+<p>
+Última actualització: gener de 2021 <br />
+</p>
+
+<p>
+En ocasions necessitem una Debian "lleugera", menys pesant que la que obtens quan instal·les des del DVD el sistema estàndar.<br />
+</p>
+
+<p>
+Instal·larem des del CD de netinst un sistema bàsic. Si pensem treballar en testing o unstable millor baixar la iso de les daily-builds de 32 o 64 bits. <br />
+</p>
+<ul>
+<li>
+<a href="http://cdimage.debian.org/cdimage/daily-builds/daily/current/i386/iso-cd/">http://cdimage.debian.org/cdimage/daily-builds/daily/current/i386/iso-cd/</a>
+
+<li>
+<a href="http://cdimage.debian.org/cdimage/daily-builds/daily/current/amd64/iso-cd/">http://cdimage.debian.org/cdimage/daily-builds/daily/current/amd64/iso-cd/</a>
+
+</ul>
+
+<p>
+Ara:<br />
+</p>
+<pre>
+    apt-get update
+    apt-get upgrade
+    reboot
+    apt-get install x-window-system-core
+    apt-get install fluxbox jwm i3
+</pre>
+<p>
+Si tenim problemes i necessitem reconfigurar les x-org, podem fer:<br />
+</p>
+
+<p>
+<code>    dpkg-reconfigure xserver-org</code><br />
+</p>
+
+<p>
+De cara a engegar les X tenim vàries opcions:<br />
+</p>
+
+<p>
+-Si només fem servir fluxbox, jwm o i3 no és obligatori un gestor de sessions; un cop logats podem executar startfluxbox, jwm o i3. Si només tenim un window manager, podem executar simplement startx<br />
+-A pesar de tenir només un window manager, volem un gestor de sessions que ens ofereixi un login gràfic i s'ocupi d'arrecar les X. En aquest cas farem servir xdm:<br />
+</p>
+    
+<p>
+<code>    apt-get install xdm</code><br />
+</p>
+
+<p>
+-Si tenim més d'un window manager i volem poder conmutar entre ells fàcilment podem instal·lar wdm, slim, lightdm o gdm.<br />
+</p>
+
+<p>
+Com a window manager lleuger tenim aquestes possibles opcions:<br />
+</p>
+<blockquote>
+i3 (el meu preferit)
+spectrwm
+iceWM
+fluxbox
+openbox
+jwm
+</blockquote>
+
+<div id="Debian lleugera-Programari per completar la instal·lació:"><h4 id="Programari per completar la instal·lació:" class="header"><a href="#Debian lleugera-Programari per completar la instal·lació:">Programari per completar la instal·lació:</a></h4></div>
+<p>
+i3 i3lock i3status suckless-tools rofi scrot htop parcellite doublecmd-gtk catfish vim-gtk mousepad keepassx kpcli galculator feh mpv geeqie gimp imagemagick mirage dia transmission filezilla meld fbreader pdfshuffler audacity deadbeef rsync rdesktop freerdp2-x11 xscreensaver rox-filer ncdu bleachbit gparted gigolo puddletag mediainfo owncloud-client xfce4-terminal xfce4-appfinder gsimplecal rcconf xterm gnutls-bin openssl libsasl2-2 libsasl2-modules mutt vifm curlftpfs fim w3m-img evince libreoffice file-roller firefox sshfs xbacklight netsurf urlview cmus html2text xfonts-terminus brightnessctl alsa-utils xserver-xorg-input-synaptics<br />
+</p>
+
+<ul>
+<li>
+Opcionals:
+
+</ul>
+<p>
+vlc totem audacious synaptic thunar qutebrowser kupfer gnome-video-arcade mess mupen64plus pdfchain pdfsam mysql-workbench sqlitebrowser anki handbrake openshot streamtuner2 dvdrip pulseaudio-module-x11 brasero cheese guayadeque calibre vinagre remmina wmbattery wireshark bareftp mame<br />
+</p>
+
+<p>
+Més opcions:<br />
+xarchiver pcmanfm(thunar) baobab(ncdu) lxterminal zim luckybackup virtualbox<br />
+</p>
+
+<p>
+Mantinc aquesta llista de programari interessant: <a href="https://sites.google.com/site/tonimarante/apunts-de-linux-debian/varis/llista-de-programari-interessant<br">https://sites.google.com/site/tonimarante/apunts-de-linux-debian/varis/llista-de-programari-interessant<br</a> />
+</p>
+
+
+
+<div id="Debian lleugera-Configurant coses de la interfície gràfica"><h4 id="Configurant coses de la interfície gràfica" class="header"><a href="#Debian lleugera-Configurant coses de la interfície gràfica">Configurant coses de la interfície gràfica</a></h4></div>
+
+<ul>
+<li>
+Com modificar el DPI de les fonts: Per a no deixar-nos la vista amb les fonts tan petites, podem modificar a gdm la línia que llença el servidor X. La línia original del comandament diu: /usr/bin/X -audit. Canviant-la a /usr/bin/X -dpi 100 -audit obtindrem el resultat desitjat.
+
+</ul>
+
+<ul>
+<li>
+xbindkeys:
+
+</ul>
+<p>
+Si per algun motiu tenim problemes assignant tecles a accions des del windows manager, com a últim recurs podem fer servir xbindkeys (<a href="http://www.nongnu.org/xbindkeys/xbindkeys.html).<br">http://www.nongnu.org/xbindkeys/xbindkeys.html).<br</a> />
+El seu ús és molt senzill, simplement executar-lo i quedarà en segon pla esperant a llençar les accions configurades i assignades a les tecles que vulguem. Això tant per consola com per les X.<br />
+Per a obtenir el codi que torna una tecla quan la piquem amb:  <br />
+</p>
+
+<p>
+<code>    xbindkeys -n -mk </code><br />
+</p>
+
+
+<ul>
+<li>
+* * * * * * * * * * * * * * * * *
+
+</ul>
+
+</body>
+</html>

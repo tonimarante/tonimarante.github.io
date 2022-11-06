@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>Grub_2</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="Grub 2"><h2 id="Grub 2" class="header"><a href="#Grub 2">Grub 2</a></h2></div>
+<p>
+*<span id="Grub 2-Grub2: configuracions"></span><strong id="Grub2: configuracions">Grub2: configuracions</strong>*<br />
+Última actualització: desembre 2012<br />
+</p>
+
+<p>
+Grub2 té fitxers a 3 directoris diferents:<br />
+</p>
+
+<p>
+	/etc/default /grub,  és un fitxer en el que podrem configurar coses del menú de grub2<br />
+	/etc/grub.d/,  és un directori que conté diferents scripts que es faran servir per a generar el fitxer grub.cfg<br />
+	/boot/grub/grub.cfg és el fitxer de configuració de grub2, que no tenim que tocar ni editar (aquest és un canvi important respecte a grub legacy i el seu fitxer menu.lst en el que si es podia treballar directament)<br />
+</p>
+
+
+<p>
+El fitxer de configuració de grub2 hem dit que és  /boot/grub/grub.cfg. No s'ha de tocar degut a que les modificacions que haguem fet es perderan en exectuar (nosaltres o el sistema durant una actualització):<br />
+</p>
+ 
+<p>
+<code>update-grub2</code><br />
+</p>
+
+<p>
+update-grub2 el que fa es llegir el directori /etc/grub.d i buscar scripts executables en el seu interior. Executa els scripts que troba en aquest directori, en ordre segons la seva numeració, i tenint en compte el que tinguem configurat al  fitxer /etc/default/grub genera el fitxer grub.cfg.<br />
+</p>
+
+<p>
+/etc/default/grub.<br />
+Algunes coses que podem canviar a /etc/default/grub:<br />
+</p>
+
+<p>
+	GRUB_DEFAULT= 0/saved, si posem 0 es seleccionarà per defecte la primera entrada. L'opció saved es interessant, ja que quedarà seleccionada automàticament la última entrada que es va seleccionar a l'ultima arrencada del sistema<br />
+	GRUB_TIMEOUT=10, apareixeria el menú durant 10 segons abans d'arrencar el sistema per defecte. Si posen 0 arrencarà el sistema per defecte sense cap espera. Si posen -1 el comptador queda aturat i no arrencarà cap sistema fins que nosaltres manualment fem alguna selecció.<br />
+	GRUB_HIDDEN_TIMEOUT=0, així tal qual amaga el menú de grub. Si posem un valor esperarà els segons que haguem posat encara amb el menú amagat. Si comentem la línia llavors el menú de grub serà visible.<br />
+	GRUB_HIDDEN_MENU_QUIET=true, true mostra compte enrere; l'altre opció seria "false".<br />
+	#GRUB_CMDLINE_LINUX_DEFAULT="splash", si descomentem ens mostraria un menú gràfic i amagaria els missatges del kernel. Si volem l'arranc clàssic amb tots els detalls, hauríem de tenir activades les dues línies següents:<br />
+	GRUB_CMDLINE_LINUX_DEFAULT="nosplash debug"<br />
+	GRUB_TERMINAL=console<br />
+	#GRUB_GFXMODE=800x600, si descomentem la línia tindriem un menú de grub gràfic (no text) amb la resolució que aquí definim<br />
+</p>
+
+<p>
+Si volem poder accedir a grub2 via port serial (parlem d'un equip que no tingui monitor, p.e.), haurem de configurar les següents línies:<br />
+</p>
+
+<p>
+GRUB_CMDLINE_LINUX="console=tty0 console=ttyS0,9600n8"<br />
+GRUB_TERMINAL=serial<br />
+GRUB_SERIAL_COMMAND="serial --speed=9600 --unit=0 --word=8 --parity=no --stop=1"<br />
+/etc/grub.d/<br />
+</p>
+
+<p>
+	Si el que volem es afegir alguna entrada al menú manualment, ho podem fer afegint-la un fitxer /etc/grub.d/40_custom. Un cop afegida l'entrada que volguem, ens hem de recordar d'executar update-grub2. Un altre manera, potser més neta, seria crear un nou script, p.e. /etc/grub.d/41_custom, fer-lo executable i afegir-li les entrades que volguem d'aquesta manera:<br />
+</p>
+<pre>
+#!/bin/sh -e
+ cat &lt;&lt; EOF
+ menuentry "Linux" {
+ set root=(hd0,5)
+ linux /boot/vmlinuz
+ initrd /boot/initrd.img
+ }
+ menuentry "Windows" {
+ set root=(hd0,1)
+ chainloader (hd0,1)+1
+ }
+ EOF
+</pre>
+<p>
+	Per a canviar els colors del menú: ho podem fer modificant /etc/grub.d/05_debian_theme<br />
+</p>
+
+
+<p>
+Grub2 i els discs<br />
+</p>
+
+<p>
+	Grub legacy identificava els discs i particions començant per 0. Per exemple a grub-legacy /dev/sda1 s'dentificava com (hd0,0). En canvi a grub2, les particions es numeren començant per 1 i per tant /dev/sda1 s'identifica com (hd0,1).<br />
+	Grub identifica els discs segons la informació que li proporciona la BIOS (hd0 el primer disc, hd1 el segon...) i els guarda a una llista a /boot/grub/device.map. En ocasions aquesta informació potser no del tot correcte i provocar-nos problemes en l'arranc del sistema. Una opció seria modificar manualment aquest fitxer i mapejar correctament els discs. Un cop modificat el fitxer, recordar fer un grub-install.<br />
+</p>
+
+<p>
+Per a instal·lar o reinstal·lar grub2 a l'MBR:<br />
+</p>
+
+<p>
+<code>grub-install /dev/sda   (si sda és el disc a on el volem instal·lar)</code><br />
+</p>
+
+
+
+
+
+<p>
+Un parell de documents bons de consulta sobre grub2, son:<br />
+</p>
+
+<p>
+	 el tutorial de dedoimedo: <a href="https://sites.google.com/site/tonimarante/apunts-de-linux-debian/boot/crear-un-pendrive-multiarrencable-amb-grub2/20121216_grub.cfg.gz?attredirects=0&amp;d=1<br">https://sites.google.com/site/tonimarante/apunts-de-linux-debian/boot/crear-un-pendrive-multiarrencable-amb-grub2/20121216_grub.cfg.gz?attredirects=0&amp;d=1<br</a> />
+	 i el manual oficial de grub2: <a href="http://www.gnu.org/software/grub/manual/<br">http://www.gnu.org/software/grub/manual/<br</a> />
+</p>
+
+</body>
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>USB_bootable_pels_Macs</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="USB bootable pels Macs"><h2 id="USB bootable pels Macs" class="header"><a href="#USB bootable pels Macs">USB bootable pels Macs</a></h2></div>
+<p>
+Última modificació: octubre de 2017<br />
+</p>
+
+<p>
+Per arrencaer amb un Live o instal·lar Linux a un Mac des d'un pendrive USB, necessitem:<br />
+</p>
+
+<p>
+	Un pendrive USB amb una capacitat mínima de 2 GB.<br />
+	Baixar la ISO 64 bits de la distribució que volguem. Com a exepció i si ens fa falta instal·lar una distribució de 32 bits, si que funciona AntiX en la seva versió 386.<br />
+</p>
+
+<p>
+Per Debian si baixem la versió live, podem fer un dd de la ISO directament al pendrive USB.<br />
+Per a la resta de distribucions podem probar a generar-lo des de un equip Linux amb unetbootin (<a href="https://unetbootin.github.io/)<br">https://unetbootin.github.io/)<br</a> />
+</p>
+
+
+<p>
+*<span id="USB bootable pels Macs-Si diposem d'un equip Mac,"></span><strong id="Si diposem d'un equip Mac,">Si diposem d'un equip Mac,</strong>* tenim dues opcions:<br />
+Amb Etcher:<br />
+Primer hem de formatejar el pendrive des de l'utilitat de discs de Mac. Escollim aquestes opcions:<br />
+</p>
+
+<p>
+Format: MS-DOS (FAT)<br />
+</p>
+
+<p>
+Esquema de partició: GUID<br />
+Descarreguem Etcher (<a href="https://etcher.io/)">https://etcher.io/)</a> i l'executem. Ara només hem d'escollir la ISO que volem "planxar", el pendrive USB de destinació i fer "Flash!".<br />
+</p>
+
+
+<p>
+Des de la CLI:<br />
+</p>
+
+<p>
+Primer hem de convertir la ISO que volem "planxar":<br />
+</p>
+
+<p>
+<code>hdiutil convert /path/to/ubuntu.iso -format UDRW -o /path/to/target.img</code><br />
+</p>
+
+<p>
+Ara obtenir em nom del pendrive USB:<br />
+</p>
+
+<p>
+<code>	diskutil list </code><br />
+</p>
+
+<p>
+Abans de res el desmuntem:<br />
+</p>
+
+<p>
+<code>	diskutil unmountDisk /dev/diskN </code><br />
+</p>
+
+<p>
+Ara:<br />
+</p>
+
+<p>
+<code>	sudo dd if=/path/to/downloaded.img of=/dev/diskN bs=1m </code><br />
+</p>
+
+
+<p>
+És molt lent. Si volem que la cosa vaig més ràpida, podem ficar una r davant del nom del disk. Seria:<br />
+</p>
+
+<p>
+<code>	sudo dd if=/path/to/downloaded.img of=/dev/rdiskN bs=1m </code><br />
+</p>
+
+
+
+
+<p>
+Un cop preparat el pendrive USB bootable, el punxem a un Mac apagat i en encendre'l hem de picar la tecla "alt" (⌥)  per poder escollir arrencar des d'aquest USB. Si no ens apareix vol dir que el pendrive no està ben fet i haurem de repassar aquest procés de creació.<br />
+</p>
+
+</body>
+</html>

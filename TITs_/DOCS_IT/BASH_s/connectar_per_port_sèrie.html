@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>connectar_per_port_sèrie</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="connectar per port sèrie"><h2 id="connectar per port sèrie" class="header"><a href="#connectar per port sèrie">connectar per port sèrie</a></h2></div>
+<p>
+*<span id="connectar per port sèrie-Accedir a un sistema connectant per un port serie"></span><strong id="Accedir a un sistema connectant per un port serie">Accedir a un sistema connectant per un port serie</strong>*<br />
+Última actualització: Desembre de 2015<br />
+</p>
+
+<p>
+Si tenim un servidor al que normalment no tenim connectat pantalla, pot ser molt útil poder accedir-lo via port serie. Per a activar aquesta opció només hem d'afegir una línia com aquesta a l'arxiu /etc/inittab:<br />
+</p>
+
+<ol>
+<li>
+Example how to put a getty on a serial line (for a terminal)
+
+</ol>
+<p>
+#<br />
+#T0:23:respawn:/sbin/getty -L ttyS0 9600 vt100<br />
+#T1:23:respawn:/sbin/getty -L ttyS1 9600 vt100<br />
+</p>
+
+<p>
+T0:2345:respawn:/sbin/getty -L ttyS0 38400 vt100     <br />
+</p>
+<ol>
+<li>
+també podem posar vt102, en alguns llocs he llegit que la emulació de terminal és millor
+
+</ol>
+
+<p>
+Ara, quan s'inicii el servidor i quan acabi el procés d'arranc podrem accedir al servidor des d'un altre ordinador si ens connectem amb un cable null-modem i amb un programa com putty, especificant que es connectem pel port serie i especificant la velocitat de 38400 bauds.<br />
+</p>
+
+<p>
+Ens pot passar que el servidor tingui un problema i no completi el procés d'arranc (per exemple no s'ha trobat un disc que es necessari muntar segons especifica /etc/fstab). En aquest cas no ens podríem arribar a connectar ja que no s'ha completat el procés d'arranc. Abans d'anar a buscar un monitor podrem provar de connectar un teclat PS/2 a cegues i pitjar Ctrl + D. Aquesta combinació de tecles en Debian permet completar el procés d'arranc encara amb problemes. A partir d'aquí un cop connectats a l'equip comprovem quin ha estat el problema per tal de solucionar-lo (el primer és fer un dmesg).<br />
+</p>
+
+
+<div id="connectar per port sèrie-Connectar amb putty"><h3 id="Connectar amb putty" class="header"><a href="#connectar per port sèrie-Connectar amb putty">Connectar amb putty</a></h3></div>
+
+<p>
+Per a connectar des de putty (o algun altre terminal virtual que pugui connectar per port serie), ens farà falta conèixer el nom del port al que tenim connectat el dispositiu a  controlar.<br />
+Farem servir aquest script per a obtenir els noms:<br />
+</p>
+<pre>
+    #!/bin/bash
+    clear
+    for sysdevpath in $(find /sys/bus/usb/devices/usb*/ -name dev); do
+        (
+            syspath="${sysdevpath%/dev}"
+            devname="$(udevadm info -q name -p $syspath)"
+            #[[ "$devname" == "bus/"* ]] &amp;&amp; continue
+            [[ "$devname" == "bus/"* ]]
+            eval "$(udevadm info -q property --export -p $syspath)"
+            #[[ -z "$ID_SERIAL" ]] &amp;&amp; continue
+            [[ -z "$ID_SERIAL" ]]
+            echo "/dev/$devname - $ID_SERIAL"
+        )
+    done
+</pre>
+<p>
+Com a resultat obtindrem, p.e.:<br />
+</p>
+
+<p>
+/dev/ttyUSB0 - Prolific_Technology_Inc._USB-Serial_Controller_D<br />
+/dev/dri/controlD65 - DisplayLink_TOSHIBA_Video_Dock_0110-000000<br />
+/dev/fb1 - DisplayLink_TOSHIBA_Video_Dock_0110-000000<br />
+/dev/snd/controlC1 - 0d8c_USB_Sound_Device<br />
+/dev/snd/pcmC1D0c - 0d8c_USB_Sound_Device<br />
+/dev/snd/pcmC1D0p - 0d8c_USB_Sound_Device<br />
+/dev/input/event7 - 0d8c_USB_Sound_Device<br />
+/dev/hidraw4 - 0d8c_USB_Sound_Device<br />
+/dev/input/event8 - PixArt_USB_Optical_Mouse<br />
+/dev/input/mouse1 - PixArt_USB_Optical_Mouse<br />
+/dev/hidraw5 - PixArt_USB_Optical_Mouse<br />
+...<br />
+</p>
+
+<p>
+Amb aquest resultat podrem configurar putty per a efectuar la connexió:<br />
+</p>
+
+</body>
+</html>

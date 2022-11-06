@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>LVM</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="LVM"><h2 id="LVM" class="header"><a href="#LVM">LVM</a></h2></div>
+<p>
+:taglvm:<br />
+</p>
+
+<p>
+*<span id="LVM-LVM (Logical Volume Manager)"></span><strong id="LVM (Logical Volume Manager)">LVM (Logical Volume Manager)</strong>*<br />
+Última actualització: desembre de 2013<br />
+</p>
+
+<p>
+Logical Volume Manager ens permet crear una capa d'abstracció per sobre dels discs físics per a gestionar de manera eficient el emmagatzematge. Alguns dels avantatges de LVM:<br />
+</p>
+
+<p>
+	podem expandir un LV sense necessitat de formatejar<br />
+	podem fer snapshots <br />
+	les últimes versions de LVM tenen capacitat de fer striping i mirroring<br />
+</p>
+
+<p>
+Una cosa que no m'agrada gaire de LVM és que necessita un percetatge important d'espai en disc per a poder guardar les metadades necessàries per a muntar el LVM. Es per això que no el faig servir si no el considero absolutament necessari.<br />
+</p>
+
+<p>
+Seguint la imatge anterior:<br />
+</p>
+
+<p>
+-Crear els volums físics:<br />
+</p>
+<pre>
+pvcreate /dev/sda
+pvcreate /dev/sdb
+pvcreate /dev/sdc
+</pre>
+<p>
+		Podem utilitzar pvscan o pvdisplay per a veure quans volums físics tenim.<br />
+</p>
+
+<p>
+-Crear un grup de volums (VG):<br />
+</p>
+   
+<p>
+<code>vgcreate volgrup1 /dev/sda /dev/sdb /dev/sdc</code><br />
+</p>
+
+<p>
+		Per a veure els VG disponibles farem vgdisplay. LVM és molt flexible i podriem afegir més discs a aquest VG o barrejar discs sencers amb particions de discs.<br />
+</p>
+
+<p>
+-Crear volums lògics (LV):<br />
+</p>
+<pre>
+	lvcreate -L 1T      volumlogic1  volgrup1
+	lvcreate -L 200G  volumlogic2  volgrup1
+	lvcreate -L 300G  volumlogic3  volgrup1
+</pre>
+
+<p>
+	Per a veure els LV que tenim creats: lvdisplay<br />
+</p>
+
+
+<p>
+Finalment, podem muntar els nostres LV:<br />
+</p>
+<pre>
+	mkfs.xfs /dev/volgrup1/volumlogic1
+	mkfs.xfs /dev/volgrup1/volumlogic2
+	mkfs.xfs /dev/volgrup1/volumlogic3
+
+	mount -t xfs /dev/volgrup1/volumlogic1  /mnt/LV1T
+	mount -t xfs /dev/volgrup1/volumlogic1  /mnt/LV200G
+	mount -t xfs /dev/volgrup1/volumlogic1  /mnt/LV300G
+</pre>
+
+
+
+<p>
+Documentació adicional:<br />
+</p>
+
+<p>
+	LVM, segons la wiki d'ArchLinux: <a href="https://wiki.archlinux.org/index.php/LVM<br">https://wiki.archlinux.org/index.php/LVM<br</a> />
+</p>
+
+</body>
+</html>

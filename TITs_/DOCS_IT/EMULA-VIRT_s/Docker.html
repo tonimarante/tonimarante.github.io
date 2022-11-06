@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>Docker</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="Docker"><h2 id="Docker" class="header"><a href="#Docker">Docker</a></h2></div>
+<p>
+Última actualització: maig de 2016<br />
+</p>
+
+<p>
+Continguts<br />
+</p>
+
+<p>
+	1 Instal·lació (Debian / Ubuntu)<br />
+	2 Descarregar imatges del web de docker<br />
+	3 Executar contenidors<br />
+		3.1 Llistar imatges i contenidors<br />
+		3.2 Treballar amb imatges i contenidors<br />
+		3.3 Aturar un contenidor, veure sortida estàndard d'un contenidor, esborrar un contenidor<br />
+		3.4 Esborrar una imatge, moure imatges entre servidors locals<br />
+	4 Publicar ports de contenidors a l'exterior<br />
+	5 Treballar amb volums<br />
+		5.1 Treballar amb volums propis d'un contenidor<br />
+	6 Exemple de creació d'una imatge sense baixar-la del web de Docker<br />
+</p>
+
+
+
+
+<p>
+Docker ens permet virtualitzar aplicacions fent servir el concepte de contenidors.<br />
+</p>
+
+<p>
+Instal·lació (Debian / Ubuntu)<br />
+</p>
+
+<p>
+	Ens hem de fer un compte (si volem recuperar imatges ja fetes) a <a href="https://hub.docker.com/<br">https://hub.docker.com/<br</a> />
+	Instal·lem docker:<br />
+</p>
+
+<p>
+<code>sudo apt-get install docker.io</code><br />
+</p>
+
+<p>
+	Afegim el nostre usuari al grup docker<br />
+</p>
+
+<p>
+<code>sudo gpasswd -a  el_nostre_usuari  docker  </code><br />
+</p>
+
+<p>
+<code>sudo service docker restart</code><br />
+</p>
+
+<p>
+Per a que sigui efectiva la pertinença al grup docker hem de deslogar-nos i tornar-nos a logar <br />
+Descarregar imatges del web de docker<br />
+</p>
+
+<p>
+Podem buscar imatges a <a href="https://registry.hub.docker.com/">https://registry.hub.docker.com/</a> o directament des de la línia de comandaments:<br />
+</p>
+
+<p>
+<code>sudo docker search debian</code><br />
+Abans de descàrregar una imatge ens hem de logar:<br />
+</p>
+
+<p>
+<code>sudo docker login</code><br />
+</p>
+
+<p>
+Un cop logats, podem fer el pull (descarregar cap el nostre ordinador).<br />
+</p>
+
+<p>
+<code>sudo docker pull debian:testing</code><br />
+</p>
+
+
+<p>
+Executar contenidors<br />
+</p>
+
+<p>
+<code>sudo docker run -t -i debian:testing /bin/bash    </code><br />
+</p>
+
+<p>
+-t vol dir que obtindrem un terminal virtual i el -i que tindrem interactivitat per a treballar amb el contenidor<br />
+</p>
+
+<p>
+Si cridem a una imatge que no tenim descarregada, es farà un pull automàticament des dels repositoris de docker.com cap al nostre ordinador: Unable to find image 'debian:testing' locally...   Pulling repository debian<br />
+</p>
+
+<ul>
+<li>
+Si volem executar un contenidor amb un daemon:
+
+</ul>
+
+<p>
+<code>sudo docker run -d debian:testing service ssh start</code><br />
+</p>
+
+
+<p>
+Llistar imatges i contenidors<br />
+</p>
+
+<p>
+Quan tenim vàries imatges, les podem llistar amb:<br />
+</p>
+
+<p>
+<code>sudo docker images</code><br />
+</p>
+
+<p>
+-Contenidors que tenim corrent en aquest moment:<br />
+</p>
+
+<p>
+<code>sudo docker ps -l</code><br />
+</p>
+
+<p>
+-Més util: contenidors corrent i també els aturats:<br />
+</p>
+
+<p>
+<code>sudo docker ps -a</code><br />
+</p>
+
+
+<p>
+Treballar amb imatges i contenidors<br />
+</p>
+
+<p>
+IMPORTANT: cada cop que executem una imatge, es genera un contenidor nou. Com ja hem dit abans, podem llistar les imatges que tenim disponibles amb:<br />
+</p>
+
+<p>
+<code>sudo docker images</code><br />
+</p>
+
+<p>
+REPOSITORY           TAG                 IMAGE ID            CREATED             VIRTUAL SIZE<br />
+debian                       testing             88ba2870bfbe        6 weeks ago         154.7 MB<br />
+</p>
+
+<p>
+Ara, executem sobre aquesta imatge:<br />
+</p>
+
+<p>
+<code>sudo docker run -t -i debian:testing /bin/bash</code><br />
+</p>
+
+<p>
+Amb el que obtenim un nou contenidor:<br />
+</p>
+
+<p>
+<code>sudo docker ps -a</code><br />
+CONTAINER ID        IMAGE                        COMMAND             CREATED             STATUS          PORTS      NAMES<br />
+ad9e521b2ebe          debian:testing               "/bin/bash"              4 hours ago         Up 2 hours         drunk_ritchie   <br />
+</p>
+
+<p>
+Considerant que haurem fet canvis sobre aquest contenidor, ara tindríem dues opcions:<br />
+</p>
+
+<ol>
+<li>
+Generar un contenidor nou executant sobre la imarge inicial:
+
+</ol>
+
+<p>
+<code>sudo docker run -t -i debian:testing /bin/bash</code><br />
+</p>
+
+<p>
+En aquest cas generarem un segon contenidor; ho podem veure si fem sudo docker ps -a<br />
+</p>
+
+<p>
+CONTAINER ID        IMAGE             COMMAND             CREATED             STATUS                      PORTS  NAMES<br />
+67bb48a7b09d        debian:testing     "/bin/bash"         20 seconds ago      Exited (0) 7 seconds ago    angry_sinoussi      <br />
+ad9e521b2ebe        debian:testing     "/bin/bash"         5 hours ago            Up 2 hours                         drunk_ritchie<br />
+</p>
+
+<ol>
+<li>
+"Connectar-nos" al contenidor que tenim aturat i que te canvis aplicats:
+
+</ol>
+
+<pre>
+sudo docker start ad9e
+sudo docker attach ad9e
+</pre>
+
+<p>
+Imaginem que tenim un contenidor que te molts canvis aplicats i que volem "consolidar" com a nova imatge. Farem:<br />
+</p>
+
+<p>
+<code>sudo docker commit ad9e v1/debian:testing</code><br />
+</p>
+
+<p>
+Ara, tenim una nova imatge:<br />
+</p>
+
+<p>
+<code>sudo docker images</code><br />
+</p>
+
+<p>
+REPOSITORY           TAG                 IMAGE ID           CREATED            VIRTUAL SIZE<br />
+v1/debian                testing             1aac87b48285        23 minutes ago      322.4 MB<br />
+debian                     testing             88ba2870bfbe        6 weeks ago          154.7 MB<br />
+</p>
+
+<p>
+D'aquesta manera, combinant imatges i contenidors tindrem a la nostra disposició diferents snapshots. Molt útil si volem tenir diferents entorns de test, tornar enrere després d'una actualització fallida...<br />
+</p>
+
+<p>
+Aturar un contenidor, veure sortida estàndard d'un contenidor, esborrar un contenidor<br />
+</p>
+
+<p>
+-Aturar un contenidor:<br />
+<code>sudo docker stop contenidor</code><br />
+</p>
+
+<p>
+-Veure logs (sortida estàndard) d'un contenidor:<br />
+</p>
+
+<p>
+<code>sudo docker logs -f contenidor</code><br />
+</p>
+
+<p>
+-Esborrar un contenidor (primer l'hem d'aturar):<br />
+</p>
+
+<p>
+<code>sudo docker rm contenidor</code><br />
+</p>
+
+
+<p>
+Esborrar una imatge, moure imatges entre servidors locals<br />
+</p>
+
+<p>
+-Si volem esborrar una imatge:<br />
+</p>
+
+<p>
+<code>sudo docker rmi imatge</code><br />
+</p>
+
+<p>
+-Exportar una imatge a un fitxer:<br />
+</p>
+
+<p>
+<code>sudo docker save imatge &gt; imatge.tar</code><br />
+</p>
+
+<p>
+-Importar una imatge d'un fitxer:<br />
+</p>
+
+<p>
+<code>sudo docker load &lt; imatge.tar</code><br />
+</p>
+
+<p>
+Publicar ports de contenidors a l'exterior<br />
+-Si volem publicar pel port 2222 de l'equip "host" el port 22 d'un contenidor:<br />
+</p>
+
+<p>
+<code>sudo docker run -d -p 2222:22 debian:testing service ssh start</code><br />
+</p>
+
+<p>
+-Si volem publicar pel port 2222 de l'equip host però només per la interfície de loop:<br />
+</p>
+
+<p>
+<code>sudo docker run -d -p 127.0.0.1:2222:22 debian:testing service ssh start</code><br />
+</p>
+
+<p>
+-Si volem publicar pel port 2222 de l'equip host però només per la interfície de loop i udp:<br />
+</p>
+
+<p>
+<code>sudo docker run -d -p 127.0.0.1:2222:22/udp debian:testing service ssh start</code><br />
+</p>
+
+
+<p>
+Treballar amb volums<br />
+-Muntar una carpeta de la màquina host (/opt/host/samba) en un contenidor:<br />
+</p>
+
+<p>
+<code>sudo docker run -d -p 2222:22 -v /opt/host/samba:/opt/cont/samba  debian:testing service ssh start</code><br />
+</p>
+
+<p>
+--Muntar una carpeta de la màquina host (/opt/host/samba) en un contenidor com a només de lectura:<br />
+</p>
+
+<p>
+<code>sudo docker run -d -p 2222:22 -v /opt/host/samba:/opt/cont/samba:ro debian:testing service ssh start</code><br />
+</p>
+
+
+<p>
+Treballar amb volums propis d'un contenidor<br />
+-Crear un volum a un contenidor (observar que al contenidor li posem d'alias "taronja"):<br />
+</p>
+
+<p>
+<code>sudo docker run -d -p 2222:22 --name taronja -v /voltaronja  debian:testing service ssh start</code><br />
+</p>
+
+<p>
+-Un contenidor munta un volum d'un altre contenidor:<br />
+</p>
+
+<p>
+<code>sudo docker run -d -p 139:139 --name verd --volumes-from taronja  debian:testing service samba start</code><br />
+</p>
+
+<p>
+Exemple de creació d'una imatge sense baixar-la del web de Docker<br />
+{{<br />
+mkdir wheezy-chroot<br />
+debootstrap wheezy ./wheezy-chroot <a href="http://http.debian.net/debian/<br">http://http.debian.net/debian/<br</a> />
+cd wheezy-chroot<br />
+tar cpf - . | docker import - elmeudebian<br />
+docker run -t -i -rm elmeudebian /bin/ bash<br />
+}}}<br />
+</p>
+
+</body>
+</html>

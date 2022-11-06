@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>Fluxbox</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="Fluxbox"><h2 id="Fluxbox" class="header"><a href="#Fluxbox">Fluxbox</a></h2></div>
+<p>
+*<span id="Fluxbox-Personalització de fluxbox"></span><strong id="Personalització de fluxbox">Personalització de fluxbox</strong>*<br />
+Última actualització: setembre 2011<br />
+</p>
+
+<p>
+Fluxbox és petit i lleuger, però potent, molt potent. Podem canviar d'escriptori virtual simplement girant la roda del ratolí sobre l'escriptori i altres coses d'aquest tipus, tot totalment configurable. Una cosa interessant és la possibilitat d'agrupar finestres. Si tenim dues finestres (iceweasel i thunar per exemple), si "pesquem" una picant-li  amb el botó central a la barra de títol i l'arrosseguem a sobre de l'altre, les dues queden juntes en una sola amb pestanyes i podem canviar entre elles amb Alt+Tab o picant a la pestanya corresponent. Una canya.<br />
+</p>
+
+<p>
+-Configuracions del format del rellotge que m'agraden:   %a, %d-%m-%Y   %k:%M   o bé   %a, %d-%b-%Y  %k:%M<br />
+-Mètodes abreujats de teclat: el propi fluxbox ens proporciona al manera de configurar tecles per a fer coses; està tot al fitxer .fluxbox/keys del perfil de cada usuari. A mi m'agrada personalitzar-me les tecles així:<br />
+</p>
+
+<p>
+#keys personalitzat per a fluxbox, teclat de Apple<br />
+</p>
+<ol>
+<li>
+open a terminal
+
+</ol>
+<p>
+#Mod1 F1 :Exec xterm<br />
+Mod1 36 :Exec lxterminal<br />
+#Exec dmenu<br />
+Mod1 v  :Exec dmenu_run<br />
+#Captura de pantalla<br />
+Mod1 33 :Exec scrot<br />
+</p>
+<ol>
+<li>
+double click on the titlebar to shade
+
+</ol>
+<p>
+#OnTitlebar Double Mouse1 :Shade<br />
+OnTitlebar Double Mouse1 :Maximize<br />
+</p>
+<ol>
+<li>
+change to a specific workspace
+
+</ol>
+<p>
+Mod1 10 :Workspace 1<br />
+Mod1 11 :Workspace 2<br />
+Mod1 12 :Workspace 3<br />
+Mod1 13 :Workspace 4<br />
+#Control F5 :Workspace 5<br />
+-Alt+ 1 a 4 canviem entre escriptoris<br />
+-Alt + v obrim dmenu<br />
+-Alt + Enter obrim un terminal<br />
+-Alt + p executem scrot<br />
+Aquesta combinació de tecles és la mateixa que faig servir per al window manager i3.<br />
+</p>
+
+<p>
+Depenent del teclat el codi de la combinació de tecles a capturar pot variar. Per a comprovar el codi de cada tecla que piquem tenim:  xev<br />
+</p>
+
+
+<p>
+-Modificació de la velocitat del ratolí: podem afegir a .fluxbox/startup: xset m 2  10 on el primer valor és l'acceleració i el segon l'umbral.<br />
+</p>
+
+<p>
+-Setejar la resolució de pantalla: podem afegir a .fluxbox/startup: xrandr -s 1680x1050 (o la resolució de pantalla que volguem). Podem veure les resolucions de pantalla que tenim disponibles fent un xrandr a seques.<br />
+</p>
+
+<p>
+-Antialising: Creem un fitxer (si no existeix) .Xdefaults amb una línia que digui: <br />
+Xft.antialias:    true<br />
+I afegim a .fluxbox/startup la línia: xrdb -load ~/.Xdefaults<br />
+</p>
+
+<p>
+-Estalvi de pantalla: si volem tenir l'estalvi de pantalla afegirem a .fluxbox/startup:  xscreensaver &amp;. En el moment d'entrar en sessió, xscreensaver ens dona l'oportunitat de configurar-lo. Si no ho fem en aquest moment podem configurar-lo fent:  xscreensaver-demo. Si el que volem es activar l'estalvi de pantalla en un moment determinat farem: xscreensaver-command -lock<br />
+</p>
+
+<p>
+-Fons de pantalla: fiquem una línia a .fluxbox/startup: fbsetbg -t  /home/bmw/imatges/lamevaimatgemosaic.png   <br />
+Algunes opcions de fbsetbg son:  -t mosaic, -a maximitzat, -r agafa aleatoriament una imatge d'un directori<br />
+Un altre opció que tenim és fer que el fons de pantalla el posi idesk (veure més avall).<br />
+-Estils:  Trobaràs quantitat d'estils per internet per a fluxbox, però penso que no tots tenen les combinacions de color óptimes per a treballar amb comoditat. Adjunt hi han un fitxer "styles_ok.tar.gz" amb la meva selecció d'estils. S'han de deixar (un cop descomprimits) a dintre del directori ~/.fluxbox/styles<br />
+</p>
+
+<p>
+-Conky: L'executarem des de .fluxbox/startup i ens permet veure a l'escriptori com està funcionant el sistema. També serveix per a ficar-se una "xuleta" amb les tecles que tinguem configurades per a llençar programaris. Aquí una captures de pantalla i una imatge en detall del meu conky. Si t'agrada, pots agafar el fitxer conkyrc que trobaràs als fitxers adjunts.<br />
+</p>
+
+
+
+<p>
+-Vull icones!  Tenim la possibilitat de fer servir idesk. A més de tenir icones a l'escriptori, es pot fer servir per establir una o vàries imatges com a fons de pantalla, llavors podriem prescindir de fbsetbg. Per executar idesk, ho podem fer des de .fluxbox/startup.<br />
+</p>
+
+<p>
+Als adjunts hi ha un fitxer .ideskrc amb un exemple amb icones no transparent. També una carpeta .idesktop amb un exemple amb icones png.<br />
+</p>
+
+<p>
+A més de tenir icones a l'escriptori, idesk es pot encarregar de ficar el fons de pantalla que volem.  Un exemple de línies modificades a .ideskrc:<br />
+</p>
+
+<p>
+  Background.Delay: 10<br />
+  Background.Source: /home/meva<br />
+  Background.File: None<br />
+  Background.Mode: Scale  <br />
+Amb això cada 10 minuts agafarà aleatoriament una imatge del directori /home/meva i la ficarà com a fons de pantalla.<br />
+</p>
+
+<p>
+-Estat de la bateria (si és un portàtil): podem afegir a .fluxbox/startup: wmbattery -a /home/bmw/compile/siren_2.au &amp; Amb això executem l'applet vmbatery (que haurem de tenir instal·lat) i fem que soni una alarma acústica quan la bateria estigui a punt d'esgotar-se.<br />
+</p>
+
+<p>
+-Àudio al fluxbox: afegim a .fluxbox/startup: start-pulseaudio-x11 per a engegar el servidor d'audio. Hem de tenir instal·lat el paquet pulseaudio-module-x11.<br />
+Com a mixers em semblen una bona elecció:<br />
+Alsamixer: hem de tenir instal·lat alsa-utils. Per a obrir el mixer ho haurem de fer amb  sudo alsamixer<br />
+Aumix: la versió aumix-gtk pot guardar una configuració determinada y recuperar-la fàcilment. Jo el llenço a l'entrada de sessió i així puc recuperar els nivells predeterminats que vull de la targeta de so.<br />
+wmix: es un mixer dockable (queda a la cantonada inferior dreta ocult i apareix quan t'apropes amb el ratolí) amb el que pots mutejar canals de forma individual (doble clic), pujar i baixar nivells (clic + ratolí amunt o avall) i a més te OSD.<br />
+</p>
+
+
+<p>
+-Impressió: un cop tenim instal·lat cups, fem servir la seva pròpia gestió via navegador: <a href="http://localhost:631<br">http://localhost:631<br</a> />
+</p>
+
+<p>
+-Configurar la xarxa: fer un cop d'ull a "Configurar la xarxa i connectar recursos de xarxa en gestors de finestres lleugers"<br />
+</p>
+
+<ul>
+<li>
+* * * *
+
+</ul>
+<p>
+Si voleu un fitxer .fluxbox/startup amb esteroids, podeu enganxar i descomentar el que voleu d'aquestes línies:<br />
+</p>
+
+<p>
+#Ratolí: acceleracio / umbral<br />
+</p>
+<ol>
+<li>
+xset m 2  10
+
+</ol>
+
+<p>
+#Resol. de pantall. xrand a seques per a veure disponibles<br />
+</p>
+<ol>
+<li>
+xrandr -s 1680x1050
+
+</ol>
+
+<p>
+#Antialising: Creem un fitxer (si no existeix) .Xdefaults amb una línia que dig$<br />
+</p>
+<ol>
+<li>
+xrdb -load ~/.Xdefaults
+
+</ol>
+
+<p>
+#Estalvi pantalla. activar l'estalvi de pantalla en un moment determinat farem:$<br />
+</p>
+<ol>
+<li>
+xscreensaver &amp;
+
+</ol>
+
+<p>
+#Monitor bateria. Hem de tenir wmbattery<br />
+</p>
+<ol>
+<li>
+wmbattery -a /home/bmw/compile/siren_2.au &amp;
+
+</ol>
+
+<p>
+#Engegar el servidor d'àudio i applet mixer<br />
+</p>
+<ol>
+<li>
+start-pulseaudio-x11
+
+<li>
+wmmixer
+
+</ol>
+
+<p>
+#Conky i idesk<br />
+</p>
+<ol>
+<li>
+conky &amp;
+
+<li>
+idesk &amp;
+
+</ol>
+
+<p>
+#Si tenim instal·lat network-manager<br />
+</p>
+<ol>
+<li>
+nm-applet &amp;
+
+</ol>
+
+<p>
+#Fons de pantalla. -t mosaic, -a maximitzat, -r agafa aleatoriament una imatge d'un directori<br />
+</p>
+<ol>
+<li>
+fbsetbg -t  /home/bmw/imatges/TileLeather.png
+
+</ol>
+
+</body>
+</html>

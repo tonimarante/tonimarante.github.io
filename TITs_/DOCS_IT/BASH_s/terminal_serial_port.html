@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>terminal_serial_port</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="terminal serial port"><h2 id="terminal serial port" class="header"><a href="#terminal serial port">terminal serial port</a></h2></div>
+<p>
+*<span id="terminal serial port-Connectar a un equip Linux via serial port"></span><strong id="Connectar a un equip Linux via serial port">Connectar a un equip Linux via serial port</strong>*<br />
+Última actualització: abril de 2013<br />
+</p>
+
+<p>
+Per connectar a una màquina Linux des de port sèrie, ens fa falta un cable d'interconnexió molt senzillet, que només te 3 cables:<br />
+</p>
+
+<p>
+db25       db25         db9       db25<br />
+  2             3            2            2<br />
+  3             2            3            3<br />
+  7             7            5            7<br />
+</p>
+
+<p>
+Hem d'afegir a /etc/inittab una línia semblant a aquesta:<br />
+</p>
+
+<p>
+T0:23:respawn:/sbin/getty -L ttyS0 9600 vt100<br />
+</p>
+
+<p>
+Per activar la línia afegida podem fer <br />
+</p>
+
+<p>
+'init q'.<br />
+</p>
+
+<p>
+o també:<br />
+</p>
+
+<p>
+<code>kill -HUP 1</code><br />
+</p>
+
+<p>
+Es poden fer servir el 'getty', el 'agetty'<br />
+o qualsevol altre. ttyS0 és el COM1, ttyS1 és COM2, etc.<br />
+</p>
+
+<p>
+Per connectar des de win a aquesta màquina Linux podem fer servir qualsevol programa emulador de terminal: telix o el mateix hyperteminal. Podem transferir fitxers amb el protocol zmodem:<br />
+</p>
+
+<p>
+-Enviar:  fem rb al Linux i enviem el fitxer amb Ymodem<br />
+-Rebre: fem sz nom fitxer (o * per enviar tots) i rebem a la màquina connectada  amb Ymodem<br />
+</p>
+
+</body>
+</html>

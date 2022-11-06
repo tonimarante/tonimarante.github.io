@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>tmux</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="tmux"><h2 id="tmux" class="header"><a href="#tmux">tmux</a></h2></div>
+<p>
+:tagtmux,tagscreen:<br />
+Última modificació: octubre de 2018<br />
+</p>
+
+<p>
+Tmux ens permet dividir un terminal en varis "panes" o panells.<br />
+També ens permet obrir terminals i deixar-los en segon pla, de manera que podem tenir tants terminals com volguem un una única sessió o bé deixar alguna cosa excutant en remot, encara que desconnectem la sessió ssh a la que estem connectats.<br />
+</p>
+
+<div id="tmux-Treballant amb diferents tmux"><h3 id="Treballant amb diferents tmux" class="header"><a href="#tmux-Treballant amb diferents tmux">Treballant amb diferents tmux</a></h3></div>
+<p>
+*<span id="tmux-Treballant amb diferents tmux-Obrir un nou terminal:"></span><strong id="Obrir un nou terminal:">Obrir un nou terminal:</strong>*<br />
+<code>	tmux</code><br />
+</p>
+
+<p>
+*<span id="tmux-Treballant amb diferents tmux-des de dintre, tancar i matar el teminal"></span><strong id="des de dintre, tancar i matar el teminal">des de dintre, tancar i matar el teminal</strong>*<br />
+<code>	exit</code><br />
+</p>
+
+<p>
+	*<span id="tmux-Treballant amb diferents tmux-o podem sortir deixant-lo &quot;detachat&quot; amb:"></span><strong id="o podem sortir deixant-lo &quot;detachat&quot; amb:">o podem sortir deixant-lo "detachat" amb:</strong>*<br />
+<code>	Ctrl + b i piquem d</code><br />
+</p>
+
+<p>
+*<span id="tmux-Treballant amb diferents tmux-Veure la llista de tmux detachats:"></span><strong id="Veure la llista de tmux detachats:">Veure la llista de tmux detachats:</strong>*<br />
+<code>	tmux ls        (el primer número és l'identificador de terminal)</code><br />
+</p>
+
+<p>
+*<span id="tmux-Treballant amb diferents tmux-Per atachar-se a un terminal detachat:"></span><strong id="Per atachar-se a un terminal detachat:">Per atachar-se a un terminal detachat:</strong>*<br />
+<code>	tmux a -t 1   (per atachar-nos al tmux número 1)</code><br />
+</p>
+
+
+<div id="tmux-Treballant amb diferents panells"><h3 id="Treballant amb diferents panells" class="header"><a href="#tmux-Treballant amb diferents panells">Treballant amb diferents panells</a></h3></div>
+<p>
+Obrim un tmux:<br />
+<code>	tmux</code><br />
+</p>
+
+<p>
+I ara fem:<br />
+	Ctrl + b i piquem %       *<span id="tmux-Treballant amb diferents panells-si volem dos panells en vertical"></span><strong id="si volem dos panells en vertical">si volem dos panells en vertical</strong>*<br />
+	Ctrl + b i piquem "        *<span id="tmux-Treballant amb diferents panells-si volem dos panells en horitzontal"></span><strong id="si volem dos panells en horitzontal">si volem dos panells en horitzontal</strong>*<br />
+</p>
+         
+<p>
+*<span id="tmux-Treballant amb diferents panells-Per a moure'ns entre panells:"></span><strong id="Per a moure'ns entre panells:">Per a moure'ns entre panells:</strong>*<br />
+	Ctrl + b i fem servir les fletxes del cursor<br />
+</p>
+
+<p>
+*<span id="tmux-Treballant amb diferents panells-Matar un panell determinat:"></span><strong id="Matar un panell determinat:">Matar un panell determinat:</strong>*<br />
+	Ctrl + b i piquem x<br />
+</p>
+
+
+
+<p>
+Obtindrem algunes funcionalitats semblants també amb screen.<br />
+</p>
+
+</body>
+</html>

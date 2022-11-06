@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>iSCSI,_iniciador</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="iSCSI, iniciador"><h2 id="iSCSI, iniciador" class="header"><a href="#iSCSI, iniciador">iSCSI, iniciador</a></h2></div>
+<p>
+*<span id="iSCSI, iniciador-Connectar una cabina iSCSI des de Debian (iniciador iSCSI)"></span><strong id="Connectar una cabina iSCSI des de Debian (iniciador iSCSI)">Connectar una cabina iSCSI des de Debian (iniciador iSCSI)</strong>*<br />
+Última actualització: gener 2012  <br />
+</p>
+
+<p>
+Per a connectar la nostra Debian a una cabina iSCSI necessitem instal·lar el paquet open-iscsi:<br />
+</p>
+
+<p>
+<code>apt-get install open-iscsi</code><br />
+</p>
+
+<p>
+Si volem muntar la cabina automàticament en cada reiniciada hem de modificar una línia a /etc/iscsi/iscsid.conf:<br />
+</p>
+
+<p>
+node.startup = automatic<br />
+</p>
+
+<p>
+Després de qualsevol canvi reiniciem el servei:<br />
+</p>
+
+<p>
+<code>service open-iscsi restart</code><br />
+</p>
+
+<p>
+Suposem que tenim la cabina connectada al nostre equip i que sabem que aquesta te configurada la IP 172.16.1.5. Fem un discovery:<br />
+</p>
+
+<p>
+<code>iscsiadm -m discovery -t sendtargets -p 172.16.1.5</code><br />
+</p>
+
+<p>
+i obtenim aquesta resposta: <br />
+172.16.1.5:3260,0 iqn.2005-06.com.datarobotics:drobopro.tdb102840149.node0<br />
+</p>
+
+<p>
+Ara que tenim l'identificador IQN:<br />
+</p>
+
+<p>
+<code>iscsiadm --mode node --targetname iqn.2005-06.com.datarobotics:drobopro.tdb102840149.node0 --portal 172.16.1.5:3260 --login</code><br />
+</p>
+
+<p>
+I obtenim (successful):<br />
+Logging in to [iface: default, target: iqn.2005-06.com.datarobotics:drobopro.tdb102840149.node0, portal: 172.16.1.5,3260]<br />
+Login to [iface: default, target: iqn.2005-06.com.datarobotics:drobopro.tdb102840149.node0, portal: 172.16.1.5,3260]: successful<br />
+</p>
+
+<p>
+Ara treballem com si fos un disc local: <br />
+<code>fdisk -l</code><br />
+</p>
+
+<p>
+particionem el disc si ens interessa<br />
+mkfs de la/es particions<br />
+preparem el punt de muntatge, p.e:  mkdir /mnt/drobopro<br />
+obtenim amb blkid el UUID de la/es particions<br />
+Finalment, afegim una línia a /etc/fstab per tal que el disc es munti automàticament a cada reiniciada. Suposem que tenim una sola partició a muntar de la qual coneixem el UUID, sabem que està formatada en xfs i que la muntarem a /mnt/drobopro. La línia a afegir serà:<br />
+</p>
+
+<p>
+UUID=e3a9dc6b-9239-4f2d-94cf-15c5bbe5a798 /mnt/drobopro  xfs   _netdev   0   0<br />
+</p>
+
+</body>
+</html>

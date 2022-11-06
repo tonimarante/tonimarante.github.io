@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>pendrive_multiboot_supergrub2disk</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="Pendrive multiboot SuperGrub2Diskboot"><h2 id="Pendrive multiboot SuperGrub2Diskboot" class="header"><a href="#Pendrive multiboot SuperGrub2Diskboot">Pendrive multiboot SuperGrub2Diskboot</a></h2></div>
+<p>
+Última modificació: gener de 2021<br />
+</p>
+
+<p>
+Supergrub2 Disk (<a href="https://www.supergrubdisk.org/super-grub2-disk/)">https://www.supergrubdisk.org/super-grub2-disk/)</a> és una eina molt bona, que podem aprofitar per muntar un pendrive multiboot.<br />
+</p>
+
+<p>
+Com?<br />
+</p>
+
+<ul>
+<li>
+"Planxem" l'USB  (per a anar bé de mínim 16GB) amb supergrub2 disk, versió multiarch USB que permet arrencar tant ordinadors BIOS com UEFI
+
+</ul>
+
+<ul>
+<li>
+Redimensionem les particions: 
+
+</ul>
+
+<ul>
+<li>
+SG2DBOOT, per a poder ficar les nostres ISOS i altres. 
+
+</ul>
+
+<ul>
+<li>
+SG2DISOS: mínim 1,5 GB per a ficar el contingut de la ISO del HBCD_PE_x64 (<a href="https://www.hirensbootcd.org/).">https://www.hirensbootcd.org/).</a> Aquesta partició ha de tenir el senyalador "boot" activat.
+
+</ul>
+
+
+<p>
+Si no podem redimensionar (parted ara mateix diu que no pot redimensionar la primera partició), poder eliminar les dues particions (preservant abans el contingut de SG2DBOOT) i crear-les de nou en FAT32 (recordar marcat la segona partició com "boot"). <br />
+</p>
+
+<p>
+Un cop creades les particions tornarem el contingut preservat a la primera partició SG2DBOOT al "seu lloc".<br />
+</p>
+
+
+<ul>
+<li>
+Finalment ens quedarà afegir les nostres entrades grub al fitxer /SG2DBOOT/boot/sdg/main.cfg. Per exemple:
+
+</ul>
+
+<ol>
+<li>
+----------------------------------------------------------------------------------------
+
+<li>
+A supergrub2 disk, afegir aquestes entrades a: /SDG2DBOOT/boot/grub/sdg/main.cfg
+
+</ol>
+
+<p>
+menuentry "--USB-- antiX Customize Boot (text menus)" {<br />
+</p>
+<blockquote>
+linux /antiX/vmlinuz quiet splash=v disable=lx menus
+initrd /antiX/initrd.gz
+</blockquote>
+<p>
+}<br />
+menuentry "--USB-- Debian CLI nonfree Live 32bits (user/live)" {<br />
+</p>
+<blockquote>
+set ISO='/ISOS/debian-live-10.7.0-i386-standard+nonfree.iso'
+set VMLINUZ='vmlinuz-4.19.0-13-686'
+set INITRD='initrd.img-4.19.0-13-686'
+loopback loop $ISO
+linux (loop)/live/\(VMLINUZ findiso=\)ISO boot=live config
+initrd (loop)/live/$INITRD
+</blockquote>
+<p>
+}<br />
+menuentry "--USB-- Debian mate nonfree Live 64bits (user/live)" {<br />
+</p>
+<blockquote>
+set ISO='/ISOS/debian-live-10.7.0-amd64-mate+nonfree.iso'
+set VMLINUZ='vmlinuz-4.19.0-13-amd64'
+set INITRD='initrd.img-4.19.0-13-amd64'
+loopback loop $ISO
+linux (loop)/live/\(VMLINUZ boot=live components locales=ca_ES.UTF-8 findiso=\)ISO
+initrd (loop)/live/$INITRD
+</blockquote>
+<p>
+}<br />
+menuentry "--USB-- Kali-Linux 32bits (set root passwd from term)" {<br />
+</p>
+<blockquote>
+set ISO='/ISOS/kali-linux-2020.4-live-i386.iso'
+set VMLINUZ='vmlinuz'
+set INITRD='initrd.img'
+loopback loop $ISO
+linux    (loop)/live/\(VMLINUZ boot=live findiso=\)ISO components splash username=root hostname=kali
+initrd    (loop)/live/$INITRD
+</blockquote>
+<p>
+}<br />
+menuentry "--USB-- Rescatux 0.73" {<br />
+</p>
+<blockquote>
+set ISO='/ISOS/rescatux-0.73.iso'
+set VMLINUZ='vmlinuz2'
+set INITRD='initrd2.img'
+loopback loop $ISO
+root=(loop)
+linux (loop)/live/\(VMLINUZ boot=live config quiet findiso=\)ISO
+initrd (loop)/live/$INITRD
+</blockquote>
+<p>
+}<br />
+menuentry "--USB-- Ubuntu mate Live 64 bits" {<br />
+</p>
+<blockquote>
+set ISO='/ISOS/ubuntu-mate-20.04.1-desktop-amd64.iso'
+loopback loop $ISO
+linux (loop)/casper/vmlinuz boot=casper iso-scan/filename=$ISO splash --
+initrd (loop)/casper/initrd
+</blockquote>
+<p>
+}<br />
+menuentry "--USB--(BIOS/i386) Hiren's Boot CD 15" {<br />
+</p>
+<blockquote>
+linux16 /grub.exe --config-file=/menu_hirens.lst
+</blockquote>
+<p>
+}<br />
+menuentry "--USB--(BIOS/i386) Mini Windows XP-Hiren's Boot CD" {<br />
+</p>
+<blockquote>
+root=(hd0,msdos1)
+chainloader /HBCD/XP/XP.BIN
+chainloader +1
+</blockquote>
+<p>
+}<br />
+menuentry "--USB-2a partició-- HBCD PE x64-Win10 Live (només UEFI)" {<br />
+</p>
+<blockquote>
+set root=(hd0,msdos1)
+chainloader +1
+</blockquote>
+<p>
+}<br />
+</p>
+
+<ol>
+<li>
+----------------------------------------------------------------------------------------
+
+</ol>
+
+</body>
+</html>

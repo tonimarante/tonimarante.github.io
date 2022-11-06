@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>grub4dos</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="grub4dos"><h1 id="grub4dos" class="header"><a href="#grub4dos">grub4dos</a></h1></div>
+<p>
+<a href="https://catenarios2.wordpress.com/2016/01/17/instalacion-de-grub4dos-en-el-disco-duro-desde-windows/<br">https://catenarios2.wordpress.com/2016/01/17/instalacion-de-grub4dos-en-el-disco-duro-desde-windows/<br</a> />
+</p>
+
+<p>
+Un menu.lst. En él hay una colección de entradas para arrancar diversos sistemas operativos. <br />
+Notas:<br />
+</p>
+<ul>
+<li>
+Las entradas para discos duros virtuales (vhd) no funcionaron. Necesitan más trabajo.
+
+<li>
+Casi todas las que no tienen # funcionan. Sólo debes modificar el número de disco y partición para que coincidan con los tuyos.
+
+<li>
+Recuerda que si usas OS X la numeración de particiones en Chameleon comienza desde 1, y en Grub4DOS comienza desde 0. Deberás sumar ó restar 1 según sea el caso.
+
+</ul>
+
+<ol>
+<li>
+*************************************
+
+</ol>
+<p>
+default 0<br />
+timeout 30<br />
+root=(hd0,0)<br />
+</p>
+<ol>
+<li>
+color NORMAL HIGHLIGHT HELPTEXT HEADING
+
+</ol>
+<p>
+#color cyan/transparent white/blue<br />
+#splashimage=(hd0,0)/splash.xpm.gz#color blue/green yellow/red white/magenta white/magenta<br />
+foreground=FFFFFF<br />
+background=0066FF<br />
+</p>
+
+<p>
+#foreground=00FFFF<br />
+#background=000000<br />
+</p>
+
+<p>
+title hd(0,0) Windows 8.1 Pro        32-bit<br />
+root (hd0,0)<br />
+chainloader (hd0,0)+1<br />
+</p>
+
+<p>
+title hd(0,1) Windows 7 Ultimate     32-bit<br />
+root (hd0,1)<br />
+chainloader (hd0,1)+1<br />
+</p>
+
+<p>
+title hd(0,2) Windows XP SP3         32-bit<br />
+root (hd0,2)<br />
+chainloader (hd0,2)+1<br />
+</p>
+
+<p>
+foreground=01DF01<br />
+</p>
+
+<p>
+title hd(0,4) Mac OS 10.6.8          32-bit<br />
+rootnoverify (hd0,4)<br />
+chainloader +1<br />
+</p>
+
+<p>
+title hd(0,6) OS X v10.9 (Mavericks) 64-bit<br />
+rootnoverify (hd0,6)<br />
+chainloader +1<br />
+</p>
+
+<p>
+title hd(0,8) OS X v10.7.5 (Lion)    32-bit<br />
+rootnoverify (hd0,5)<br />
+chainloader +1<br />
+</p>
+
+<p>
+title hd(0,5) OS X v10.7.5 (Lion)    32-bit<br />
+find --set-root /lion5.iso<br />
+map /lion5.iso (hd32)<br />
+map --hook<br />
+root (hd32)<br />
+chainloader (hd32)title hd(0,6) OS X v10.9 (Mavericks) 64-bit<br />
+find --set-root /mavericks.iso<br />
+map /mavericks.iso (hd32)<br />
+map --hook<br />
+root (hd32)<br />
+chainloader (hd32)<br />
+</p>
+ 
+<p>
+title<br />
+root<br />
+</p>
+
+<p>
+title hd(0,7) Acronis True Image (iso)<br />
+find --set-root /AcronisBootableMedia.iso<br />
+map /AcronisBootableMedia.iso (0xff) || map --mem /AcronisBootableMedia.iso (0xff)<br />
+map --hook<br />
+chainloader (0xff)<br />
+</p>
+
+<p>
+title hd(0,7) Wifislax 4.7.2 (iso)<br />
+map (hd0,7)/wifislax/wifislax-4-7-2-final.iso (0xff) || map --mem (hd0,7)/wifislax/wifislax-4-7-2-final.iso (0xff)<br />
+map --hook<br />
+root (0xff)<br />
+kernel  /boot/vmlinuz from=/wifislax/wifislax-4-7-2-final.iso ramdisk_size=6666 root=/dev/ram0 rw<br />
+initrd /boot/initrd.xztitle hd(0,7) Wifislax 4.8 (iso)<br />
+map (hd0,7)/wifislax/wifislax-4-8-final.iso (0xff) || map --mem (hd0,7)/wifislax/wifislax-4-8-final.iso (0xff)<br />
+map --hook<br />
+root (0xff)<br />
+kernel  /boot/vmlinuz from=/wifislax/wifislax-4-8-final.iso ramdisk_size=6666 root=/dev/ram0 rw<br />
+initrd /boot/initrd.xz<br />
+</p>
+
+<p>
+title hd(0,7) Wifislax 4.9 (iso)<br />
+map (hd0,7)/wifislax/wifislax-4-9-final.iso (0xff) || map --mem (hd0,7)/wifislax/wifislax-4-9-final.iso (0xff)<br />
+map --hook<br />
+root (0xff)<br />
+kernel  /boot/vmlinuz from=/wifislax/wifislax-4-9-final.iso ramdisk_size=6666 root=/dev/ram0 rw<br />
+initrd /boot/initrd.xz<br />
+</p>
+
+<p>
+title hd(0,7) Wifislax 4.10.1 (iso)<br />
+map (hd0,7)/wifislax/wifislax-4-10-1-final.iso (0xff) || map --mem (hd0,7)/wifislax/wifislax-4-10-1-final.iso (0xff)<br />
+map --hook<br />
+root (0xff)<br />
+kernel  /boot/vmlinuz from=/wifislax/wifislax-4-10-1-final.iso ramdisk_size=6666 root=/dev/ram0 rw user passwd=toor autoexec=startx<br />
+initrd /boot/initrd.xz<br />
+</p>
+
+<p>
+title hd(0,7) Wifislax 4.11.1 (iso)<br />
+map (hd0,7)/wifislax/wifislax-4-11-1-final.iso (0xff) || map --mem (hd0,7)/wifislax/wifislax-4-11-1-final.iso (0xff)<br />
+map --hook<br />
+root (0xff)<br />
+kernel  /boot/vmlinuz from=/wifislax/wifislax-4-11-1-final.iso ramdisk_size=6666 root=/dev/ram0 rw user passwd=toor autoexec=startx<br />
+initrd /boot/initrd.xz<br />
+</p>
+
+<p>
+title<br />
+root<br />
+</p>
+
+<p>
+title Linux mint 13 XFCE<br />
+find --set-root /mint/casper/initrd.lz<br />
+#kernel /mint/casper/vmlinuz boot=casper live-media-path=/mint/casper/ ignore_uuid -- locale=es_MX console-setup/layoutcode=es<br />
+kernel /mint/casper/vmlinuz boot=casper live-media-path=/mint/casper/ ignore_uuid -- console-setup/layoutcode=es<br />
+initrd /mint/casper/initrd.lz<br />
+boot<br />
+</p>
+
+<p>
+title Ubuntu 12.04 LTS<br />
+find --set-root /ubuntu/casper/initrd.lz<br />
+#kernel /ubuntu/casper/vmlinuz boot=casper live-media-path=/ubuntu/casper/ ignore_uuid -- locale=es_MX console-setup/layoutcode=es<br />
+kernel /ubuntu/casper/vmlinuz boot=casper live-media-path=/ubuntu/casper/ ignore_uuid -- console-setup/layoutcode=es<br />
+initrd /ubuntu/casper/initrd.lz<br />
+boot<br />
+</p>
+
+<p>
+title Puppy Slacko 5.9.3<br />
+find --set-root /slacko-5.9.3/puppy_slacko_5.9.3.sfs<br />
+kernel /slacko-5.9.3/vmlinuz psubdir=slacko-5.9.3 pfix=nocopy<br />
+initrd /slacko-5.9.3/initrd.gz<br />
+</p>
+
+<p>
+#title Mini Windows Xp HBCD 10.4<br />
+#find --set-root /HBCD/XP10.4/XPLOADER.BIN<br />
+#chainloader /HBCD/XP10.4/XPLOADER.BIN<br />
+</p>
+
+<p>
+title Mini Windows Xp HBCD 15\nRun Antivirus and other windows programs<br />
+</p>
+<ol>
+<li>
+example password: test
+
+<li>
+password --md5 \(1\)gNe0$KZPOE8wNbTNSKOzrajuoB0
+
+</ol>
+<p>
+find --set-root /HBCD/XP/XP.BIN<br />
+chainloader /HBCD/XP/XP.BIN<br />
+</p>
+
+<p>
+title<br />
+root<br />
+</p>
+
+<p>
+title Hiren's BootCD 10.4\n<br />
+find --set-root /HBCD/boot.gz<br />
+kernel /HBCD/memdisk<br />
+initrd /HBCD/boot.gz<br />
+</p>
+
+<p>
+title Parted Magic 2012 i486<br />
+find --set-root /pmagic486/pmagic/initrd.img<br />
+kernel /pmagic486/pmagic/bzImage directory=pmagic486 edd=off noapic load_ramdisk=1 prompt_ramdisk=0 rw vga=788 loglevel=0 max_loop=256 keymap=es<br />
+initrd /pmagic486/pmagic/initrd.img<br />
+</p>
+
+<p>
+title Parted Magic 6.7 HBCD 15<br />
+#find --set-root /HBCD/pmagic/initramfs<br />
+kernel /HBCD/pmagic/bzImage directory=HBCD edd=off noapic load_ramdisk=1 prompt_ramdisk=0 rw vga=788 loglevel=0 max_loop=256 keymap=es<br />
+initrd /HBCD/pmagic/initramfs<br />
+map --unmap=0:0xff<br />
+</p>
+
+<p>
+title Clonezilla Precise 200612<br />
+find --set-root /clonezilla/live/vmlinuz<br />
+kernel /clonezilla/live/vmlinuz boot=live config noswap nolocales edd=on nomodeset noprompt ocs_live_run="ocs-live-general" ocs_live_extra_param="" ocs_live_keymap="" ocs_live_batch="no" ocs_lang="" vga=788 live-media-path=/clonezilla/live toram=filesystem.squashfs ip=frommedia  nosplash<br />
+initrd /clonezilla/live/initrd.img<br />
+</p>
+
+<p>
+title<br />
+root<br />
+</p>
+
+<p>
+title Windoors 95<br />
+find --set-root --ignore-floppies /95.vhd<br />
+map /95.vhd (hd0)<br />
+map --hook<br />
+#root (hd0,0)<br />
+#chainloader /io.sys<br />
+chainloader (hd0)+1<br />
+rootnoverify (hd0)<br />
+map --harddrives=1<br />
+boot<br />
+</p>
+
+<p>
+title Windoors 98<br />
+find --set-root --ignore-floppies /98.vhd<br />
+map /98.vhd (hd0)<br />
+map --hook<br />
+#root (hd0,0)<br />
+#chainloader /io.sys<br />
+chainloader (hd0)+1<br />
+rootnoverify (hd0)<br />
+map --harddrives=1<br />
+boot<br />
+</p>
+
+<p>
+title Windoors 2000<br />
+find --set-root --ignore-floppies /2K.vhd<br />
+map /2K.vhd (hd0)<br />
+map --hook<br />
+#root (hd0,0)<br />
+#chainloader /io.sys<br />
+chainloader (hd0)+1<br />
+rootnoverify (hd0)<br />
+#map --harddrives=1<br />
+boot<br />
+</p>
+
+<p>
+title Windoors 95 - RAMDISK<br />
+find --set-root --ignore-floppies /95.vhd<br />
+map --mem /95.vhd (hd0)<br />
+map --hook<br />
+root (hd0,0)<br />
+chainloader /io.sys<br />
+</p>
+
+<p>
+title Tiger (iso)<br />
+find --set-root /tiger.iso<br />
+map /tiger.iso (0xff)<br />
+#|| map --mem /tiger.iso (0xff)<br />
+map --hook<br />
+chainloader (0xff)<br />
+</p>
+
+<p>
+title Tiger (cdr)<br />
+find --set-root /tiger.cdr<br />
+map /tiger.cdr (0xff)<br />
+#|| map --mem /tiger.cdr (0xff)<br />
+map --hook<br />
+chainloader (0xff)<br />
+</p>
+
+<p>
+title Windows 7t<br />
+map (hd0,7)/tiger.iso (hd32)<br />
+map --hook<br />
+chainloader (hd32)<br />
+</p>
+
+<p>
+title<br />
+root<br />
+</p>
+
+<p>
+#title hd(0,8) Parted Magic 2013-08-01 (iso)<br />
+#find --set-root /pmagic_2013_08_01.iso<br />
+#map /pmagic_2013_08_01.iso (0xff) || map --mem /pmagic_2013_08_01.iso (0xff)<br />
+#map --hook<br />
+#chainloader (0xff)<br />
+</p>
+
+<p>
+title hd(0,8) Parted Magic 2013-08-01<br />
+find --set-root /pmagic_2013_08_01.iso<br />
+map /pmagic_2013_08_01.iso (hd32)<br />
+map --hook<br />
+root (hd32)<br />
+chainloader (hd32)<br />
+</p>
+
+<p>
+title hd(0,8) Puppy slacko-5.7-NO-pae (iso)<br />
+find --set-root /slacko-5.7-NO-pae.iso<br />
+map /slacko-5.7-NO-pae.iso (hd32)<br />
+map --hook<br />
+root (hd32)<br />
+chainloader (hd32)<br />
+</p>
+
+<p>
+title hd(0,8) april64-7.0.iso (iso)<br />
+find --set-root /april64-7.0.iso<br />
+map /april64-7.0.iso (hd32)<br />
+map --hook<br />
+root (hd32)<br />
+chainloader (hd32)<br />
+</p>
+
+<p>
+title<br />
+root<br />
+</p>
+
+<p>
+title Reiniciar<br />
+reboot<br />
+</p>
+
+<p>
+title Apagar<br />
+halt<br />
+</p>
+
+<ol>
+<li>
+***************** Entradas alternativas ************************
+
+</ol>
+
+<ol>
+<li>
+Entrada para linux mint 16 ubicado en el disco duro. Nótese que live-media=/dev/sda1 se usa para indicar la ubicación de los archivos.
+
+</ol>
+<p>
+#title Linux mint 16<br />
+#find --set-root /linuxmint-16-xfce-dvd-32bit/casper/initrd.lz<br />
+#kernel /linuxmint-16-xfce-dvd-32bit/casper/vmlinuz boot=casper live-media=/dev/sda1 live-media-path=/linuxmint-16-xfce-dvd-32bit/casper/ ignore_uuid -- locale=es_MX console-setup/layoutcode=es<br />
+#initrd /linuxmint-16-xfce-dvd-32bit/casper/initrd.lz<br />
+#boot<br />
+</p>
+
+<p>
+#title Wifislax 3.1<br />
+#find --set-root /wifislax-4-7-2-final/wifislax/wifislax.sgn<br />
+#kernel /wifislax-4-7-2-final/boot/vmlinuz from=/wifislax-4-7-2-final root=/dev/sda1 ro vga=791 splash=silent showopts<br />
+#initrd /wifislax-4-7-2-final/boot/initrd.xz<br />
+</p>
+
+<ol>
+<li>
+Arranque directo de iso. No funciona si el iso está en un dispositivo distinto al de grub4dos.
+
+</ol>
+<p>
+#title El título<br />
+#find  --set-root  /wifislax-4-7-2-final.iso<br />
+#map --heads=0 --sectors-per-track=0 /wifislax-4-7-2-final.iso (hd32)<br />
+#map  --hook<br />
+#chainloader  (hd32)<br />
+#rootnoverify  (hd32)<br />
+#boot<br />
+</p>
+
+<p>
+#title Mac OS 10.6.8 (32-bit) (trusted boot)<br />
+#find --set-root /tboot<br />
+#chainloader /tboot<br />
+</p>
+
+<p>
+title Linux mint 17<br />
+</p>
+
+<p>
+#find --set-root /mint17/casper/initrd.lz<br />
+#kernel /mint17/casper/vmlinuz boot=casper live-media-path=/mint17/casper/ ignore_uuid -- console-setup/layoutcode=es<br />
+#initrd /mint17/casper/initrd.lz<br />
+#boot<br />
+</p>
+
+</body>
+</html>

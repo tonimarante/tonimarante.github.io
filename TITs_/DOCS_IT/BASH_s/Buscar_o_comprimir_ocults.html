@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>Buscar_o_comprimir_ocults</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<p>
+<span id="-Buscar tots els fitxers que comencen per punt (ocults) a un directori i subdirectoris"></span><strong id="Buscar tots els fitxers que comencen per punt (ocults) a un directori i subdirectoris">Buscar tots els fitxers que comencen per punt (ocults) a un directori i subdirectoris</strong><br />
+Última modificació: Març de 2011<br />
+</p>
+
+<p>
+Ens pot ser molt útil trobar i esborrar tots els fitxers que comencin per punt (per exemple trobarem que a unitats de xarxa compartides amb Macs aquests van generant centenars de fitxers d'aquests tipus). Per a poder trobar-los hem de fer servir aquesta expressió regular:<br />
+</p>
+
+<p>
+<code>		.[^.]*</code><br />
+</p>
+
+<p>
+La podem aplicar a l'aplicació gnome-search-tool si volem buscar des d'una interfície gràfica:<br />
+</p>
+
+
+<p>
+Atenció; a "Opcions disponibles" haurem de tenir "Mostra els fitxers ocults i de còpia de seguretat" si volem obtenir algun resultat.<br />
+</p>
+
+
+<div id="Comprimir ocults"><h2 id="Comprimir ocults" class="header"><a href="#Comprimir ocults">Comprimir ocults</a></h2></div>
+<p>
+*<span id="Comprimir ocults-Comprimir arxius ocults"></span><strong id="Comprimir arxius ocults">Comprimir arxius ocults</strong>*<br />
+Última actualització: juny de 2017<br />
+</p>
+
+<p>
+Imaginem que volem comprimir el contingut del nostre directori home, ja que conté tots els nostres fitxers de configuració. Fem:<br />
+</p>
+<pre>
+	cd /home/jomateix
+	tar cvzf elmeuhome.tar.gz *
+</pre>
+<p>
+I ens trobem que tar no te en compte els fitxers ocults (els ignora). Com ho hem de fer?<br />
+El que hem de fer es comprimir tot el nostre directori home:<br />
+</p>
+
+<p>
+<code>	tar cvzf elmeuhome.tar.gz  /home/elmeuhome</code><br />
+</p>
+
+<p>
+En aquest cas si que comprimeix tot el contingut del directori, inclosos els fitxers ocults.<br />
+</p>
+
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>clonar_per_xarxa</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="clonar per xarxa"><h2 id="clonar per xarxa" class="header"><a href="#clonar per xarxa">clonar per xarxa</a></h2></div>
+<p>
+*<span id="clonar per xarxa-Clonar sistemes per xarxa amb netcat i dd"></span><strong id="Clonar sistemes per xarxa amb netcat i dd">Clonar sistemes per xarxa amb netcat i dd</strong>*<br />
+Última actualització: agost de 2016<br />
+</p>
+
+<p>
+L'ordinador de destinació ha d'estar arrencat amb un live CD que tingui nc (netcat) i dd.<br />
+</p>
+
+<p>
+<code>	nc -l -p 6666 | dd of=/dev/disc_destí   bs=1M</code><br />
+</p>
+
+<p>
+Escoltem amb nc pel port 6666. El que arribi l'enviem al disk de destí. Amb el parèmetre bs optimitzem la mida de block (ja que si no ens farà la per defecte que és 512 bytes.)<br />
+</p>
+
+<p>
+L'ordinador de destinació l'arrencarem també amb un live CD (no es obligatori, però si més convenient) i farem:<br />
+</p>
+
+<p>
+<code>	 dd if=/dev/disc_origen  bs=1M | nc ip.destino 6666</code><br />
+</p>
+
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>xargs</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="xargs"><h1 id="xargs" class="header"><a href="#xargs">xargs</a></h1></div>
+<p>
+Última modificació: abril de 2019<br />
+</p>
+
+<p>
+Ens trobem que hi han instruccions que no accepten que se'ls passin coses amb pipes. Per a aquests casos tenim xargs, que el que fa es agafar el que li arriba del pipe i l'enganxa al final de la instrucció que te a la dreta. Exemple:<br />
+</p>
+
+<p>
+-Esborrar tots els fitxers .tmp amb xargs i rm (que no accepta pipes):<br />
+</p>
+
+<p>
+<code>	find . -name "*.txt" | xargs rm -rf</code><br />
+</p>
+
+<p>
+Aquest exemple funcionaria si els fitxers no continguessin espais en el seu nom. Exemple:<br />
+</p>
+
+<p>
+<code>    find . -name "*.txt" -print0 | xargs -0 ls</code><br />
+</p>
+
+<p>
+ls: no s’ha pogut accedir a './hola': El fitxer o directori no existeix<br />
+ls: no s’ha pogut accedir a '.txt': El fitxer o directori no existeix<br />
+</p>
+
+<p>
+Una manera de solucionar aquest problema és sortir amb print0, i passar-li a xargs, escollint només el primer argument de sortida de xargs: <br />
+</p>
+
+<p>
+<code>    find . -name "*.txt" -print0 | xargs -0 ls</code><br />
+</p>
+
+<p>
+'./hola .txt'   ./hola2.txt   ./hola3.txt<br />
+</p>
+
+
+<p>
+El paràmetre de -n serveix per especificar el número màxim de entrades a acumular abans d'executar el comandament especificat. Un exemple:<br />
+</p>
+
+
+<p>
+<code>    echo això és una demo del flag -n de xargs | xargs -n3</code><br />
+</p>
+
+<p>
+això és una<br />
+demo del flag <br />
+-n de xargs<br />
+</p>
+
+</body>
+</html>

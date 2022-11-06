@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>dosbox</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="dosbox"><h2 id="dosbox" class="header"><a href="#dosbox">dosbox</a></h2></div>
+<p>
+*<span id="dosbox-dosbox. Emulant DOS"></span><strong id="dosbox. Emulant DOS">dosbox. Emulant DOS</strong>*<br />
+Última actualització: novembre de 2012<br />
+</p>
+
+<p>
+Quin sentit pot tenir emular un DOS?. <br />
+Bàsicament executar programaris que van ser creats per a aquest sistema operatiu i, sobre tot, per a poder executar aquells jocs de fa uns anys. <br />
+</p>
+
+
+
+
+<p>
+Primer he fet un ull a dosemu, encara que finalment he preferit instal.lar i posar a andar dosbox. La instal.lació és tan fàcil com:<br />
+</p>
+
+<p>
+<code>apt-get install dosbox</code><br />
+</p>
+
+<p>
+A la mateixa web de dosbox hi han enllaços a diferents frontends i llenguatges per a traduir dosbox. <br />
+</p>
+
+<p>
+La configuració i funcionament de dosbox es bastant senzilla: simplement crearem un directori al nostre sistema (p.e. /dosbox-disc-c) i allà dintre deixarem tot els jocs que volguem executar. Iniciem dosbox:<br />
+</p>
+
+<p>
+<code>dosbox</code><br />
+</p>
+
+<p>
+I un cop a l'entorn DOS, hem de muntar el directori del nostre sistema. Si per exemple volem muntar com a c: el directori /dosbox-disc-c:<br />
+</p>
+
+<p>
+<code>mount c /dosbox-disc-c</code><br />
+</p>
+
+<p>
+I ja està. Com això ho haurem de fer cada vegada que entrem a dosbox, podem encarregar aquesta feixuga feina a un frontend, posar aquestes instruccions al nostre fitxer de configuració a .dosbox, o bé executar el dosbox passant-li com a paràmetre la instrucció que volguem:<br />
+</p>
+
+<p>
+<code>dosbox -c "mount c /dosbox-disc-c" </code><br />
+</p>
+
+<p>
+A un dels fitxers que trobaràs aquí <a href="https://drive.google.com/file/d/1wAUBqrTONlUf8oCnrOdeSe0UCNWKj3Hl/view?usp=sharing">https://drive.google.com/file/d/1wAUBqrTONlUf8oCnrOdeSe0UCNWKj3Hl/view?usp=sharing</a> (un que es diu solitile.tar.gz) hi ha un exemple de com engegar dosbox a pantalla completa, muntar el nostre directori com a disc c:, engegar el joc Solitile i que quan acabem es tanqui tot.<br />
+</p>
+
+</body>
+</html>

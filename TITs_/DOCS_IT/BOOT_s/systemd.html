@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>systemd</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="systemd"><h2 id="systemd" class="header"><a href="#systemd">systemd</a></h2></div>
+<p>
+:tagsystemd:<br />
+Última actualització: agost de 2019<br />
+</p>
+
+<p>
+Cap al 2014 systemd va arribar a Debian i ara mateix el fan servir gairebé totes les distribucions derivades de Debian.<br />
+</p>
+
+<p>
+La documentació oficial diu que "systemd és un sistema i administrador de serveis per a Linux, compatible amb scripts d'inici (init) SysV i LSB. systemd proporciona capacitats de paral·lelització agressives, utilitza socket i activació D-Bus per iniciar els serveis, ofereix la posada en marxa de dimonis sota demanda, realitza el seguiment de processos utilitzant Linux cgroups, suporta còpia instantània de volum i la restauració d'estat del sistema , manté punts de muntatge i automuntatge i implementa un elaborat servei lògic de control transaccional basat en la dependència. Pot funcionar com un reemplaçament per sysvinit".<br />
+</p>
+
+<p>
+En altres paraules, systemd va substituir a init com a dimoni "pare" de tots els processos, el que vol dir que pren el control des del primer moment ja que tots els processos en execució penjen d'ell. A partir de que arrenca, systemd controla tot el que passa al sistema. El mateix que el fa interessant (controlar i gestionar tot el sistema) el fa "perillós" des del punt de vista de que tenim tots els ous a la cistella de systemd.<br />
+</p>
+
+<p>
+systemd treballa amb "units". Units son, per exemple: services (.service), mount points (.mount), devices (.device) or sockets (.socket).<br />
+</p>
+
+
+<div id="systemd-Nom de les units"><h3 id="Nom de les units" class="header"><a href="#systemd-Nom de les units">Nom de les units</a></h3></div>
+
+<p>
+*serveis: s'anomenen .service, per exemple ntpd.service. Ens podem estalviar el punt .service final i el sistema el posarà per nosaltres. P.e. systemctl enable ntpd és el mateix que dir: systemctl enable ntpd.service<br />
+</p>
+<ul>
+<li>
+punts de muntatge: si volem muntar /home, ho farem amb el nom home.mount
+
+<li>
+dispositius: el dispositiu /dev/sda1 l'anomenarem com dev-sda1
+
+</ul>
+
+
+<div id="systemd-Veure informació de systemd"><h3 id="Veure informació de systemd" class="header"><a href="#systemd-Veure informació de systemd">Veure informació de systemd</a></h3></div>
+
+<ul>
+<li>
+Si volem veure totes les units que tenim disponibles:
+
+</ul>
+<p>
+<code>systemctl list-unit-files</code><br />
+</p>
+
+<ul>
+<li>
+Només units que estan en marxa:
+
+</ul>
+<p>
+<code>systemctl</code><br />
+és el mateix que:<br />
+<code>systemctl list-units</code><br />
+</p>
+
+<ul>
+<li>
+Units que han fallat:
+
+</ul>
+<p>
+<code>systemctl  --failed</code><br />
+</p>
+
+<ul>
+<li>
+Mostra quin és el default target (el que antigament es deia runlevel per defecte):
+
+</ul>
+<p>
+<code>systemctl get-default</code><br />
+</p>
+
+<ul>
+<li>
+Veure les dependències de les units:
+
+</ul>
+<p>
+<code>systemctl list-dependencies</code><br />
+</p>
+
+<ul>
+<li>
+Veure els sockets i que activen:
+
+</ul>
+<p>
+<code>systemctl list-sockets</code><br />
+</p>
+
+
+<div id="systemd-Treballant amb els serveis"><h3 id="Treballant amb els serveis" class="header"><a href="#systemd-Treballant amb els serveis">Treballant amb els serveis</a></h3></div>
+
+<ul>
+<li>
+Gestió amb interfície gràfica:
+
+</ul>
+<p>
+<code>systemadm</code><br />
+</p>
+
+<ul>
+<li>
+Habilitar una unit:
+
+</ul>
+<p>
+<code>systemctl enable -f unit</code><br />
+</p>
+
+<ul>
+<li>
+Reiniciar una unit:
+
+</ul>
+<p>
+<code>systemctl restart unit</code><br />
+</p>
+
+<ul>
+<li>
+Veure propietats d'un service (o una unit):
+
+</ul>
+<p>
+<code>systemctl show service</code><br />
+</p>
+
+<ul>
+<li>
+Matar tots els procesos relatius a un servei:
+
+</ul>
+<p>
+<code>systemctl kill service</code><br />
+</p>
+
+<p>
+Canviar l'estat del sistema:<br />
+</p>
+
+<p>
+<code>	systemctl reboot</code><br />
+<code>	systemctl poweroff</code><br />
+<code>	systemctl suspend</code><br />
+<code>	systemctl hibernate</code><br />
+<code>	systemctl hybrid-sleep</code><br />
+<code>	systemctl emergency (equival a init 1)</code><br />
+<code>	systemctl default (anem al mode normal; multiusuari)</code><br />
+</p>
+
+
+<div id="systemd-Informació del sistema"><h3 id="Informació del sistema" class="header"><a href="#systemd-Informació del sistema">Informació del sistema</a></h3></div>
+
+<p>
+*Informació detallada hostname:<br />
+<code>hostnamectl</code><br />
+</p>
+
+<p>
+*Informació detallada sobre dia i hora:<br />
+<code>timedatectl</code><br />
+</p>
+
+<div id="systemd-Logs"><h3 id="Logs" class="header"><a href="#systemd-Logs">Logs</a></h3></div>
+
+<p>
+systemd te el seu propi servei de logs i per tant els equips que corren systemd no precisen del dimoni syslog.<br />
+</p>
+
+<ul>
+<li>
+Per a llegir el log:
+
+</ul>
+<p>
+<code>journalctl</code><br />
+</p>
+
+<ul>
+<li>
+Logs de l'últim arranc:
+
+</ul>
+<p>
+<code>journalctl -b</code><br />
+</p>
+
+<ul>
+<li>
+Logs del penúltim arranc:
+
+</ul>
+<p>
+<code>journalctl -b -1</code><br />
+</p>
+
+<ul>
+<li>
+Logs des de una data i hora determinada:
+
+</ul>
+<p>
+<code>journalctl --since="2014-1-1 15:30"</code><br />
+</p>
+
+<ul>
+<li>
+Logs des de fa 20 minuts o de l'ultim dia:
+
+</ul>
+<p>
+<code>journalctl --since="20 min ago"</code><br />
+<code>journalctl --since=today</code><br />
+</p>
+
+<ul>
+<li>
+Anar veient els últims logs:
+
+</ul>
+<p>
+<code>journalctl -f</code><br />
+</p>
+
+<ul>
+<li>
+Si volem enviar els logs al tty10, hem de posar aquestes línies a /etc/systemd/journald.conf:
+<pre>
+ForwardToConsole=yes
+TTYPath=/dev/tty10
+MaxLevelConsole=info
+</pre>
+
+</ul>
+<p>
+Hem de reiniciar el sevei per a que sigui efectiu: <br />
+<code>systemctl restart systemd-journald</code><br />
+</p>
+ 
+<ul>
+<li>
+Veure els missatges generats per un binary específic:
+
+</ul>
+<p>
+<code>journalctl /usr/lib/systemd/systemd</code><br />
+</p>
+
+<ul>
+<li>
+Veure els missatges generats per un procés específic:
+
+</ul>
+<p>
+<code>journalctl _PID=1           </code><br />
+		Per a veure el PID d'un servei determinat, p.e. el podem reiniciar (en aquell moment ens diu el PID o bé obtenir amb systemctl status.<br />
+</p>
+
+<ul>
+<li>
+Veure els missatges d'una unit específica:
+
+</ul>
+<p>
+<code>journalctl -u netcfg</code><br />
+</p>
+
+</body>
+</html>

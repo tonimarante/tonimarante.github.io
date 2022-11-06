@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>apt_tasksel</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="apt tasksel"><h2 id="apt tasksel" class="header"><a href="#apt tasksel">apt tasksel</a></h2></div>
+<p>
+*<span id="apt tasksel-Instal·lar col·leccions de programaris (tasksel) i instal·lar els mateixos paquets a molts ordinadors"></span><strong id="Instal·lar col·leccions de programaris (tasksel) i instal·lar els mateixos paquets a molts ordinadors">Instal·lar col·leccions de programaris (tasksel) i instal·lar els mateixos paquets a molts ordinadors</strong>*<br />
+Última modificació: maig de 2013<br />
+</p>
+
+
+<p>
+tasksel: Ens permet instal·lar col·leccions de programari.<br />
+</p>
+
+
+
+<p>
+El podem treballar també sense ncurses. Per exemple per eliminar X-window i tots els escriptoris, podem fer:<br />
+<code>tasksel remove desktop</code><br />
+</p>
+
+
+<hr />
+
+
+<p>
+Si el que volem es instal·lar uns bastants ordinadors amb els mateixos paquets podem fer això:<br />
+</p>
+
+<p>
+	Preparem un ordinador "plantilla" amb tot el programari instal·lat necessari i fem:<br />
+</p>
+
+<p>
+<code>dpkg --get-selections &gt; pkg.list</code><br />
+</p>
+
+<p>
+	Ara tenim un fitxer pkg.list que podrem fer servir per a instal·lar la resta d'ordinadors fent:<br />
+</p>
+
+<pre>
+dpkg --set-selections &lt;pkg-list
+apt-get dselect-upgrade
+</pre>
+
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>debootstrap</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="debootstrap"><h2 id="debootstrap" class="header"><a href="#debootstrap">debootstrap</a></h2></div>
+<p>
+Última actualització: abril de 2013<br />
+</p>
+
+<p>
+debootstrap ens permet instal·lar Debian o Ubuntu a dintre de Debian. Tot el nou sistema instal·lat queda a dintre d'una partició que podrem esborrar en qualsevol moment.<br />
+Això ens permet coses interessants (p.e. tenir una Debian sid) sense haver de comprometre o "embrutar" el nostre sistema principal i sense haver d'instal·lar un hipervisor per a a fer funcionar una màquina virtual.<br />
+Abans de res haurem d'instal·lar debootstrap:<br />
+</p>
+
+<p>
+<code>apt-get install debootstrap</code><br />
+</p>
+
+<p>
+Com a root, podem instal·lar un entorn chroot amb aquesta sintaxi:<br />
+</p>
+
+<p>
+<code>debootstrap sid  /sid-root</code><br />
+</p>
+
+<p>
+Amb això baixarem i instal·larem sid a la carpeta "/sid-root". e<br />
+Podem entrar a l'entorn simplement fent <br />
+</p>
+
+<p>
+<code>chroot /sid-root</code><br />
+</p>
+
+<p>
+Millor polir abans alguns detalls (pàgina man de debootstrap):<br />
+Copiem el fitxer hosts: cp /etc/hosts /sid-root/etc/hosts<br />
+Podem utilitzat aquest script per a entrar en el chroot:<br />
+</p>
+
+<pre>
+mount proc /sid-root/proc -t proc
+mount sysfs /sid-root/sys -t sysfs
+# veure carpeta del sistema "real"
+mount --bind /home/bmw/Downloads /sid-root/home/bmw-Downloads
+# altres mount...
+mount --bind /tmp /sid-root/tmp
+mount none /sid-root/dev/pts -t devpts
+# entrem a chroot
+chroot /sid-root /bin/bash
+echo " ******** sortint de chroot ********"
+umount -v /sid-root/home/bmw-Downloads
+umount -v /sid-root/proc
+umount -v /sid-root/sys
+umount -v /sid-root/tmp
+umount -v /sid-root/dev/pts
+</pre>
+
+<p>
+Podem instal·lar la Debian o Ubuntu que vulguem i passar diferents paràmetres. Per exemple, si volen instal·lar Una Ubuntu quantal de 64 bits:<br />
+<code>debootstrap --variant=fakechroot --arch=amd64   quantal   /quantal-root   http://archive.ubuntu.com/ubuntu/</code><br />
+</p>
+
+<p>
+Explicació:<br />
+-fakechroot instal·la els paquets sense privilegis de root<br />
+-Possibles arquitectures: alpha, amd64, arm, armel, hppa, i386, ia64, m68k, mips, mipsel, powerpc, s390, sparc. <br />
+-Si es necessari haurem d'especificar el mirror des del que descarregarem els paquets<br />
+</p>
+
+</body>
+</html>

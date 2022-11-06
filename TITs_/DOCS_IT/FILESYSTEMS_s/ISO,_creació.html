@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>ISO,_creació</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="ISO, creació"><h2 id="ISO, creació" class="header"><a href="#ISO, creació">ISO, creació</a></h2></div>
+<p>
+:tagiso:<br />
+*<span id="ISO, creació-Crear ISOs"></span><strong id="Crear ISOs">Crear ISOs</strong>*<br />
+Última actualització: setembre 2017<br />
+</p>
+
+<p>
+Per a crear una ISO a partir d'un CD o DVD, hem de fer:<br />
+</p>
+
+<p>
+<code>dd if=/dev/cdrom of=/home/jomateix/elmeucd.iso</code><br />
+</p>
+
+<p>
+Si el CD o DVD està defectuós o protegit podem provar amb dd_rescue. L'insta·larem amb apt-get install ddrescue<br />
+</p>
+
+
+<p>
+Per a fer una ISO a partir d'una carpeta, ens fa falta instal·lar genisoimage. Un cop instal.lat:<br />
+</p>
+
+<p>
+<code>genisoimage -o  lamevaiso.iso  /home/jomateix/carpetaquevullpassaraiso/</code><br />
+</p>
+
+<p>
+Si la carpeta te algun fitxer més gran de 4 GB hem d'afegir el paràmetre -allow-limited-size:<br />
+</p>
+
+<p>
+<code>genisoimage -allow-limited-size -o  lamevaiso.iso  /home/jomateix/carpetaquevullpassaraiso/</code><br />
+</p>
+
+<p>
+Si volem crear una ISO a partir d'un DVD comercial, primer ens hem d'assegurar que el podem reproduir sense problemes. Potser hem d'instal·lar algun paquet necessari per a reproduir DVDs comercials. Un cop el podem reproduir sense problemes, crear la ISO és tan fàcil com:<br />
+</p>
+
+<p>
+<code>dd_rescue -A /dev/cdrom Married.iso</code><br />
+</p>
+
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>virtualització_amb_qemu</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="Virtualització amb qemu"><h1 id="Virtualització amb qemu" class="header"><a href="#Virtualització amb qemu">Virtualització amb qemu</a></h1></div>
+<p>
+:tagaqemu:<br />
+Última modificació: abril de 2020<br />
+</p>
+
+<p>
+Necessitem instal·lar:<br />
+</p>
+
+<ul>
+<li>
+qemu qemu-system
+
+<li>
+qemu-utils (per a poder generar discs durs virtuals)
+
+</ul>
+
+<ul>
+<li>
+aqemu, si volem treballar amb una GUI i gestionar còmodament màquines virtuals. Com a mínim serveis per a generar scripts des dels que llençar les nostres màquines virtuals.
+
+</ul>
+<p>
+Ctrl + Alt per deixar el focus d'una màquina virtualitzada.<br />
+</p>
+
+
+<div id="Virtualització amb qemu-Networking qemu"><h2 id="Networking qemu" class="header"><a href="#Virtualització amb qemu-Networking qemu">Networking qemu</a></h2></div>
+
+<p>
+<a href="https://wiki.qemu.org/Documentation/Networking<br">https://wiki.qemu.org/Documentation/Networking<br</a> />
+</p>
+
+<p>
+La IP que atorga el DHCP a la primera targeta de xarxa és: 10.0.2.15<br />
+El DGW és: 10.0.2.2 (aquí podem fer un SSH contra el host si aquest te instal·lat openSSH-server).<br />
+El DNS intern és: 10.0.2.3<br />
+</p>
+
+
+<div id="Virtualització amb qemu-Exemple d'script per executar màquina virtual"><h2 id="Exemple d'script per executar màquina virtual" class="header"><a href="#Virtualització amb qemu-Exemple d'script per executar màquina virtual">Exemple d'script per executar màquina virtual</a></h2></div>
+<pre>
+#!/bin/sh
+# This script is not created by AQEMU ;)
+
+clear
+echo "Running VM IPfire"
+echo "Obre xvncvier localhost:5901 per a veure la cònsola de la VM"
+echo "Obre al navegador local,  https://localhost:444 per a gestionar IPfire"
+echo " "
+echo "Remapejats ports:"
+echo "     localhost:60022  contra 10.0.2.69:22"
+echo "     localhost:60444  contra 10.0.2.69:444"
+echo "     localhost:61473  contra 10.0.2.69:41473"
+echo "recorda configurar la primera interfície de xarxa amb la IP: 10.0.2.69/24"
+echo " "
+/usr/bin/qemu-system-x86_64  -k es -machine accel=kvm -m 1024 \
+    -hda "/home/multim3/__Test_aqemu/IPfire_HDA.img" -boot once=c,menu=off \
+    -netdev user,id=n1,hostfwd=tcp::60022-10.0.2.69:22,hostfwd=tcp::60444-10.0.2.69:444,hostfwd=tcp::61473-10.0.2.69:1473 \
+        -device e1000,netdev=n1,mac=00:11:11:1f:11:00 \
+    -netdev user,id=n2 \
+        -device e1000,netdev=n2,mac=00:22:22:22:22:01 \
+    -netdev user,id=n3 \
+        -device e1000,netdev=n3 \
+    -netdev user,id=n4 \
+        -device e1000,netdev=n4 \
+    -netdev user,id=n5 \
+        -device e1000,netdev=n5 \
+    -netdev user,id=n6 \
+        -device e1000,netdev=n6 \
+    -rtc base=localtime -name "IPFire" \
+    # -vnc :1 $*
+    # Comenta l'anterior línia si vols el visor propi de qemu; si no: vncviewer localhost:5901
+
+    #-cdrom "/home/multim3/__Test_aqemu/ipfire-2.25.x86_64-full-core144.iso" \
+    #-netdev user,id=n0,net=192.1.0.0/16 \
+</pre>
+
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>blocs,_marcar</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="blocs, marcar"><h2 id="blocs, marcar" class="header"><a href="#blocs, marcar">blocs, marcar</a></h2></div>
+<p>
+:tagdiscbloc:<br />
+*<span id="blocs, marcar-Marcar blocs com dolents a un disc dur que no està molt fi"></span><strong id="Marcar blocs com dolents a un disc dur que no està molt fi">Marcar blocs com dolents a un disc dur que no està molt fi</strong>*<br />
+Última actualització: febrer 2012 <br />
+</p>
+
+<p>
+En ocasions ens trobem amb un disc dur que està mig cascat i no el podem fer servir per a guardar informació important però potser si per a fer un backup d'algun material menys important.<br />
+Partim de la base de que el disc funciona, però te errors d'accés a algunes parts d'ell. Podem intentar marcar aquestes sectors com dolents i que el disc els "esquivi", fent servir només les parts "bones".<br />
+Requisits:<br />
+</p>
+
+<p>
+	Al disc ha de tenir una partició formatada amb ext2, ext3 o ext4.<br />
+	Hem de tenir instal·lat el paquet e2fsprogs (apt-get install e2fsprogs)<br />
+</p>
+
+<p>
+Ara, imaginem que la nostra partició es /dev/sde1. Farem:<br />
+</p>
+
+<p>
+<code>e2fsck -c -c -k -C 0 /dev/sde1</code><br />
+</p>
+
+<p>
+Això fa tal com:<br />
+</p>
+
+<p>
+	-c fa servir el programari "badblocs" per a fer un test de lectura i detectar i marcar els blocs en mal estat. Amb el segon -c, aquest test es fara en comptes de lectura, de lectura-escriptura (de manera no destructiva)<br />
+	-k es fa servir si executem per segona vegada aquesta instrucció. El que fa es no revisar els blocs ja marcats anteriorment com dolents.<br />
+	-C 0 ens va oferint informació de com va el procés.<br />
+</p>
+
+<p>
+Podem tornar a executar aquest comandament de manera periòdica per a anar marcant els nous blocs dolents que puguin anar apareixent. <br />
+</p>
+
+</body>
+</html>

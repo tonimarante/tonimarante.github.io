@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>backup-sincro_directoris</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="Contents" class="toc"><h1 id="Contents">Contents</a></h1></div>
+<ul>
+<li>
+<a href="backup-sincro_directoris.html#Backups i/o sincronització de directoris">Backups i/o sincronització de directoris</a>
+
+<ul>
+<li>
+<a href="backup-sincro_directoris.html#Backups i/o sincronització de directoris-arj">arj</a>
+
+<li>
+<a href="backup-sincro_directoris.html#Backups i/o sincronització de directoris-rsync">rsync</a>
+
+<li>
+<a href="backup-sincro_directoris.html#Backups i/o sincronització de directoris-rdiff-backup">rdiff-backup</a>
+
+<li>
+<a href="backup-sincro_directoris.html#Backups i/o sincronització de directoris-unison">unison</a>
+
+</ul>
+</ul>
+
+<div id="Backups i/o sincronització de directoris"><h1 id="Backups i/o sincronització de directoris" class="header"><a href="#Backups i/o sincronització de directoris">Backups i/o sincronització de directoris</a></h1></div>
+<p>
+Última modificació: agost de 2021<br />
+</p>
+
+<div id="Backups i/o sincronització de directoris-arj"><h2 id="arj" class="header"><a href="#Backups i/o sincronització de directoris-arj">arj</a></h2></div>
+<p>
+Ens pot anar molt bé per a fer backups. Podem fer, per exemple:<br />
+<code>		arj a -fury -v1000000k  /COPIES_SEG/etc.arj   /etc</code><br />
+</p>
+
+<p>
+a per afegir, f per refresh, u per update, r per recursiu, y per respondre "yes" a totes les preguntes i finalment amb v diem que es vagin fent fitxers amb la mida màxima que indiquem.<br />
+Desaventatges: (o ho podem prendre com un avantatge) amb aquest mètode anem guarden les succesives versions d'un fitxer, amb el qual l'arj de destí sempre anirà creixent.<br />
+Avantantges: els fitxers generats poden ser descomprimits per separat, per tant encara que es faci malbé un d'ells, podrem seguir accedint al contingut de la resta.<br />
+</p>
+
+
+<div id="Backups i/o sincronització de directoris-rsync"><h2 id="rsync" class="header"><a href="#Backups i/o sincronització de directoris-rsync">rsync</a></h2></div>
+<p>
+Per a mantenir dos directoris amb el mateix contingut (esquerra mana a dreta):<br />
+<code>    rsync -atv --delete   /etc   /COPIES_SEG/etc</code><br />
+Primer indiquem origen i després el destí. Si volem fer també subdirectoris:<br />
+<code>    rsync -atrv --delete   /etc   /COPIES_SEG/etc</code><br />
+El mateix que l'anterior, però volem veure progrés de les còpies:<br />
+<code>    rsync -atrv --delete --progress  /etc   /COPIES_SEG/etc</code><br />
+</p>
+
+<p>
+Treballar només sobre els fitxers i directoris que comencin per P:<br />
+<code>    rsync -atrv --delete --progress --include 'P*' --exclude '*' /etc  /COPIES_SEG/etc</code><br />
+</p>
+
+<p>
+Volem exloure un directori en particular:<br />
+<code>    rsync -av --exclude="AppData" /etc /COPIES_SEG/</code><br />
+</p>
+
+<p>
+Només volem sincronitzar l'estructura de carpetes:<br />
+<code>    rsync -v -d  /etc   /COPIES_SEG/</code><br />
+</p>
+
+<p>
+Sincro a un equip remot:<br />
+<code>    rsync -atrv --delete   /etc   user@192.168.1.10:/home/user/COPIES_SEG/</code><br />
+</p>
+
+<p>
+Veure només les diferències abans de fer res:<br />
+<code>    rsync -avi  /etc   /COPIES_SEG/</code><br />
+</p>
+<blockquote>
+ens mostra la llista de fitxers en els que te alguna cosa a fer, amb unes lletres a començament de cada fitxer que poden ser:
+</blockquote>
+<blockquote>
+&gt; especifica moviment, en aquest cas es copiarà de destí a origen
+f és un fitxer
+s hi ha diferència de mida entre els fitxers
+t hi ha diferència de data entre els fitxers
+o ha canviat el propietaru
+g ha canviat el grup
+</blockquote>
+
+<p>
+Si no podem comparar correctament la data o permisos entre els fitxers d'origen i destinació, poden fer que rsync només comprovi per mida:<br />
+<code>    rsync -iirtv --no-times --size-only   --delete  /etc   /COPIES_SEG/</code><br />
+</p>
+    
+
+
+<div id="Backups i/o sincronització de directoris-rdiff-backup"><h2 id="rdiff-backup" class="header"><a href="#Backups i/o sincronització de directoris-rdiff-backup">rdiff-backup</a></h2></div>
+<p>
+rdiff-backup - remote incremental backup<br />
+</p>
+
+
+<div id="Backups i/o sincronització de directoris-unison"><h2 id="unison" class="header"><a href="#Backups i/o sincronització de directoris-unison">unison</a></h2></div>
+<p>
+Unison és una eina de sincronització de fitxers que admet actualitzacions bidireccionals d'arxius i directoris. Per sota utilitza rsync per a fer les sincros de fitxers i SSH com a mètode de transport per defecte.<br />
+Una configuració molt ràpida per a sincronitzar dues carpetes: crearem un fitxer de perfil a la ruta ~/.unison/. Per exemple si creem el fitxer sincro2.prf amb aquest contingut:<br />
+</p>
+<pre>
+root = /home/carpeta1
+root = /home/remot-carpeta2
+auto = true
+batch = true
+logfile = /home/bmw/Rucbox/unison_log.txt
+ignore = Name .*
+ignore = Name Baixades
+ignore = Name Dropbox
+ignore = Name Escriptori
+#ignore = Name dwhelper
+#ignore = Path */.directori
+#ignore = Path */OLD
+</pre>
+
+<p>
+sincronitzarem les dues carpetes /home/carpeta1 i /home/remot-carpeta2 cada cop que invoquem unison amb el nom del perfil a executar:<br />
+<code>    unison sincro2</code><br />
+</p>
+
+<p>
+En el perfil d'exemple es pot veure com fer algunes excepcions. <br />
+</p>
+
+</body>
+</html>

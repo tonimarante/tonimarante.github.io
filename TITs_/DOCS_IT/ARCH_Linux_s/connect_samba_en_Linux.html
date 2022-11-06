@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>connect_samba_en_Linux</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="connect samba en Linux"><h2 id="connect samba en Linux" class="header"><a href="#connect samba en Linux">connect samba en Linux</a></h2></div>
+<p>
+*<span id="connect samba en Linux-Configurar la xarxa i connectar recursos de xarxa en gestors de finestres lleugers"></span><strong id="Configurar la xarxa i connectar recursos de xarxa en gestors de finestres lleugers">Configurar la xarxa i connectar recursos de xarxa en gestors de finestres lleugers</strong>*<br />
+Última actualització: març de 2015<br />
+</p>
+
+<p>
+-Configurar la xarxa: Tenim algunes opcions:<br />
+</p>
+
+<p>
+	Si no tenim wifi i volem una configuració senzilla tenim xnetcardconfig:  apt-get install xnetcardconfig<br />
+	network-config:  apt-get install network-config, és més complet, permet diferents perfils i configurar wifis.<br />
+	Wicd, versions gtk o curses.<br />
+</p>
+
+
+<p>
+Aquests configuradors no son tan potents i intuitius com el Gnome network-manager (apt-get install network-manager; network-manager proveeix nm-applet), però fan bé la feina.<br />
+</p>
+
+
+<p>
+-Connectar recursos samba: la gràcia està en que ho farem sense els muntadors de Gnome o Kde, i així ens estalviem d'instal·lar aquests entorns -o una gran part d'ells- amb l'estalvi corresponent en espai en disc.<br />
+Si volem que tot funcioni correctament independentment de l'escriptori gràfic o el programaris que fem servir, hem d'instal·lar els paquets gvfs-fuse, gvfs-backends, gvfs-smb (Fedora) i fuse-utils i assegurar-nos que els usuaris que han de muntar recursos pertanyin al grup "fuse".<br />
+</p>
+
+<p>
+<code>adduser usuari fuse  </code><br />
+</p>
+
+<p>
+(Tenim algunes opcions per no tenir que afegir cada usuari al grup fuse de manera manual)<br />
+</p>
+
+<p>
+Amb això ens assegurem que els recursos es munten a sota de ~/.gvfs (a Fedora 17 es munten a /run/user/$USER/gvfs) i que podem obrir els arxius remots amb qualsevol programa i sense problemes (la plana d'ajuda de Gigoló te bona i important informació al respecte).<br />
+</p>
+
+<p>
+Tenim varies opcions per a establir les connexions:<br />
+</p>
+
+<p>
+	La primera opció és Gigoló, que a més de connectar samba, connecta altres protocols com FTP, SSH, Obex o WebDav.<br />
+	La segona és el file manager pcmanfm o thunar. Connectarem un recurs ficant a la barra d'adreces l'adreça del recurs amb aquesta sintaxi:<br />
+</p>
+
+<p>
+smb://login_usuari@IP_equipremot/recurs <br />
+</p>
+
+<p>
+Atenció, és molt important ficar exactament aquest format. Si no fiquem el login_usuari@ podem tenir problemes en intentar la connexió.<br />
+</p>
+
+
+<p>
+Un cop establerta la connexió la podem guardar com a adreça d'interès i així no la tindrem que tornar a ficar manualment en posteriors connexions. Si tenim força connexions i estrenem sessió ens pot anar bé un petit script -com l'adjunt bookmarks2_samba.sh- per a crear d'una tacada totes les adreces d'interès necessàries.<br />
+</p>
+
+<p>
+	Pyneighborhood ens pot servir per a descobrir recursos de xarxa: apt-get install pyneighborhood<br />
+</p>
+
+<div id="connect samba en Linux-Tots els usuaris han de pertànyer al grup fuse (Debian)"><h5 id="Tots els usuaris han de pertànyer al grup fuse (Debian)" class="header"><a href="#connect samba en Linux-Tots els usuaris han de pertànyer al grup fuse (Debian)">Tots els usuaris han de pertànyer al grup fuse (Debian)</a></h5></div>
+<p>
+Última actualització: juliol de 2013<br />
+</p>
+
+<p>
+Quan muntem recursos samba, si volem que tots els programaris funcionin correctament obrint fitxers que es troben als recursos samba, el que necessitem es que aquests recursos es muntin a sota de ~/.gvfs. Això s'aconsegueix instal·lant els paquets gvfs-fuse, gvfs-smb (Fedora) i fuse-utils i assegurant-nos que els usuaris que han de muntar recursos pertanyin al grup "fuse".  <br />
+</p>
+
+<p>
+Això pot ser un problema, per exemple si la nostra Debian es valida contra un ldap, ja que normalment voldrem que tots els usuaris que es login a l'equip pertanyin a aquest grup fuse. Tenim un parell de solucions, una per a usuaris locals i un altre que serveix per a qualsevol tipus d'usuari, ja sigui local o de xarxa.<br />
+</p>
+
+
+<p>
+Opció 1: modificar /etc/adduser.conf<br />
+</p>
+
+<p>
+	EXTRA_GROUPS="dialout cdrom floppy audio video plugdev users fuse"<br />
+	ADD_EXTRA_GROUPS=1<br />
+</p>
+
+
+<p>
+Amb aquestes dues línies, cada cop que creem un nou usuari automàticament el farem membre dels grups indicats a "EXTRA_GROUPS"<br />
+</p>
+
+
+
+<p>
+Opció 2: modificar els permisos de /dev/fuse i /bin/fusermount <br />
+</p>
+
+<p>
+Si fem més permissius els permisos d'aquests dos fitxers, qualsevol usuari podrà muntar fuse-samba sota .gvfs. <br />
+</p>
+
+<p>
+	cat /etc/rc.local<br />
+</p>
+
+<ol>
+<li>
+a cada arrencada del sistema, apliquem permisos per a evitar que en una actualització perdem els canvis
+
+</ol>
+
+<p>
+		chmod 4755 /bin/fusermount<br />
+</p>
+
+
+<p>
+Per a modificar els permisos de /dev/fuse, hem de crear una rule personalitzada d'udev:<br />
+</p>
+
+<p>
+	cat /etc/udev/rules.d/98-fusetm.rules <br />
+</p>
+
+<p>
+		KERNEL=="fuse", ACTION=="add",  MODE="0666", OPTIONS+="static_node=fuse"<br />
+</p>
+
+
+
+<p>
+Finalment, indicar que tot això NO és necessari a Ubuntu, ja que per defecte si que permet muntar fuse sota .gvfs a tots els usuaris del sistema.<br />
+</p>
+
+
+
+<div id="connect samba en Linux-Afegir suport samba a thunar i altres file managers"><h5 id="Afegir suport samba a thunar i altres file managers" class="header"><a href="#connect samba en Linux-Afegir suport samba a thunar i altres file managers">Afegir suport samba a thunar i altres file managers</a></h5></div>
+<p>
+Última modificació: juliol de 2014<br />
+</p>
+
+<p>
+Per a poder treballar amb recursos compartits samba, hem d'instal·lar gvfs:<br />
+</p>
+
+<p>
+	yaourt -S gvfs gvfs-smb<br />
+</p>
+
+</body>
+</html>

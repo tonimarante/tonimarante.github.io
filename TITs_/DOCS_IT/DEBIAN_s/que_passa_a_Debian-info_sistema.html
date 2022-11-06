@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>que_passa_a_Debian-info_sistema</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="Que està passant a la nostra Debian. Informació del sistema"><h1 id="Que està passant a la nostra Debian. Informació del sistema" class="header"><a href="#Que està passant a la nostra Debian. Informació del sistema">Que està passant a la nostra Debian. Informació del sistema</a></h1></div>
+<p>
+:tagdebianinfo:<br />
+Última modificació: agost de 2020<br />
+</p>
+
+
+<p>
+<span id="Que està passant a la nostra Debian. Informació del sistema-En quina distribució i versió estic treballant?"></span><strong id="En quina distribució i versió estic treballant?">En quina distribució i versió estic treballant?</strong><br />
+Si fem (requereix tenir instal·lat el paquet lsb-release):<br />
+<code>    lsb_release -a</code><br />
+</p>
+
+<p>
+Obtenim informació de la nostra distribució Linux, release i codename. En el cas de Debian, si volem comprovar que s'ha instal·lat des dels discs base originals, podem comprovar la existència del fitxer /etc/debian_version que conté una línia amb el número de versió  i release de debian.<br />
+</p>
+
+<p>
+<span id="Que està passant a la nostra Debian. Informació del sistema-Quin kernel estic corrent?"></span><strong id="Quin kernel estic corrent?">Quin kernel estic corrent?</strong><br />
+Amb:<br />
+<code>    uname -a</code><br />
+Obtenim el nom del sistema, kernel en ús, arquitectura de la màquina.<br />
+</p>
+
+<p>
+<span id="Que està passant a la nostra Debian. Informació del sistema-Nom de la màquina i altre informació:"></span><strong id="Nom de la màquina i altre informació:">Nom de la màquina i altre informació:</strong><br />
+<code>    hotnamectl</code><br />
+</p>
+    
+<p>
+<span id="Que està passant a la nostra Debian. Informació del sistema-Dia i hora, amb detall de timezone i altres:"></span><strong id="Dia i hora, amb detall de timezone i altres:">Dia i hora, amb detall de timezone i altres:</strong><br />
+<code>    timedatectl</code><br />
+</p>
+
+<div id="Que està passant a la nostra Debian. Informació del sistema-Maquinari"><h4 id="Maquinari" class="header"><a href="#Que està passant a la nostra Debian. Informació del sistema-Maquinari">Maquinari</a></h4></div>
+<p>
+Segurament ens farà falta saber en algun moment el hardware sobre el que estem treballant. Instal·lant lshw<br />
+<code>    apt-get install lshw</code><br />
+</p>
+
+<p>
+<span id="Que està passant a la nostra Debian. Informació del sistema-Maquinari-Executant lshw obtindrem informació exhaustiva del harware del sistema."></span><strong id="Executant lshw obtindrem informació exhaustiva del harware del sistema.">Executant lshw obtindrem informació exhaustiva del harware del sistema.</strong><br />
+Si volem treure la informació en format html:<br />
+<code>    lshw -html</code><br />
+</p>
+
+<p>
+Eliminar la informació sensible (números de sèrie, p.e.) del resultat:<br />
+<code>    lshw -sanitize</code><br />
+</p>
+
+<p>
+<span id="Que està passant a la nostra Debian. Informació del sistema-Maquinari-També tenim inxi"></span><strong id="També tenim inxi">També tenim inxi</strong><br />
+<code>    apt install inxi</code><br />
+</p>
+    
+<p>
+Per a veure totes les opcions disponibles: man inxi. Segurament ens estarà bé, de sortida:<br />
+<code>    inxi -b</code><br />
+</p>
+
+<p>
+Si volem alguna cosa amb GUI podem instal·lar lshw-gtk, sysinfo o bé hardinfo (aquest últim programari proporciona una informació molt completa)<br />
+</p>
+
+
+<div id="Que està passant a la nostra Debian. Informació del sistema-Altres opcions per a obtenir informació de maquinari:"><h4 id="Altres opcions per a obtenir informació de maquinari:" class="header"><a href="#Que està passant a la nostra Debian. Informació del sistema-Altres opcions per a obtenir informació de maquinari:">Altres opcions per a obtenir informació de maquinari:</a></h4></div>
+<p>
+<span id="Que està passant a la nostra Debian. Informació del sistema-Altres opcions per a obtenir informació de maquinari:-Llista de dispositius PCI"></span><strong id="Llista de dispositius PCI">Llista de dispositius PCI</strong><br />
+<code>    lspci</code><br />
+</p>
+
+<p>
+<span id="Que està passant a la nostra Debian. Informació del sistema-Altres opcions per a obtenir informació de maquinari:-Llista de dispositius USB"></span><strong id="Llista de dispositius USB">Llista de dispositius USB</strong><br />
+<code>    lsusb</code><br />
+</p>
+
+<p>
+<span id="Que està passant a la nostra Debian. Informació del sistema-Altres opcions per a obtenir informació de maquinari:-Informació sobre les CPUs i si suporten 64 bits:"></span><strong id="Informació sobre les CPUs i si suporten 64 bits:">Informació sobre les CPUs i si suporten 64 bits:</strong><br />
+<code>    lscpu</code><br />
+</p>
+
+<p>
+<span id="Que està passant a la nostra Debian. Informació del sistema-Altres opcions per a obtenir informació de maquinari:-Llista de dispositius de block (discs durs, DVDs...)"></span><strong id="Llista de dispositius de block (discs durs, DVDs...)">Llista de dispositius de block (discs durs, DVDs...)</strong><br />
+<code>    lsblk</code><br />
+</p>
+
+
+<div id="Que està passant a la nostra Debian. Informació del sistema-Mòduls"><h4 id="Mòduls" class="header"><a href="#Que està passant a la nostra Debian. Informació del sistema-Mòduls">Mòduls</a></h4></div>
+<p>
+<span id="Que està passant a la nostra Debian. Informació del sistema-Mòduls-Llista de mòduls carregats:"></span><strong id="Llista de mòduls carregats:">Llista de mòduls carregats:</strong><br />
+<code>    lsmod</code><br />
+</p>
+
+<p>
+<span id="Que està passant a la nostra Debian. Informació del sistema-Mòduls-Carrega (o intenta carregar) el mòdul e1000"></span><strong id="Carrega (o intenta carregar) el mòdul e1000">Carrega (o intenta carregar) el mòdul e1000</strong><br />
+<code>    modprobe e1000</code><br />
+</p>
+
+
+<div id="Que està passant a la nostra Debian. Informació del sistema-Espai en disc"><h4 id="Espai en disc" class="header"><a href="#Que està passant a la nostra Debian. Informació del sistema-Espai en disc">Espai en disc</a></h4></div>
+<p>
+<span id="Que està passant a la nostra Debian. Informació del sistema-Espai en disc-Espai que ocupen els directoris al disc"></span><strong id="Espai que ocupen els directoris al disc">Espai que ocupen els directoris al disc</strong><br />
+<code>    du -sh *</code><br />
+</p>
+
+<p>
+<span id="Que està passant a la nostra Debian. Informació del sistema-Espai en disc-Amb el modificador time obtenim les dates de modificació:"></span><strong id="Amb el modificador time obtenim les dates de modificació:">Amb el modificador time obtenim les dates de modificació:</strong><br />
+<code>    du -sh --time *</code><br />
+</p>
+
+
+<div id="Que està passant a la nostra Debian. Informació del sistema-Què s'està executant?"><h4 id="Què s'està executant?" class="header"><a href="#Que està passant a la nostra Debian. Informació del sistema-Què s'està executant?">Què s'està executant?</a></h4></div>
+<p>
+<code>    top</code><br />
+Llista de processos; també podem instal·lar htop<br />
+</p>
+
+<p>
+<code>    ps auxw</code><br />
+obtenim un llistat de tots els processos corrent al sistema amb l'usuari que els ha llençat. Podem creuar aquesta info amb la que ens proporciona who (o w) per a saber si algun procés determinat s'ha llençat interactivament o no.<br />
+</p>
+
+
+<p>
+Memòria RAM<br />
+<code>    free -h</code><br />
+</p>
+ 
+<p>
+Un monitor de RAM: (hem de tenir instal·lat watch i vmstat)<br />
+<code>    watch vmstat -sSM</code><br />
+</p>
+
+<p>
+Ús de disc<br />
+<code>    iotop</code><br />
+</p>
+
+
+<div id="Que està passant a la nostra Debian. Informació del sistema-Xarxa"><h4 id="Xarxa" class="header"><a href="#Que està passant a la nostra Debian. Informació del sistema-Xarxa">Xarxa</a></h4></div>
+<p>
+<span id="Que està passant a la nostra Debian. Informació del sistema-Xarxa-IP de les nostres interfícies"></span><strong id="IP de les nostres interfícies">IP de les nostres interfícies</strong><br />
+Interessant fer servir la instrucció "ip" ja que no fa falta ser root per a veure aquesta info:<br />
+<code>    ip a</code><br />
+Més info (tràfic, errors):<br />
+<code>    ip -s link</code><br />
+</p>
+
+<p>
+<span id="Que està passant a la nostra Debian. Informació del sistema-Xarxa-Ping, traceroute"></span><strong id="Ping, traceroute">Ping, traceroute</strong><br />
+Podem instal·lar mtr, eina gràfica de diagnostic de xarxa que combina traceroute i ping<br />
+<code>    mtr</code><br />
+</p>
+
+<p>
+<span id="Que està passant a la nostra Debian. Informació del sistema-Xarxa-Consum de xarxa a una determinada interfície"></span><strong id="Consum de xarxa a una determinada interfície">Consum de xarxa a una determinada interfície</strong><br />
+Tenim diferents eines:<br />
+<code>    iftop</code><br />
+displays bandwidth usage information on an network interface<br />
+</p>
+ 
+<p>
+<span id="Que està passant a la nostra Debian. Informació del sistema-Xarxa-iptraf"></span><strong id="iptraf">iptraf</strong><br />
+console-based ethernet statistics monitordme<br />
+</p>
+
+
+<div id="Que està passant a la nostra Debian. Informació del sistema-Càrrega"><h4 id="Càrrega" class="header"><a href="#Que està passant a la nostra Debian. Informació del sistema-Càrrega">Càrrega</a></h4></div>
+<p>
+<code>    nload</code><br />
+realtime console network usage monitor<br />
+</p>
+
+<p>
+<code>    ntop</code><br />
+display network usage in web browser. Més info sobre ntop aquí<br />
+</p>
+
+<p>
+<code>    zenmap</code><br />
+The Network Mapper Front End<br />
+</p>
+
+
+<p>
+<span id="Que està passant a la nostra Debian. Informació del sistema-Càrrega-Que estem servint?"></span><strong id="Que estem servint?">Que estem servint?</strong><br />
+Per saber que tenim "escoltant" i amb que està connectada la màquina:<br />
+<code>    netstat -tulpan</code><br />
+ss ha substituit a netstat. Farem:<br />
+<code>    ss -tuln</code><br />
+</p>
+
+<p>
+Un altre opció amb lsof:<br />
+<code>    lsof -ni | grep LISTEN</code><br />
+</p>
+
+
+<div id="Que està passant a la nostra Debian. Informació del sistema-Usuaris"><h4 id="Usuaris" class="header"><a href="#Que està passant a la nostra Debian. Informació del sistema-Usuaris">Usuaris</a></h4></div>
+<p>
+Qui sóc<br />
+<code>    id</code><br />
+Ens mostra el nostre uid, gid i els grups als que pertanyem<br />
+</p>
+
+<p>
+Qui està logat al sistema ara mateix<br />
+<code>    who</code><br />
+També podem fer servir w<br />
+</p>
+
+<p>
+Últims logins al sistema<br />
+<code>    last</code><br />
+</p>
+
+
+<div id="Que està passant a la nostra Debian. Informació del sistema-Logs"><h4 id="Logs" class="header"><a href="#Que està passant a la nostra Debian. Informació del sistema-Logs">Logs</a></h4></div>
+<p>
+Últims reinicis del sistema<br />
+<code>    last reboot | more  </code><br />
+</p>
+
+<p>
+Últims shutdowns i canvis de runlevel<br />
+<code>    last -x | more</code><br />
+</p>
+
+<p>
+Missatges que van arribant a /var/log/messages<br />
+<code>    tail -f /var/log/messages</code><br />
+</p>
+
+<p>
+Últimes 200 línies de /var/log/messages:<br />
+<code>    tail -n 200 /var/log/messages</code><br />
+</p>
+
+<p>
+Últims missatges que han entrat al kernel<br />
+<code>    dmesg</code><br />
+Això només a Debian; a altres distribucions dmesg ens mostra els missatges de l'últim arranc del sistema.<br />
+</p>
+
+<p>
+Tots els logs que genera el sistema<br />
+Van entrant al fitxer /var/log/syslog<br />
+</p>
+
+<p>
+Llista dels logs modificats les últimes 24 h<br />
+<code>    find /var/log -mtime 0</code><br />
+</p>
+
+
+<ul>
+<li>
+* * * * * * * * * * * * * * * * *
+
+</ul>
+
+</body>
+</html>

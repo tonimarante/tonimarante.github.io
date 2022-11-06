@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>scripts_inici_usuari</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="scripts inici usuari (profiles i arxius rc)"><h1 id="scripts inici usuari (profiles i arxius rc)" class="header"><a href="#scripts inici usuari (profiles i arxius rc)">scripts inici usuari (profiles i arxius rc)</a></h1></div>
+
+<p>
+Quan un usuari entra en sessió, primer s'executa /etc/profile que acaba cridant als scripts que es troben sota /etc/profile.d. <br />
+Després acaba executant els scripts del perfil personal de l'usuari, en aquest ordre:<br />
+</p>
+
+<p>
+■ .bash_profile<br />
+■ .bash_login<br />
+■ .profile<br />
+</p>
+
+<ul>
+<li>
+Si tenim un fitxer .bash_profile i un .profile al nostre directori personal, només s'executarà el .bash_profile. Per tant, si volem personalitzar el nostre perfil, només hem de copiar el fitxer .profile com a .bash_profile i realitzar els canvis que vulgueu al fitxer .bash_profile.
+
+</ul>
+
+<ul>
+<li>
+/etc/profile inicia el procés de càrrega de perfils d’usuari, però també inicia el procés d’execució del fitxer bashrc a nivell global. Diverses distribucions anomenen aquest fitxer de manera diferent, però generalment és un fitxer anomenat /etc/bashrc o /etc/bash.bashrc.
+
+</ul>
+<p>
+Alguns sistemes realment no executen el fitxer global bashrc.<br />
+</p>
+
+
+<div id="scripts inici usuari (profiles i arxius rc)-shell interactiu"><h2 id="shell interactiu" class="header"><a href="#scripts inici usuari (profiles i arxius rc)-shell interactiu">shell interactiu</a></h2></div>
+<p>
+Un shell interactiu (un terminal virtual executat des d'una sessió X), te una inicialització més senzilla:<br />
+</p>
+
+<ul>
+<li>
+S'executa el fitxer /etc/bashrc o /etc/bash.bashrc
+
+<li>
+S'executa el .bashrc dels usuaris del seu directori personal
+
+</ul>
+
+<p>
+Com que un intèrpret interactiu és un procés “fill” de l'intèrpret d'ordres utilitzat per iniciar la sessió inicialment (ja sigui a través de la interfície gràfica o via SSH), hereta tota la informació de perfil que ha adquirit el shell inicial d'inici de sessió.<br />
+</p>
+
+</body>
+</html>

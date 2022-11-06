@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>update-alternatives</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="update-alternatives"><h2 id="update-alternatives" class="header"><a href="#update-alternatives">update-alternatives</a></h2></div>
+<p>
+Última actualització: setembre de 2013<br />
+</p>
+
+<p>
+És un mecanisme que permet definir que programa entre varis que puguin proveir la mateixa funcionalitat, farem servir per defecte per a fer una determinada funció. Un exemple seria el dels editors de text; en tenim varis a la nostra disposició. Amb update-alternatives podrem definir si treballarem amb vi o amb nano, per exemple.<br />
+</p>
+
+<p>
+A nivell tècnic tot està suportat per enllaços simbòlics, però no directament entre "origen" i "destí", si no que es passa per un directori intermig que és /etc/alternatives. Un exemple: si hem definit nano com l'editor per defecte per al sistema, tindrem un enllaç simbòlic que apunta de /usr/bin/editor  -&gt; /etc/alternatives/editor i a la vegada tenim que /etc/alternatives/editor apunta a  /bin/nano.<br />
+</p>
+
+<p>
+Comandaments:<br />
+</p>
+
+<p>
+update-alternatives --get-selections        Llista totes les update-alternatives "existents" al sistema<br />
+update-alternatives --config name           "Name" és el nom del grup de links al que volem determinar el programa per defecte. Exemple: update-alternatives --config editor. Si no tenim clar un nom del grup, el podem consultar amb el --get-selections<br />
+update-alternatives --all                             Permet configurat tots els update-alternatives<br />
+</p>
+
+</body>
+</html>

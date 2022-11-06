@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>clonar_amb_dd</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="clonar amb dd"><h1 id="clonar amb dd" class="header"><a href="#clonar amb dd">clonar amb dd</a></h1></div>
+<p>
+:tagdd:<br />
+_Última actualització: setembre de 2020<br />
+</p>
+
+
+<p>
+Per a clonar discs bloc a bloc ho podem fer amb dd. És indiferent si el disc d'origen te particions vàlides o no, ja que el backup és fa bloc a bloc.<br />
+</p>
+
+<p>
+-De ISO a disc:<br />
+<code>    dd if=antiX-19.iso status=progress bs=10M of=/dev/sdb</code><br />
+</p>
+
+<p>
+-De disc a una imatge comprimida:<br />
+</p>
+
+<p>
+<code>		 dd if=/dev/sda bs=10M | gzip -c &gt; sda.img.gz</code><br />
+</p>
+
+<p>
+*<span id="clonar amb dd--De disc a imatge comprimida, veient velocitat de còpia"></span><strong id="-De disc a imatge comprimida, veient velocitat de còpia">-De disc a imatge comprimida, veient velocitat de còpia</strong>* <br />
+</p>
+
+<p>
+<code>    dd if=/dev/sda  status=progress bs=10M | gzip -c &gt; sda.img.gz</code><br />
+</p>
+    
+<p>
+el mateix si tenim lz4:<br />
+</p>
+
+<p>
+<code>    dd if=/dev/sda  status=progress bs=10M | lz4 -c &gt; sda.img.lz4</code><br />
+</p>
+
+<p>
+-De disc a imatge comprimida, veient velocitat de còpia si tenim instal·lat pv:<br />
+</p>
+
+<p>
+<code>    dd if=/dev/sda bs=10M | pv | gzip -c &gt; sda.img.gz</code><br />
+</p>
+
+<p>
+-Més refinat:<br />
+</p>
+
+<p>
+<code>    dd if=/dev/sda status=progress conv=sync,noerror bs=10M | gzip -c &gt; sda.img.gz       (en cas d'error intenta "recuperar-lo")</code><br />
+</p>
+
+<p>
+El block size de 10 M utilitzat a tots els exemples serveix per optimitzar la velocitat de còpia. Podem incrementar (o anar provant) amb valors majors de block size conforme el disc sigui més gran, però en general el bs=10M és un valor bo.<br />
+</p>
+
+
+<div id="clonar amb dd-Per a recuperar de la imatge a un disc:"><h2 id="Per a recuperar de la imatge a un disc:" class="header"><a href="#clonar amb dd-Per a recuperar de la imatge a un disc:">Per a recuperar de la imatge a un disc:</a></h2></div>
+
+<p>
+<code>		gunzip -c sda.img.gz | dd of=/dev/sda bs=10M         si volem més refinat, podem afegir al final :  status=progress conv=sync,noerror</code><br />
+</p>
+
+<p>
+si la imatge és lz4:<br />
+</p>
+
+<p>
+<code>		lz4 -d -c sda.img.lz4 | dd of=/dev/sda bs=10M status=progress </code><br />
+</p>
+
+<p>
+El mateix però sense comprimir:<br />
+</p>
+
+<p>
+-Del disc a una imatge:<br />
+</p>
+
+<p>
+<code>		 dd if=/dev/sda of=sda.img bs=10M</code><br />
+</p>
+
+<p>
+-Per a recuperar de la imatge a un disc:<br />
+</p>
+
+<p>
+<code>		 dd if=sda.img of=/dev/sda bs=10M</code><br />
+</p>
+
+
+
+<div id="clonar amb dd-Per guardar i recuperar l'MBR del disc"><h2 id="Per guardar i recuperar l'MBR del disc" class="header"><a href="#clonar amb dd-Per guardar i recuperar l'MBR del disc">Per guardar i recuperar l'MBR del disc</a></h2></div>
+<p>
+(a on està ubicat el gestor d'arranc que tinguem):<br />
+</p>
+
+<p>
+-Guardar MBR:<br />
+</p>
+
+<p>
+<code>		dd if=/dev/sda of=mbr.img count=1 bs=512</code><br />
+</p>
+
+<p>
+-Recuperar MBR:<br />
+</p>
+
+<p>
+<code>		dd if=mbr.img of=/dev/sda count=1 bs=512</code><br />
+</p>
+
+
+<div id="clonar amb dd-Muntar una imatge dd"><h2 id="Muntar una imatge dd" class="header"><a href="#clonar amb dd-Muntar una imatge dd">Muntar una imatge dd</a></h2></div>
+<p>
+Primer hem de veure l'estructura de particions de la image:<br />
+</p>
+
+<p>
+<code>    fdisk -u -l imatge.img</code><br />
+</p>
+    
+<p>
+Posem per cas que obtenim aquest resultat:<br />
+</p>
+
+<p>
+Disk retropie_SD16GB.dd: 14,84 GiB, 15931539456 bytes, 31116288 sectors<br />
+Units: sectors of 1 * 512 = 512 bytes<br />
+Sector size (logical/physical): 512 bytes / 512 bytes<br />
+I/O size (minimum/optimal): 512 bytes / 512 bytes<br />
+Disklabel type: dos<br />
+Disk identifier: 0x5d98613b<br />
+</p>
+
+<p>
+Device              Boot  Start      End  Sectors  Size Id Type<br />
+retropie_SD16GB.dd1 *      8192   124927   116736   57M  e W95 FAT16 (LBA)<br />
+retropie_SD16GB.dd2      124928 31291391 31166464 14,9G 83 Linux<br />
+</p>
+
+<p>
+Si volem muntar la segona partició, necessitem saber el "punt d'entrada" o offset. El calcularem multiplicant el sector size x l'Start de la partició. En el nostre cas:<br />
+</p>
+
+<p>
+512 * 124928 = 63963136<br />
+</p>
+
+
+<p>
+<span class="todo">TODO</span> pendent provar quina és la millor opció:<br />
+</p>
+
+<p>
+Muntarem amb l'opció -o loop:<br />
+</p>
+
+<pre>
+mount -t  /imatge.img /mnt/imatge -o loop,offset=63963136
+    losetup -o $((512*124928)) /dev/loop0 imatge.img
+    fsck -fv /dev/loop0
+    mount /dev/loop0 /mnt
+</pre>
+
+
+<ul>
+<li>
+* * * * * * * * * * * * * * * * *
+
+</ul>
+
+</body>
+</html>

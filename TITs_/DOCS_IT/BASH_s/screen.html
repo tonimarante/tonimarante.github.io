@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>screen</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="screen"><h2 id="screen" class="header"><a href="#screen">screen</a></h2></div>
+<p>
+*<span id="screen-Screen: deixar coses executant remotament via ssh"></span><strong id="Screen: deixar coses executant remotament via ssh">Screen: deixar coses executant remotament via ssh</strong>*<br />
+Última modificació: octubre de 2013<br />
+</p>
+
+<p>
+En força ocasions ens trobem que hem d'entrar a una màquina en remot via ssh i executar alguna cosa (un script, backup, etc). El problema és que si sortim de la sessió (tot i que executem en segon pla l'script o el que sigui) es tancarà el que s'estava executant. Per a poder deixar la feina "treballant" i sortir de la sessió tenim screen, el multiplexador de terminals.<br />
+Un cop instal·lat<br />
+<code>	apt-get screen</code><br />
+</p>
+
+<p>
+Per a llençar-lo podem fer simplement<br />
+<code>	screen</code><br />
+O bé obrir una nova sessió de terminal amb un programari determinat, p.e:<br />
+<code>	screen top</code><br />
+</p>
+
+<p>
+Per a veure les sessions obertes:<br />
+<code>	screen -list</code><br />
+</p>
+
+
+<p>
+Per a entrar a la sessió (si només hi ha una):<br />
+<code>	screen -r        </code><br />
+</p>
+<blockquote>
+(el -r és de resume)
+</blockquote>
+<p>
+Si tenim més d'una, haurem d'indicar el PID i terminal. Si mirem la imatge anterior, per a entrar en la primera sessió fariem:<br />
+<code>	screen -r 12977.pts-0.ruc</code><br />
+Per a deixar (detach) la sessió (treballant) i tornar al bash original:<br />
+<code>	Ctrl + a + d</code><br />
+Si el que volem es sortir de la sessió screen, tancant-la:<br />
+<code>	exit</code><br />
+</p>
+
+<p>
+Podem obrir una sessió screen (create) a partir d'una altra sessió screen amb:<br />
+	Ctrl + a + c<br />
+Llavors per a passar d'una a l'altre (next) o (previous) haurem de fer:<br />
+	Ctrl + a + n   o   Ctrl + a + p<br />
+</p>
+
+<p>
+Si matem el procés screen poden quedar recursos ocupats amb les sessions que teníem obertes. Per a fer neteja:<br />
+<code>	screen -wipe</code><br />
+</p>
+
+<p>
+Finalment, pot ser una mica confús si obrim un screen amb un altre bash, ja que pot ser difícil distingir quan estem al bash original o quan estem a l'screen. Una manera seria fer un screen -list<br />
+</p>
+
+
+<p>
+I si ens diu "Attached" (en comptes de "Detached") vol dir que estem a dintre d'un screen. (NOTA: pot haver-hi una segona opció que és que aquest screen estigui Attached, però no a la sessió en la que estem si no que a una altre sessió de terminal que tinguem oberta; s'ha de tenir una mica de pràctica per a entendre a on estem)<br />
+Una bona solució es posar-nos un fitxer ~/.screenrc (que ens permet configurar i personalitzar coses). A mi m'agrada tenir aquest fitxer amb aquesta línia:<br />
+	hardstatus alwayslastline "%{=b}%{G} Screen(s): %{b}%w %=%{kG}%C %A     %D, %d %M %Y "<br />
+</p>
+
+
+<p>
+Això fa que es vegi a baix de tot de la pantalla informació interessant (screens que tenim oberts i a quin ens trobem, hora i data) i ens permet detectar ràpidament quan estem a un screen.<br />
+</p>
+
+
+<p>
+A la imatge es veu que des d'un screen hem obert un altre dedicat a executar htop.<br />
+</p>
+
+
+<p>
+Encara més: dividint screen<br />
+</p>
+
+<p>
+Poden dividir un screen en varis:<br />
+</p>
+
+<p>
+	Dividir en dos: Ctrl-A Shift-S. Podem seguir dividint en tants coms volguem.<br />
+	Per a moure'ns entre els sub-screens: Ctrl-A Tab<br />
+	Quan anem a parar a un sub-screen que no ha estat iniciat encara, ho hem de fer amb Ctrl-A C per a crear una nova finestra en aquest sub-screen<br />
+	Ctrl-A Shift-X per a tancar una sub-screen<br />
+</p>
+
+</body>
+</html>

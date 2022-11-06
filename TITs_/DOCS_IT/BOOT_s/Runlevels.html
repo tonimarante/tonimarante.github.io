@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>Runlevels</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="Runlevels"><h1 id="Runlevels" class="header"><a href="#Runlevels">Runlevels</a></h1></div>
+<p>
+*<span id="Runlevels-Boot. initrd, runlevels"></span><strong id="Boot. initrd, runlevels">Boot. initrd, runlevels</strong>*<br />
+Última modificació: abril de 2019<br />
+</p>
+
+<div id="Runlevels-boot sysV init"><h2 id="boot sysV init" class="header"><a href="#Runlevels-boot sysV init">boot sysV init</a></h2></div>
+<p>
+Primer de tot, quan arrenca la màquina, la BIOS pren el control de l'ordinador, detecta els discs, carrega l'MBR i executa el bootloader. Si a aquest bootloader seleccionem que volem arrencar Linux, el bootloader busca el kernel al disc, el carrega i l'executa. <br />
+</p>
+
+<p>
+(Podem accedir a qualsevol sistema com a root, si quan arrenca grub editem i li passem al kernel el següent paràmetre   init=/bin/sh)<br />
+</p>
+
+<p>
+Actualment, el kernel en arrencar busca i munta en RAM un sistema de fitxers virtual (initramfs, pels amics initrd o initialitzation RAM disk) que és un fitxer que normalment està al costat del kernel. Aquest sistema de fitxers virtual proveeix al kernel de les coses que permetran al kernel carregar el sistema de fitxers real: mòduls de kernel amb drivers, scripts d'inicialització de dispositius o ensamblat de RAIDs, obertura de particions encriptades, activació de volums LVM, etc. Un cop la partició root real ha estat muntada, initrdfs passa el control a init que es troba al disc "real" i la màquina inicia l'arranc estàndar.<br />
+</p>
+
+<p>
+Init executa un munt de coses, segons li va dictant /etc/inittab. El primer que executa és /etc/init.d/rcS, un script que executa a la vegada tot el que troba al directori /etc/rcS.d/, bàsicament scripts que:<br />
+</p>
+
+<p>
+	configuren el teclat de la cònsola<br />
+	carreguem mòduls llistats a /etc/modules. Aquests son mòduls extra que no han estat carregats automàticament pel kernel<br />
+	chequeja la integritat dels sistemes de fitxers<br />
+	munta les particions locals i els sistemes de fitxers de xarxa (NFS)<br />
+	configura la xarxa<br />
+</p>
+
+<p>
+Init ara va i executa els programes habilitats al runlevel per defecte (això dels runlevels ho veurem meś avall).<br />
+</p>
+
+<p>
+Finalment, quan init ha arribat al runlevel per defecte, engega vàries consoles virtuals (getty) i mostra un prompt que espera un nom d'usuari. Si entrem a una d'aquestes sessions el programa que s'executa és login usuari.<br />
+</p>
+
+
+<div id="Runlevels-boot sysV init-Runlevels"><h3 id="Runlevels" class="header"><a href="#Runlevels-boot sysV init-Runlevels">Runlevels</a></h3></div>
+
+<p>
+A /etc/init.d/ trobem scripts per cada "servei". Podem fer start, stop, status, restart, reload.<br />
+</p>
+
+<p>
+A /etc trobem directoris amb  el nom rc1.d, rc2.d... Aquest directoris contenen els scripts que configuren els runlevels. Primer s'executen els scripts que comencen per k (kill). Despres els que comencen per s (start)<br />
+</p>
+
+<p>
+-Exemple: si tenim a /etc/init.d/atd i volem que s'arrenqui aquest<br />
+dimoni al runlevel 3, fem un enllaç:<br />
+</p>
+
+<p>
+ln -s  /etc/init.d/atd       /etc/rc.d/rc.3/s50atd<br />
+</p>
+
+
+<p>
+Si volem que pari al runlevel 4:<br />
+</p>
+
+<p>
+ln -s   /etc/init.d/atd    /etc/rc.d/rc.3/k50atd<br />
+</p>
+
+
+<p>
+El 50 es el numero d'ordre de trucada i en comptes de atd podriem haver posat qualsevol nom però així ens va millor per identificar el dimoni amb el que volem treballar. <br />
+</p>
+
+
+<div id="Runlevels-boot sysV init-Runlevels-update-rc.d"><h4 id="update-rc.d" class="header"><a href="#Runlevels-boot sysV init-Runlevels-update-rc.d">update-rc.d</a></h4></div>
+<p>
+A Debian, el runlevel per defecte és el 2, i el 1 correspon a monousuari. Per configurar els runlevels, ho podem fer amb update-rc.d.  Exemples:<br />
+</p>
+
+<p>
+Per arrencar apache als runlevels 2,3,4,5 i aturar-lo als 0,1 i6: <br />
+</p>
+
+<p>
+update-rc.d apache defaults<br />
+</p>
+
+<p>
+(en realitat aquesta instrucció seteja els runlevels per defecte que indica el paquet d'instal·lació, es a dir que si volem deixar que apache arrenqui als runlevels definits per defecte, farem servir aquesta instrucció update-rc.d apache defaults)<br />
+</p>
+
+<p>
+Equivaldria a:<br />
+</p>
+
+<p>
+update-rc.d   apache  start 20 2 3 4 5 . stop 20 0 1 6 .   <br />
+</p>
+
+<p>
+Per "treure" Apache dels runlevels i que no arrenqui:<br />
+</p>
+
+<p>
+update-rc.d -f samba remove  <br />
+</p>
+
+<p>
+També disposem de l'eina rcconf i de sysv-rc-conf, aquesta última basada en ncurses i totalment intuitiva. <br />
+</p>
+
+
+<div id="Runlevels-boot sysV init-Runlevels-chkconfig"><h4 id="chkconfig" class="header"><a href="#Runlevels-boot sysV init-Runlevels-chkconfig">chkconfig</a></h4></div>
+<p>
+A Fedora i altres distribucions, per a treballar amb els runlevels es fa amb chkconfig. Exemples:<br />
+</p>
+
+
+<p>
+Lista tots els scripts d'inici<br />
+</p>
+<blockquote>
+chkconfig --list
+</blockquote>
+
+
+<p>
+Reporta l'estat d'apache<br />
+</p>
+<blockquote>
+chkconfig --list apache
+</blockquote>
+
+<p>
+Configura apache per a que arrenqui als runlevels 3 i 5<br />
+</p>
+<blockquote>
+chkconfig apache --level 35 on
+</blockquote>
+    
+<p>
+Un altre opció de configuració:<br />
+</p>
+<blockquote>
+chkconfig -add iptables
+</blockquote>
+
+<p>
+Deshabilita apache per a tots els runlevels<br />
+</p>
+<blockquote>
+chkconfig apache off
+</blockquote>
+
+<p>
+Altres opcions per a remoure serveis:<br />
+</p>
+<blockquote>
+chkconfig --del ip6tables
+chkconfig --level 5 nfsserver off
+</blockquote>
+<blockquote>
+chkconfig --level 35 nfsserver off
+</blockquote>
+
+
+<p>
+A gnome podem utilitzar gnome-session-properties<br />
+</p>
+
+</body>
+</html>

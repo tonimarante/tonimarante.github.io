@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>grub-reinstall</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="grub-reinstall"><h2 id="grub-reinstall" class="header"><a href="#grub-reinstall">grub-reinstall</a></h2></div>
+<p>
+*<span id="grub-reinstall-Boot. Reinstal·lar lilo i grub . Recuperar arranc a Debian i altres"></span><strong id="Boot. Reinstal·lar lilo i grub . Recuperar arranc a Debian i altres">Boot. Reinstal·lar lilo i grub . Recuperar arranc a Debian i altres</strong>*<br />
+:tagefi,taguefi:<br />
+Última actualització: octubre de 2019<br />
+</p>
+	
+
+<div id="grub-reinstall-Reinstal·lar lilo"><h3 id="Reinstal·lar lilo" class="header"><a href="#grub-reinstall-Reinstal·lar lilo">Reinstal·lar lilo</a></h3></div>
+<p>
+-Muntar la partició:<br />
+<code>        mount -o dev /mnt/hda1</code><br />
+-Si ja estava muntada:<br />
+<code>        mount -o remount,dev /mnt/hda1</code><br />
+-Muntar el directori com chroot i executar lilo:<br />
+<code>        chroot /mnt/hda1 lilo</code><br />
+</p>
+
+<p>
+Grub legacy<br />
+<code>    grub-install root-directory=/dev/hda3 /dev/hda</code><br />
+</p>
+
+<p>
+-Un altre versió, entrem a grub i:<br />
+</p>
+<pre>
+    root (hd0,1)   per dir on està la partició
+    setup (hd0) (hd0)
+    quit
+</pre>
+
+<p>
+-A menu.lst:<br />
+</p>
+<pre>
+Title Elquesigui
+root (hd0,0)
+savedefault
+makeactive
+chainloader +1
+</pre>
+	
+<div id="grub-reinstall-Reinstal·lar grub a Ubuntu"><h3 id="Reinstal·lar grub a Ubuntu" class="header"><a href="#grub-reinstall-Reinstal·lar grub a Ubuntu">Reinstal·lar grub a Ubuntu</a></h3></div>
+<p>
+Arremquem amb el cd de la mateixa versió a la instal·lada al disc. Ara, si imaginem que la partició ubuntu està a /dev/sda2:<br />
+</p>
+<pre>
+    sudo mount /dev/sda2 /mnt (o el punt de muntatge que vulguem)
+    sudo mount /dev/sda1 /mnt/boot/efi (si és EFI i tenim la seva partició a sda1)
+    sudo mount --bind /proc     /mnt/proc
+    sudo mount --bind /dev      /mnt/dev
+    sudo mount --bind /sys      /mnt/sys
+    sudo chroot /mnt
+    sudo update-grub2
+    sudo grub-install /dev/sda
+</pre>
+
+<div id="grub-reinstall-Generar entrada EFI"><h3 id="Generar entrada EFI" class="header"><a href="#grub-reinstall-Generar entrada EFI">Generar entrada EFI</a></h3></div>
+<p>
+Si tenim que regenerar l'entrada UEFI, arrencarem el sistema amb un LiveUSB i farem:<br />
+<code>    sudo efibootmgr -c -l "\EFI\UBUNTU\SHIM64.EFI" -L ubuntu</code><br />
+</p>
+
+<p>
+Si la partició EFI no està en la primera partició del primer disc, ho podrem indicar:<br />
+<code>    sudo efibootmgr -c -l "\EFI\UBUNTU\SHIM64.EFI" -L ubuntu -d /dev/sdb -p 1</code><br />
+</p>
+<blockquote>
+(en el cas de que la partició EFI estigui al disc sdb, partició 1)
+</blockquote>
+    
+
+<div id="grub-reinstall-Reinstal·lar grub2 a Debian"><h3 id="Reinstal·lar grub2 a Debian" class="header"><a href="#grub-reinstall-Reinstal·lar grub2 a Debian">Reinstal·lar grub2 a Debian</a></h3></div>
+<p>
+	Simplement arrenquem amb el CD d'instal·lació corresponent a la mateixa versió que tenim instal·lada i anem al menú de "Recuperació"; un dels submenus ens permet reparar l'arranc.<br />
+</p>
+	
+<p>
+	Reinstal·lar grub2 en genèric (per exemple amb systemrescueCD: <a href="https://sourceforge.net/projects/systemrescuecd/)<br">https://sourceforge.net/projects/systemrescuecd/)<br</a> />
+	Arrenquem amb un Live CD que tingui instal·lat grub2. Si els disc estan en GPT, també ens farà falta gdisk<br />
+</p>
+	
+<p>
+		Muntem la partició que contingui /boot. Suposant que sigui /sda1, fem: sudo mount /dev/sda1 /mnt, p.e.<br />
+</p>
+<pre>
+        sudo grub2-install --boot-directory=/mnt/boot/ --recheck /dev/sda
+		sudo grub2-mkconfig -o /mnt/boot/grub2/grub.cfg
+</pre>
+	
+<p>
+	Altres opcions amb Live CDs<br />
+	Poden provar amb:<br />
+</p>
+	
+<p>
+		rescatux: <a href="http://www.supergrubdisk.org/rescatux/<br">http://www.supergrubdisk.org/rescatux/<br</a> />
+		Super grub2 disk: <a href="http://www.supergrubdisk.org/super-grub2-disk/<br">http://www.supergrubdisk.org/super-grub2-disk/<br</a> />
+</p>
+
+</body>
+</html>

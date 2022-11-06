@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>clonar_amb_fsarchiver</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="clonar amb fsarchiver"><h2 id="clonar amb fsarchiver" class="header"><a href="#clonar amb fsarchiver">clonar amb fsarchiver</a></h2></div>
+<p>
+Resum aquí: <a href="fsarchiver.html">fsarchiver</a><br />
+*<span id="clonar amb fsarchiver-fsarchiver"></span><strong id="fsarchiver">fsarchiver</strong>*<br />
+Última actualització: agost de 2019<br />
+</p>
+
+
+<p>
+Per a clonar sistemes (a nivell de fitxer) -i fer una cosa semblant al que podem fer amb Ghost o Acronis-, tenim la fantàstica eina fsarchiver.<br />
+Fsarchiver llegeix la partició que l'indiquem i ens genera un fitxer comprimit. Després a partir d'aquest fitxer podrem recuperar sobre una partició a un altre ordinador, amb l'avantatge que la partició de desti pot ser d'una mida diferent a la de la partició original. Exemples:<br />
+</p>
+
+<ul>
+<li>
+De partició a una imatge comprimida:
+
+</ul>
+<p>
+<code>fsarchiver savefs debian6.fsa   /dev/sda1 /dev/sda2</code><br />
+</p>
+<blockquote>
+(podem guardar vàries particions al mateix fitxer)
+</blockquote>
+
+<ul>
+<li>
+Veure informació d'una imatge:
+
+</ul>
+<p>
+<code>fsarchiver archinfo debian6.fsa </code><br />
+</p>
+
+<ul>
+<li>
+Veure informació dels discs i particions:
+
+</ul>
+<p>
+<code>fsarchiver probe </code><br />
+</p>
+
+<ul>
+<li>
+Recuperar el fitxer sobre una partició a un altre ordinador:
+
+</ul>
+<p>
+<code>fsarchiver restfs debian6.fsa    id=0,dest=/dev/sdc1 id=1,dest=/dev/sdc2    </code><br />
+</p>
+<blockquote>
+(indiquem quins backups restaurem a cada partició)
+</blockquote>
+
+<p>
+Aquest és l'ús més bàsic, però fsarchiver és molt potent. Val la pena fer una ullada a la guía de quickstart de fsarchiver para veure altres opcions de que disposa.<br />
+</p>
+
+<div id="clonar amb fsarchiver-Guardar i recuperar MBR"><h3 id="Guardar i recuperar MBR" class="header"><a href="#clonar amb fsarchiver-Guardar i recuperar MBR">Guardar i recuperar MBR</a></h3></div>
+<p>
+Recordem que ens fa falta poder guardar i recuperar l'MBR del disc (a on està ubicat el gestor d'arranc que tinguem).<br />
+L'MBR està dividit en 3 seccions:<br />
+</p>
+<ol>
+<li>
+Bootstrap . 446 bytes
+
+<li>
+Partition table. 64 bytes
+
+<li>
+Signature. 2 bytes
+
+</ol>
+
+<p>
+Si volem recuperar l'MBR en un disc que no tingui exactament el mateix esquema i mida de particions, <span id="clonar amb fsarchiver-Guardar i recuperar MBR-NOMÉS"></span><strong id="NOMÉS">NOMÉS</strong> hem de recuperar els primers 444 bytes. Per tant:<br />
+</p>
+
+<ul>
+<li>
+Per guardar l'MBR:
+
+</ul>
+<p>
+<code>dd if=/dev/sda of=mbr.img count=1 bs=512</code><br />
+</p>
+
+<ul>
+<li>
+Per recuperar l'MBR:
+
+</ul>
+<p>
+<code>dd if=mbr.img of=/dev/sda count=1 bs=444 </code><br />
+</p>
+<blockquote>
+(atenció!)
+</blockquote>
+
+<p>
+Si no ens funciona, haurem de mirar d'instal.lar o actualitzar les entrades al gestor d'arranc de manera convenient (per exemple arrencar amb un sistema live i fer un grub-install).<br />
+Un cop haguem recuperat la partició a l'equip de destí per a arrencar el sistema haurem de tenir cura també de modificar /etc/fstab si pertoca.<br />
+</p>
+
+
+<div id="clonar amb fsarchiver-Systemrescuecd"><h3 id="Systemrescuecd" class="header"><a href="#clonar amb fsarchiver-Systemrescuecd">Systemrescuecd</a></h3></div>
+<p>
+Per a accedir als sistemes als que volguem "clonar" ho podem fer amb el (fantàstic) CD bootable systemrescuecd.<br />
+Ens facilitarà molt la vida muntar una ubicació remota  (per a deixar o recuperar imatges); ho farem amb aquestes sintaxi:<br />
+</p>
+
+<ul>
+<li>
+Muntar recurs samba:
+
+</ul>
+<p>
+<code>mount -t cifs //192.168.1.5/recurs   /mnt/smb_remot   -o username=nom%password</code><br />
+</p>
+
+<ul>
+<li>
+Muntar recurs nfs:
+
+</ul>
+<p>
+<code>mount  192.168.1.5:/recurs   /mnt/nfs_remot   -o nolock</code><br />
+</p>
+
+<ul>
+<li>
+Muntar recurs ssh:
+
+</ul>
+<p>
+<code>sshfs username@192.168.1.5:/directori_remot   /mnt/ssh_remot </code><br />
+</p>
+
+<p>
+I finalment un exemple de com recuperar un windows XP des d'una imatge de fsarchiver:<br />
+</p>
+
+<ul>
+<li>
+Arrenquem amb systemrescuecd.
+
+<li>
+Amb fdisk preparem disc i creem partició de destí:
+
+<li>
+  opció "o" genera una nova taula de particions DOS al disc
+
+<li>
+  fem una partició nova "n" i la fem bootable amb l'opció "a"
+
+<li>
+  la marquem com tipus 7, amb l'opció "t" i especificant "7" (NTFS)
+
+<li>
+Si la imatge fsarchiver está a un servidor samba accessible per xarxa, ens connectem al recurs amb un mount -t cifs com indica unes línies amunt.
+
+</ul>
+	
+<ul>
+<li>
+Ara fem un:        
+
+</ul>
+
+<p>
+<code>fsarchiver restfs  imatgeXP.fsa   id=0,dest=/dev/sda1             </code><br />
+</p>
+<blockquote>
+(Imaginarem que el disc de destí és /dev/sda i només hem creat una partició).
+</blockquote>
+
+<ul>
+<li>
+Finalment hem de recuperar l'MBR. Fem  
+
+</ul>
+
+<p>
+<code>ms-sys -m /dev/sda</code><br />
+</p>
+
+<p>
+Recordem que la partició a arrencar ha d'estar marcada com a activa i arrencable (ho podem fer des de gparted, p.e)<br />
+</p>
+
+<p>
+Si estem recuperant sobre el mateix ordinador del que vam generar la imatge, cap problema. Si no ens haurem d'enfrontar amb més que possibles problemes si la controladora de disc és molt diferent, si l'ordre de les particions no quadra (fitxer boot.ini) i finalment amb la reactivació de la llicència de l'XP degut a que hauran canviat més de 3 components de hardware respecte a l'equip inicial.<br />
+</p>
+
+</body>
+</html>

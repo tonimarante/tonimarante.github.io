@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>crypt_carpetes</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="crypt carpetes"><h2 id="crypt carpetes" class="header"><a href="#crypt carpetes">crypt carpetes</a></h2></div>
+<p>
+<span id="crypt carpetes-Encriptar una carpeta amb dm-crypt i LUKS"></span><strong id="Encriptar una carpeta amb dm-crypt i LUKS">Encriptar una carpeta amb dm-crypt i LUKS</strong><br />
+:tagcryptfolder:<br />
+<em>Última actualització: novembre de 2016</em><br />
+</p>
+
+<p>
+En realitat no encriptarem una carpeta, el que farem serà muntar un fitxer de loop encriptat en la carpeta que volguem.<br />
+</p>
+
+<p>
+Primer creem un fitxer contenidor, de la mida que desitgem. En aquest cas serà de 6 GB:<br />
+</p>
+
+<p>
+<code>    dd if=/dev/urandom of=~/cryptofile bs=1M count=6000</code><br />
+</p>
+
+<p>
+Ara hem de preparar el fitxer:<br />
+</p>
+<pre>
+    losetup /dev/loop0  ~/cryptofile
+    cryptsetup luksFormat /dev/loop0
+</pre>
+
+<p>
+(ens demanarà una clau per encriptar-lo)<br />
+Tambe podem seleccionar un altre mètode d'encriptació. Primer hem de saber quins mètodes ens proporciona el kernel:<br />
+<code>    cryptsetup --help|tail -n 8</code><br />
+</p>
+
+<p>
+ara, per exemple: <br />
+<code>    cryptsetup --verbose --cipher aes luksFormat /dev/sda3</code><br />
+</p>
+
+
+<p>
+Un cop tenim el fitxer preparat, el podem muntar:<br />
+</p>
+
+<p>
+<code>    cryptsetup --type luks open /dev/loop0 secret</code><br />
+</p>
+
+<p>
+I formatem la primera vegada:<br />
+</p>
+
+<p>
+<code>    mkfs.ext4 /dev/mapper/secret</code><br />
+</p>
+
+<p>
+Ja ho tenim.<br />
+A partir d'aquí, per muntar:<br />
+</p>
+<pre>
+losetup /dev/loop0  ~/cryptofile
+cryptsetup --type luks open /dev/loop0 secret
+mount -t ext4 /dev/mapper/secret   /mnt/secret
+</pre>
+
+<p>
+Per desmuntar:<br />
+</p>
+<pre>
+umount /mnt/secret
+cryptsetup close secret
+losetup -d /dev/loop0 
+</pre>
+
+<div id="Com canviar o afegir un passwd de crypt"><h2 id="Com canviar o afegir un passwd de crypt" class="header"><a href="#Com canviar o afegir un passwd de crypt">Com canviar o afegir un passwd de crypt</a></h2></div>
+
+<p>
+Tenim disponibles a crypt, amb luks, fins a 6 slots o contrasenyes.<br />
+</p>
+
+<p>
+Per a veure els slots:<br />
+<code>    cryptsetup luksDump /dev/&lt;device&gt;</code><br />
+</p>
+
+<p>
+Per a afegir una clau:<br />
+<code>    cryptsetup luksAddKey /dev/&lt;device&gt; (/path/to/&lt;additionalkeyfile&gt;) </code><br />
+</p>
+ 
+<p>
+Per a canviar el password de la clau número 6:<br />
+<code>    cryptsetup luksChangeKey /dev/&lt;device&gt; -S 6</code><br />
+</p>
+
+<p>
+Per a esborrar una clau, tenim dues opcions:<br />
+</p>
+
+<ul>
+<li>
+Esborrar la clau que te el password que introduim:
+
+</ul>
+  
+<p>
+<code>    cryptsetup luksRemoveKey /dev/&lt;device&gt;</code><br />
+</p>
+    
+<ul>
+<li>
+Esborrar la clau segons el número d'slot:
+
+</ul>
+  
+<p>
+<code>    cryptsetup luksKillSlot /dev/&lt;device&gt; 6</code><br />
+</p>
+
+</body>
+</html>

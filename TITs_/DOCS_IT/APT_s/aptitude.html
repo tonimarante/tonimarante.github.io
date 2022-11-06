@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>aptitude</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="aptitude"><h2 id="aptitude" class="header"><a href="#aptitude">aptitude</a></h2></div>
+<p>
+Última modificació: maig de 2012<br />
+</p>
+
+<p>
+Aptitude es pot fer servir tant des de línia de comandaments com des de la interfície ncurses:<br />
+</p>
+
+
+<p>
+A aquesta interfície ncurses podem entrar com a usuari normal o com a root (evidentment amb permisos d'usuari normal no podrem fer coses com instal·lar nou programari o actualitzar el sistema).<br />
+La interfície està dividida en tres parts (de dalt a baix):<br />
+</p>
+
+<p>
+	Menús (podem accedir fent Ctrl+T tal como indica el menú mateix). Mirant els menus veiem quines combinacions de tecles ens permeten fer cada cosa; a qualsevol banda si necessitem ajuda podem picar a "?"<br />
+	Paquets<br />
+	informació adicional<br />
+</p>
+
+<p>
+Ens podem moure per la jerarquia de paquets desplegant els diferents nivells (Paquets nous, Paquests instal·lats, etc). Ens podem anar endinsant per l'arbre fins a arribar al nivell de paquet. Si a sobre d'un paquet fem "enter", s'obre una finestra nova: al menú superior veiem el nom del paquet que estem inspeccionant (com en una "pestanya" nova) i a la part mitja ens desapareix el separador i tot l'espai central queda ocupat per la informació del paquet. En aquest moment si volem tornar enrere i tancar aquesta nova pestanya, hem de picar "q". Podem tenir vàries "pestanyes" obertes; si volem desplaçar-nos entre elles ho podem fer amb les tecles F6 i F7.<br />
+</p>
+
+<p>
+Quan estem a sobre d'un paquet determinat, podem fer servir algunes tecles per a obtenir informació adicional:<br />
+</p>
+
+<p>
+	d   dependències<br />
+	r    dependèncias inverses<br />
+	v    versions disponibles per a el paquet seleccionat<br />
+	C   veure el registre de canvis (changelog). Quan demanem aquesta info se la baixa d'internet en aquest mateix moment.<br />
+</p>
+
+<p>
+En tots els casos per a tornar a la pantalla anterior, picarem a la q.<br />
+</p>
+
+<p>
+Quan estem a sobre d'un paquet podem marcar coses que volguem fer amb ell:<br />
+Premem:<br />
+</p>
+
+<p>
+	 +  si volem Instal·lar/actualitzar un paquet<br />
+</p>
+<ul>
+<li>
+  si volem eliminar un paquet
+<br />	 _  si volem purgar un paquet
+<br />	 =  si volem retenir un paquet
+<br />	 :   si volem mantenir un paquet
+<br />	 L  si volem reinstalar un paquet
+
+</ul>
+
+<p>
+Quan acabem de marcar totes les acciones que considerem necessàries, li direm a aptitude que apliqui els canvis picant la tecla g.<br />
+</p>
+
+<p>
+Cada línia d'un paquet comença amb una o dues lletres. Son flags; el primer indica l'estat del paquet i el segon l'acció a realitzar quan premem la tecla g.<br />
+</p>
+
+<p>
+Significats del flag d'estat:<br />
+</p>
+
+<p>
+	i     el paquet està instal·lat<br />
+	c    el paquet ha estat eliminat però s'han conservat els seus arxius de configuració<br />
+	p    el paquet no s'ha instal·lat mai o ha estat purgat del sistema<br />
+	v     és un paquet virtual<br />
+	B    el paquet te dependències trencades<br />
+	u     el paquet ha estat desempaquetat, però encara no s'ha configurat<br />
+	C    el paquet està a mig configurar; segurament es va interrompre bruscament la seva configuració<br />
+	H    el paquet està a mig instal·lar<br />
+</p>
+
+<p>
+Significats del flag d'acció:<br />
+</p>
+
+<p>
+	i      el paquet s'instal·larà<br />
+	u     el paquet s'actualitzarà<br />
+	d     el paquet s'eliminarà (però es mantindran els seus fitxers de configuració)<br />
+	p     el paquet serà purgat<br />
+	h     el paquet serà bloquejat en aquesta versió fins que no es digui el contrari<br />
+	F    es prohibeix l'actualització del paquet<br />
+	r     el paquet es reinstal·larà<br />
+	B    paquet trencat<br />
+</p>
+
+<p>
+Un exemple de l'operativa a fer si volem fer un upgrade del sistema:<br />
+</p>
+
+<p>
+	u   (equival a fer un aptitude update)<br />
+	U  (marquem que volem actualizar tots els paquets actualitzables)<br />
+	g  (aplicar els canvis; mostra info i ens demana confirmació)<br />
+	g  (es fa efectiu el aptitude upgrade)<br />
+</p>
+
+
+
+<p>
+Respecte a com treballa aptitude des de la línia de comandaments, bàsicament treballa amb la mateixa sintaxi que apt-get. Ès una mica diferent, però:<br />
+</p>
+
+<p>
+	aptitude search pot buscar en les metadades dels paquets (apt-get encara no ho fa).<br />
+	Aptitude és una mica més "agosarat" que apt-get a l'hora d'actualitzar el sistema. Per exemple si fem un aptitude dist-upgrade, aptitude a més d'actualitzar els paquets existents, potser instal·larà algun de nou que consideri necessari. Apt-get en aquest mateix cas intentarà només actualitzar els paquets existents, sense afegir-ne de nous.<br />
+</p>
+
+</body>
+</html>

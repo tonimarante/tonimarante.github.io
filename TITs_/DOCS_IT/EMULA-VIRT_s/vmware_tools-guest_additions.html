@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>vmware_tools-guest_additions</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="vmware tools-guest additions"><h2 id="vmware tools-guest additions" class="header"><a href="#vmware tools-guest additions">vmware tools-guest additions</a></h2></div>
+<p>
+*<span id="vmware tools-guest additions-Instal.lar les Vmware Tools en Debian i Fedora"></span><strong id="Instal.lar les Vmware Tools en Debian i Fedora">Instal.lar les Vmware Tools en Debian i Fedora</strong>*<br />
+Última actualització: setembre 2022<br />
+</p>
+
+<div id="vmware tools-guest additions-Open VM tools in Debian"><h5 id="Open VM tools in Debian" class="header"><a href="#vmware tools-guest additions-Open VM tools in Debian">Open VM tools in Debian</a></h5></div>
+<p>
+Una bona opció és instal·lar les Open VM tools:<br />
+<code>    apt install open-vm-tools</code><br />
+</p>
+
+
+<div id="vmware tools-guest additions-Vmware Tools en Debian"><h5 id="Vmware Tools en Debian" class="header"><a href="#vmware tools-guest additions-Vmware Tools en Debian">Vmware Tools en Debian</a></h5></div>
+<p>
+Abans, haurem de tenir instal·lat les eines de compilar i les capçaleres del kernel en ús.<br />
+1- Instal·lem:<br />
+</p>
+<pre>
+apt-get install make gcc
+apt-get install linux-headers-`uname -r`
+</pre>
+
+<p>
+Alternativament, en comptes de les dues instruccions anteriors podriem fer això; el que més ens agradi:<br />
+apt-get install build-essential module-assistant<br />
+<code>m-a  prepare</code><br />
+</p>
+
+<p>
+2- Muntem l'ISO que conté les tools, descomprimim el tar.gz i executem<br />
+<code>vmware-install.pl</code><br />
+</p>
+
+<p>
+3- Per a qualsevol canvi posterior, tornarem a executar <br />
+<code>vmware-config-tools.pl</code><br />
+</p>
+
+<p>
+4- Si volem desinstal.lar les tools, executarem <br />
+<code>/usr/bin/vmware-uninstall-tools.pl</code><br />
+</p>
+
+
+<p>
+Vmware Tools en Fedora:<br />
+Instal·lem:<br />
+<code>yum install perl gcc make kernel-devel</code><br />
+</p>
+
+<p>
+I els mateixos pasos 2, 3 i 4 anteriors <br />
+</p>
+
+
+<div id="vmware tools-guest additions-Instal.lar les Guest Additions (Virtualbox) en Debian i Ubuntu"><h5 id="Instal.lar les Guest Additions (Virtualbox) en Debian i Ubuntu" class="header"><a href="#vmware tools-guest additions-Instal.lar les Guest Additions (Virtualbox) en Debian i Ubuntu">Instal.lar les Guest Additions (Virtualbox) en Debian i Ubuntu</a></h5></div>
+<p>
+Última actualització: abril 2015<br />
+</p>
+
+<p>
+Per a preparar el sistema hem d'instal.lar paquets que ens permetin compilar:<br />
+</p>
+
+<p>
+<code>apt-get install build-essential module-assistant</code><br />
+</p>
+
+<p>
+Ara preparem el sistema per a poder construir mòduls de kernel:<br />
+</p>
+
+<p>
+<code>m-a  prepare</code><br />
+</p>
+
+<p>
+De fet aquests dos pasos anteriors son vàlids/necessaris també per a instal·lar les VMware Tools i les Parallels Tools.<br />
+</p>
+
+<p>
+Per a instal·lar les Guest Additions, un cop muntada la ISO que les conté, fem:<br />
+</p>
+    
+<p>
+<code>VBoxLinuxAdditions.run</code><br />
+</p>
+
+<p>
+Per a desinstal·lar les Guest Additions:<br />
+</p>
+
+<p>
+<code>VBoxLinuxAdditions.run uninstall</code><br />
+</p>
+    
+
+
+<p>
+Nota: per a instal.lar les Guest Additions en Arch, necessitem les linux-headers<br />
+<code>pacman -S linux-headers</code><br />
+</p>
+   
+
+<div id="vmware tools-guest additions-Instal·lar les Parallels Tools a Scientific Linux 6"><h5 id="Instal·lar les Parallels Tools a Scientific Linux 6" class="header"><a href="#vmware tools-guest additions-Instal·lar les Parallels Tools a Scientific Linux 6">Instal·lar les Parallels Tools a Scientific Linux 6</a></h5></div>
+<p>
+Última actualització: agost 2012<br />
+</p>
+
+<p>
+Primer instal·lem tot el necessari per a poder compilar els mòduls corresponents a les tools:<br />
+<code>yum install gcc kernel-devel make</code><br />
+</p>
+
+<p>
+I instal·lem les tools com sempre. Jo sempre faig:<br />
+</p>
+
+<p>
+muto el CD que les conté i copio la carpeta "Parallels Tools" cap a alguna banda al disc dur.<br />
+Executo com a root, "install"<br />
+Per a desinstal·lar, executem el mateix "install", però escullim fer un "remove" de les Tools.<br />
+</p>
+
+</body>
+</html>

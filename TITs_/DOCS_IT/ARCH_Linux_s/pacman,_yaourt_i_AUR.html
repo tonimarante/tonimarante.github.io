@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>pacman,_yaourt_i_AUR</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="pacman, yaourt i AUR"><h2 id="pacman, yaourt i AUR" class="header"><a href="#pacman, yaourt i AUR">pacman, yaourt i AUR</a></h2></div>
+<p>
+Última modificació: juliol de 2015<br />
+</p>
+
+<p>
+Per a instal·lar programari a Arch Linux, tenim pacman. El seu fitxer de configuració és /etc/pacman.conf i en aquest ens hem d'assegurar de tenir activat com a mínim core, extra i community. Si el sistema que estem instal·lat és de 64 bits, estaria bé activar també multilib.<br />
+</p>
+
+<p>
+Actualitzar el sistema:<br />
+<code>pacman -Syu</code><br />
+</p>
+
+<p>
+Buscar un programari:<br />
+<code>pacman -Ss alsamixer</code><br />
+</p>
+
+<p>
+Instal·lar un programari (en aquest exemple, alsamixer):<br />
+<code>pacman -S alsamixer</code><br />
+</p>
+
+<p>
+Desinstal·lar (n per a eliminar fitxers de configuracio i s per a eliminar dependències):<br />
+<code>pacman -Rns alsamixer</code><br />
+</p>
+
+<p>
+Netejar la cache (paquets descarregats):<br />
+<code>pacman -Scc</code><br />
+</p>
+
+
+<p>
+Instal·lar paquets des de AUR<br />
+Amb pacman instal·lem els binaris oficials d'Arch.<br />
+AUR (Arch User Repository) és un repository que ens proveeix dels programaris que proporcionen els usuaris. Si algun d'aquests programaris es converteix en molt popular s'incorpora als binaris oficials precompilats.<br />
+A AUR tenim material que s'ha de baixar i compilar. Així:<br />
+</p>
+
+<p>
+El primer que hem de fer es instal·lar les eines de compilació:<br />
+<code>pacman -S base-devel</code><br />
+</p>
+
+<p>
+Baixem el AUR que volem i els descomprimim:<br />
+<code>tar xvf gigolo.tar.gz</code><br />
+</p>
+
+<p>
+Entrem a la carpeta descomprimida i:<br />
+<code>makepkg -s</code><br />
+</p>
+
+<p>
+Un cop compilat el paquet, l'instal·lem amb pacman:<br />
+<code>pacman -U gigolo_build.tar.xz</code><br />
+</p>
+
+
+<p>
+Yaourt<br />
+Per a instal·lar programaris AUR, tenim l'opció d'instal·lar wrappers de pacman i aur. El més popular ara mateix és yaourt.<br />
+Primer hem de fer és instal·lar el yaourt (i les seves dependències). Un cop instal·lat, podem instal·lar paquets de AUR com si fosin els binaris oficials:<br />
+</p>
+ 
+<p>
+Actualitzar el sistema (binaris oficials + Aur):<br />
+<code>yaourt -Syu</code><br />
+</p>
+
+<p>
+millor: <br />
+<code>sudo pacman-mirrors -g &amp;&amp; sudo pacman -Syu &amp;&amp; yaourt -Syua</code><br />
+</p>
+
+<p>
+Buscar un programari:<br />
+<code>yaourt -Ss alsamixer</code><br />
+</p>
+
+<p>
+Instal·lar un programari (en aquest exemple, alsamixer):<br />
+<code>yaourt -S alsamixer</code><br />
+</p>
+
+<p>
+Desinstal·lar (n per a eliminar fitxers de configuracio i s per a eliminar dependències):<br />
+<code>yaourt -Rns alsamixer</code><br />
+</p>
+
+<p>
+pacmanxg4 <br />
+Es un frontal gràfic per a pacman i yaourt. El podem  instal·lar amb: <br />
+</p>
+
+<p>
+<code>	yaourt -S pacmanxg4</code><br />
+</p>
+
+
+<p>
+Problemes instal·lant paquets (paquet invàlid o corrupte)<br />
+Si ens trobem un error instal·lant paquets de "paquet invàlid o corrupte" o be ens diu que no es pot importar alguna clau pública, farem:<br />
+</p>
+
+<pre>
+		rm -Rv /etc/pacman.d/gnupg/*    (no necessari depenent del cas)
+		pacman-key --init
+		pacman-key --populate archlinux  manjaro  (afegirem manjaro si estem a una Manjaro)
+		pacman -S archlinux-keyring manjaro-keyring
+		pacman-key  --refresh-keys
+</pre>
+
+<p>
+<a href="https://wiki.archlinux.org/index.php/Pacman-key<br">https://wiki.archlinux.org/index.php/Pacman-key<br</a> />
+</p>
+
+
+<p>
+***** <br />
+Útil: <a href="http://distrowatch.com/dwres.php?resource=package-management">http://distrowatch.com/dwres.php?resource=package-management</a> (Package management reference card for Linux distributions and FreeBSD)<br />
+</p>
+
+</body>
+</html>

@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>archivers</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="Archivers"><h1 id="Archivers" class="header"><a href="#Archivers">Archivers</a></h1></div>
+<p>
+:tagarchive,tag7z:<br />
+Última modificació: gener de 2021<br />
+</p>
+
+<div id="Archivers-7z"><h2 id="7z" class="header"><a href="#Archivers-7z">7z</a></h2></div>
+<p>
+  a: Add files to archive<br />
+  b: Benchmark<br />
+  d: Delete files from archive<br />
+  e: Extract files from archive (without using directory names)<br />
+  l: List contents of archive<br />
+  t: Test integrity of archive<br />
+  u: Update files to archive<br />
+  x: eXtract files with full paths<br />
+</p>
+
+
+<p>
+Per a comprimir varis fitxers o directoris, aplicarem recusivitat:<br />
+<code>    7z a -r -y  fitxer_comprimit   /home/toni/carpeta_a_comprimir</code><br />
+</p>
+
+<p>
+El mateix que l'anterior, però encriptem el fitxer resultant amb un password:<br />
+<code>    7z a -r -y  fitxer_comprimit   /home/toni/carpeta_a_comprimir</code><br />
+</p>
+
+<p>
+Pot generar fitxers dividits en diferents volums de la mida que volguem. Exemple:<br />
+<code>    7z a -r -y -mx0 -v100m  pics  /home/toni/Pictures/</code><br />
+Comprimeix la carpeta Pictures a un o varis fitxers "pics" (seran de 100 MB cadascú), recursivament i sense compressió (només arxivat). Va bé pujar fitxers a box.com sense tenir compte de pagament.<br />
+mx9 si volem la  màxima compressió.<br />
+</p>
+
+<p>
+Per a excloure alguns fitxers, en l'exemple següent el fitxer CRYPTOFILE i la paperera:<br />
+<code>    7z a -r -y fitxer_comprimit /home/toni/carpeta_a_comprimir/*  '-x!*CRYPTOFILE' 'x!*share/Trash'</code><br />
+</p>
+
+
+<div id="Archivers-Tar"><h2 id="Tar" class="header"><a href="#Archivers-Tar">Tar</a></h2></div>
+<p>
+Operacions principals:<br />
+--list<br />
+--extract<br />
+--create<br />
+--compare<br />
+--append afegeix fitxers al final d'un arxiu<br />
+--update<br />
+--concatenate afegeix un tar a un altre tar<br />
+--delete<br />
+</p>
+
+<p>
+Modificadors d'operació:<br />
+--overwrite sobreescriu en extreure<br />
+--ignore-failed-read continua encara que hi hagi errors (fitxers oberts...)<br />
+--file=nom_arxiu fa servir l'arxiu o dispositiu NOM_ARXIU<br />
+--gzip comprimeix amb zip<br />
+--directory=DIR canvia a directori DIR (en extreure, per exemple)<br />
+--exclude=PATTERN<br />
+--absolute-names<br />
+--dereference no enllaç simbòlic, si no el arxius realment<br />
+--no-recursion<br />
+--verbose<br />
+--totals mostra bytes escrits a l'arxiu en terminar<br />
+</p>
+
+<p>
+Exemple d'arxivat i compressió amb gzip d'un directori:<br />
+<code>    tar cvzf home.tar.gz  /home/toni/</code><br />
+</p>
+
+<p>
+Descomprimir:<br />
+<code>    tar xvzf home.tar.gz</code><br />
+</p>
+
+<p>
+Si volem comprimir el mateix però amb bzip2, substituirem el paràmetre z per una j (en comptes de cvzf seria cvjf)<br />
+</p>
+
+
+<div id="Archivers-zip"><h2 id="zip" class="header"><a href="#Archivers-zip">zip</a></h2></div>
+<p>
+-u  update<br />
+-r  recursive<br />
+-e  encrypt<br />
+-0  store only<br />
+-y  copia link, no destí<br />
+-o  data de l'arxiu més nou que es comprimeixi<br />
+</p>
+
+<p>
+Exemple: comprimir (actualitzant i refrescant l'arixu de destí) de les carpetes existents a un directori i especificades per un fitxer llista.txt.<br />
+</p>
+<pre>
+for i in $( cat llista.txt ); do
+   zip -u -r /media/sda1/COPIES_SEG/$i $i
+done
+</pre>
+
+<div id="Archivers-cp"><h2 id="cp" class="header"><a href="#Archivers-cp">cp</a></h2></div>
+<p>
+-a equival a -dpR<br />
+-d no segueixis links<br />
+-p preserva atributs d'arxiu, si és possible<br />
+-R recursiu<br />
+-u només si és més nou o pendent<br />
+-v verbose<br />
+</p>
+
+
+<div id="Archivers-arj"><h2 id="arj" class="header"><a href="#Archivers-arj">arj</a></h2></div>
+<p>
+Per a Linux tenim la implementació en codi lliure (<a href="http://arj.sourceforge.net/)">http://arj.sourceforge.net/)</a> que intenta ser compatible al màxim amb l'original.<br />
+</p>
+
+<p>
+Exemple: comprimir (actualitzant i refrescant l'arixu de destí) de les carpetes existents a un directori i especificades per un fitxer llista.txt. El fitxer de destí pot ser de 1,9 Gb màxim; si és superior es dividirà en diferents volums amb aquest límit de mida.<br />
+</p>
+<pre>
+for i in $( cat llista.txt ); do
+	arj a -f -u -r -y -v1900000k /media/sda1/COPIES_SEG/$i $i
+	#(podem fer també arj a -fury -v19... , més fàcil de recordar)
+done
+</pre>
+
+<p>
+Una opció molt interessant d'arj és el modificador -j#, que podem fer servir per a fer inventari d'un directori, pendrive, etc. Exemple:<br />
+<code>    arj a -r -j#    fitxer_inventari.arj     directori_o_suport_a_inventariar</code><br />
+</p>
+
+<p>
+Això generarà un fitxer arj que serà com un comprimit, amb la diferència que no guarda els fitxers realment a dintre de l'arj. A canvi tindrem un arj que podrem navegar amb algun archiver i veure les nostres carpetes i fitxers amb la informació de mida que tenen en la ubicació que hem "arxivat".<br />
+</p>
+
+
+<div id="Archivers-Atool"><h2 id="Atool" class="header"><a href="#Archivers-Atool">Atool</a></h2></div>
+<p>
+És un conjunt d'scripts que serveixen per no haver de memoritzar els modificadors del programaris "arxivadors" (compressors).<br />
+</p>
+
+<p>
+Això que vol dir? Quan volem comprimir un fitxer o directori, depenent si ho volem fer en zip o tar.gz haurem de passar uns paràmetres als binaris per tal d'obtenir el resultat desitjat. Atool "sap" quin paràmetre ha de passar a cada compressor de manera que ens estalviem aquesta feina. Treballa amb infinitat de compressors.<br />
+</p>
+
+<p>
+La sintaxis és del tipus:<br />
+<code>	atool -opcions COMPRIMIT fitxers</code><br />
+</p>
+
+<p>
+Però te alguns alias per facilitar encara més la feina. Per exemple:<br />
+</p>
+
+<ul>
+<li>
+En comptes de: atool -l, podem fer servir als   (llistar contingut)
+
+<li>
+En comptes de: atool -x, podem fer servir aunpack (extreure o descomprimir)
+
+<li>
+I en comptes de: atool -a, podem fer servir apack (afegir o crear)
+
+</ul>
+
+<p>
+I n'hi han alguns més. <a href="http://www.nongnu.org/atool/<br">http://www.nongnu.org/atool/<br</a> />
+</p>
+
+
+<div id="Archivers-Scripts de compressió massiva"><h2 id="Scripts de compressió massiva" class="header"><a href="#Archivers-Scripts de compressió massiva">Scripts de compressió massiva</a></h2></div>
+<ul>
+<li>
+Comprimeix tots els fitxers que hi hagi a un directori, deixant com a sortida un fitxer comprimit per a cada fitxer original:
+<pre>
+	#!/bin/bash
+	 for i in $( ls -1 ); do
+	 tar cvzf "$i.tar.gz" `pwd`/$i
+	#echo $i   
+		done
+</pre>
+
+</ul>
+
+<ul>
+<li>
+El mateix però amb zip, sense comprimir (només store) i funciona amb noms de directoris i fitxers que continguis espais (ideal per acomprimir directoris de mp3 reproduïbles amb l'VLC):
+<pre>
+for x in *; do
+	if [ -d "$x" ]; then
+		zip -r -0 "$x.zip" "$x"
+	fi
+done
+</pre>
+
+</ul>
+
+</body>
+</html>

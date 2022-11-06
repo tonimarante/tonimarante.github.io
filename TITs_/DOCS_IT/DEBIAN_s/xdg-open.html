@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>xdg-open</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="xdg-open"><h2 id="xdg-open" class="header"><a href="#xdg-open">xdg-open</a></h2></div>
+<p>
+Última modificació: gener de 2015<br />
+</p>
+
+<p>
+*<span id="xdg-open-xdg-open per a gestors de finestres &quot;alternatius&quot;"></span><strong id="xdg-open per a gestors de finestres &quot;alternatius&quot;">xdg-open per a gestors de finestres "alternatius"</strong>*<br />
+xdg-open és una eina que ens permet definir amb quines aplicacions per defecte obrirem determinats fitxers. Per exemple, si una aplicació vol obrir un fitxer jpg, cridarà a xdg-open:<br />
+</p>
+  
+<p>
+xdg-open imatge.jpg<br />
+</p>
+
+<p>
+Si estem treballant amb entorns d'escritori "grans" (Gnome, KDE, XFCE), xdg-open simplement passa la crida a l'entorn d'escritori (amb gvfs-open, kde-open o exo-open) que s'encarrega d'obrir el fitxer.<br />
+</p>
+
+<p>
+En canvi, si treballem amb un gestor de finestres (Openbox, i3wm...), xdg-open ha de fer la feina per si mateix.<br />
+</p>
+
+<p>
+Si volem saber el mimetype d'un fitxer, utilitzarem mimetype:<br />
+</p>
+
+<p>
+mimetype imatge.jpg <br />
+imatge.jpg: image/jpeg<br />
+</p>
+
+<p>
+mimetype /etc<br />
+/etc:  inode/directory<br />
+</p>
+
+<p>
+Si ara volem saber amb quina aplicació obrim els .jpg, per exemple:<br />
+</p>
+
+<p>
+xdg-mime query default image/jpeg<br />
+gpicview.desktop<br />
+</p>
+
+<p>
+Si volem definir les notres aplicacions:<br />
+</p>
+
+<p>
+xdg-mime default mirage.desktop image/jpeg<br />
+</p>
+
+<p>
+xdg-mime default Thunar.desktop <br />
+</p>
+
+</body>
+</html>

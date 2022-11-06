@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>iSCSI,_cabina</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="iSCSI, cabina"><h2 id="iSCSI, cabina" class="header"><a href="#iSCSI, cabina">iSCSI, cabina</a></h2></div>
+<p>
+*<span id="iSCSI, cabina-Cabina iSCSI Debian per a ESX"></span><strong id="Cabina iSCSI Debian per a ESX">Cabina iSCSI Debian per a ESX</strong>*<br />
+Última actualització: agost 2011  <br />
+</p>
+
+<p>
+Partim de la base de que tenim un servidor amb una controladora decenteta. Configurarem els discs en RAID i si només volem "exposar" un volum no farà falta particionar. SI volem exposar varis volums particionarem el disc. Com segurament serà un disc de gran capacitat, millor actualitzar fdisk amb: <br />
+apt-get install gnu-fdisk<br />
+Atenció, NO tenim que muntar aquests volums via /etc/fstab.<br />
+</p>
+
+<p>
+Instal·lem el material necessari:<br />
+<code>apt-get install iscsitarget iscsitarget-dkms</code><br />
+</p>
+
+<p>
+Imaginem que hem particionat el nostre RAID en dues particions. /etc/iet/ietd.conf podria quedar així:<br />
+</p>
+
+<p>
+Fitxer: /etc/iet/ietd.conf <br />
+</p>
+<pre>
+iSNSAccessControl Yes
+##
+Target iqn.2011-05.local.tux.cabina:ESXi.Volume01
+  IncomingUser ESXi 1234
+  Lun 0 Path=/dev/md0p1,Type=fileio,ScsiSN=VMWARE-0001
+  Alias ESXi-Volume01
+##
+Target iqn.2011-05.local.tux.cabina:ESXi.Volume02
+  IncomingUser ESXi 1234
+  Lun 0 Path=/dev/md0p2,Type=fileio,ScsiSN=VMWARE-0002
+  Alias ESXi-Volume02
+</pre>
+
+<p>
+Farem servir CHAP per a permetre l'accés o no. La línia IncomingUser defineix login / password.<br />
+Per a poder fer servir CHAP hem d'haver activat iSNSAccessControl Yes (per defecte la línia ve amb "No" i comentada). Amb l'acces control activat també podem exposar els nostres volums només a IP determinades:<br />
+</p>
+
+<p>
+Fitxer: /etc/iet/initiators.allow<br />
+</p>
+<pre>
+#ALL ALL
+iqn.2011-05.local.tux.cabina:ESXi.Volume01 192.168.35.2
+iqn.2011-05.local.tux.cabina:ESXi.Volume02 192.168.33.2
+</pre>
+
+<p>
+Fitxer : /etc/default/iscsitarget<br />
+<code>ISCSITARGET_ENABLE=true</code><br />
+</p>
+
+<p>
+Un cop configurat, reiniciem el dimoni:<br />
+<code>invoke-rc.d iscsitarget restart  (o /etc/init.d/ iscsitarget restart)</code><br />
+</p>
+
+<p>
+I ja està.<br />
+</p>
+
+<p>
+Informació útil i que he fet servir:<br />
+<a href="http://wiki.debian.org/iSCSI/iscsitarget<br">http://wiki.debian.org/iSCSI/iscsitarget<br</a> />
+<a href="http://sourceforge.net/apps/mediawiki/iscsitarget/index.php?title=The_case_of_stale_iSCSI_LU<br">http://sourceforge.net/apps/mediawiki/iscsitarget/index.php?title=The_case_of_stale_iSCSI_LU<br</a> />
+</p>
+
+</body>
+</html>

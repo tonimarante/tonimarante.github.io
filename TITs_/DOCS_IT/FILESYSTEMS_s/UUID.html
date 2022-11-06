@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>UUID</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="UUID"><h2 id="UUID" class="header"><a href="#UUID">UUID</a></h2></div>
+<p>
+:taguuid:<br />
+ *<span id="UUID-UUID per a treballar amb discos (o particions)"></span><strong id="UUID per a treballar amb discos (o particions)">UUID per a treballar amb discos (o particions)</strong>*<br />
+Última actualització: juny de 2011<br />
+</p>
+
+<p>
+Linux -en les seves últimes versions- fa servir l'Universal Unique Identifier per a identificar de manera inequívoca discos o particions. Això és molt convenient ja que permet configurar fstab per a muntar, p.e. dispositius en calent o discos externs USB sempre de manera correcta. Veiem un petit exemple:<br />
+Imaginem que tenim a fstab aquesta línia:<br />
+	/dev/sdd1       /mnt/elements      xfs  rw,noexec,nosuid,nodev  0  2<br />
+que correspon a una partició d'un disc extern USB. Això pot generar problemes ja que en un reinici ens podem trobar que s'hagi reasignat aquest partició com a sdc1 en comptes de sdd1, el que provocaria una aturada en el procés d'arranc del sistema ja que aquest no podrà muntar correctament /mnt/elements.<br />
+Per a evitar futurs problemes, fem:<br />
+<code>	 blkid /dev/sdd1</code><br />
+</p>
+     
+<p>
+i obtenim com a resultat:<br />
+	/dev/sdd1: UUID="e3065762-d2ee-4a9f-867f-7cfbf95705b4" TYPE="xfs"<br />
+Farem un canvi a fstab substituint la línia inicial per:<br />
+	UUID=e3065762-d2ee-4a9f-867f-7cfbf95705b4       /mnt/elements      xfs  rw,noexec,nosuid,nodev  0  2<br />
+I ja està.<br />
+</p>
+
+
+<p>
+Com canviar els UUID dels discs virtuals a VirtualBox<br />
+Si intentem enregistrar dos cops el mateix disc (original i una còpia) al Gestor de suports virtuals de VirtualBox, no ens deixa ja que ens diu que el disc ja està registrat. Així es degut a que no es regeix pel nom del disc si no pel UUID intern del disc. Per tant haurem de canviar l'UUID amb:<br />
+</p>
+   
+<p>
+<code>VBoxManage internalcommands setvdiuuid disk2.vdi </code><br />
+</p>
+
+<p>
+A les últimes versions de VirtualBox el comandament ha canviat i ara és:<br />
+</p>
+
+<p>
+<code> VBoxManage internalcommands sethduuid disk2.vdi  </code><br />
+</p>
+
+</body>
+</html>
