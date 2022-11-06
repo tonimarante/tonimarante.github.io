@@ -1,7 +1,7 @@
 #!/bin/bash
 ROOT="$HOME/Vimwiki_html/"
 #HTTP="/"
-OUTPUT="$HOME/Vimwiki_html/indexhtmls.htm" 
+OUTPUT="$HOME/Vimwiki_html/index.htm" 
 cat "$HOME/Vimwiki_html/READMEbase.htm" > "$OUTPUT"
 echo "<UL>" >> "$OUTPUT"
 for filepath in $(find "$ROOT"  -maxdepth 10 -mindepth 1 -name '*.html' | sort); do
