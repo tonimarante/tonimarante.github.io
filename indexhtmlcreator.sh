@@ -14,7 +14,7 @@ echo "</UL>" >> "$OUTPUT"
 echo "</body>" >> "$OUTPUT"
 echo "</html>" >> "$OUTPUT"
 
-git pull
+#git pull
 git add .
 git commit
 git push
