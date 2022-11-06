@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>LP_a_mp3</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="LP a mp3"><h2 id="LP a mp3" class="header"><a href="#LP a mp3">LP a mp3</a></h2></div>
+<p>
+*<span id="LP a mp3-Passar LPs o cassettes a mp3"></span><strong id="Passar LPs o cassettes a mp3">Passar LPs o cassettes a mp3</strong>*<br />
+Última actualització: abril de 2012<br />
+</p>
+
+
+<p>
+1- Gravarem el que es entri a la targeta de so, durant 1 hora amb:   <br />
+<code>    sound-recorder -c 2 -S 60:00 -f wav -k 1.wav  </code><br />
+</p>
+
+<p>
+2- Retallem automaticament les pistes amb el programari gramofile<br />
+</p>
+
+<p>
+3- Encodem tots els wav a mp3 amb lame:<br />
+</p>
+<pre>
+	#! /bin/bash
+	for i in *.wav;
+	do lame "$i" "$i".mp3
+	done
+</pre>
+
+<p>
+Si ens agrada més bladeenc...<br />
+</p>
+<pre>
+	#! /bin/bash
+	for i in *.wav;
+	do bladeenc $i $i.mp3
+	done
+</pre>
+
+<p>
+4- Si ens fa falta tornar a wav pel que sigui:<br />
+</p>
+<pre>
+#! /bin/bash
+for i in *.mp3;
+do lame --decode $i $i.wav
+done
+</pre>
+
+</body>
+</html>

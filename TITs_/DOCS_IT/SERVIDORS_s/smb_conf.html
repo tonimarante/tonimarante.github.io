@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>smb_conf</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="smb.conf"><h1 id="smb.conf" class="header"><a href="#smb.conf">smb.conf</a></h1></div>
+<p>
+:tagsmb.conf:<br />
+<em>Última actualització: desembre de 2019</em><br />
+</p>
+
+<div id="smb.conf-Exemple d'un smb.conf"><h2 id="Exemple d'un smb.conf" class="header"><a href="#smb.conf-Exemple d'un smb.conf">Exemple d'un smb.conf</a></h2></div>
+<pre>
+[global]
+workgroup = TUX
+printing = cups
+printcap name = cups
+printcap cache time = 750
+cups options = raw
+#printer admin = @ntadmin, root, administrator
+username map = /etc/samba/smbusers
+map to guest = Bad User
+#include = /etc/samba/dhcp.conf
+logon path = \\%L\profiles\.msprofile
+logon home = \\%L\%U\.9xprofile
+logon drive = P:
+security = user
+encrypt passwords = true
+ldap idmap suffix = ou=Idmap
+ldap machine suffix = ou=Computers
+netbios name = deb01
+#netbios alias= fileserv
+ldap suffix = dc=example,dc=com
+
+#*Per a deshabilitar smb v1, wannacry*
+min protocol = LANMAN2
+max protocol = SMB2
+
+#*locales:* si des d'una màquina externa que es conecti als nostres recursos compartits, es veuen els noms  de fitxer malament (accents,
+#dièresi,etc) per corregir-lo haurem de ficar aquestes 3 línies que venen a continuació:
+unix charset = ISO8859-15
+dos charset = CP850
+display charset = iso-8859-15
+#display charset = LOCALE
+
+#*auditoria: volem saber qui esborra, renombra, crea fitxers o carpetes*
+vfs objects = extd_audit
+_max log size = 5000
+
+[homes]
+comment = Home Directories
+valid users = %S
+browseable = no
+read only = no
+inherit acls = yes
+
+#[profiles]
+#comment = Network Profiles Service
+#path = %H
+#read only = no
+#store dos attributes = yes
+#create mask = 0600
+#directory mask = 0700
+
+#[users]
+#comment = All users
+#path = /home
+#read only = no
+#inherit acls = yes
+#veto files = /aquota.user/groups/shares/
+
+#[groups]
+#comment = All groups
+#path = /home/groups
+#read only = no
+#inherit acls = yes
+
+[printers]
+comment = All Printers
+path = /var/tmp
+printable = yes
+create mask = 0600
+browseable = no
+
+[print$]
+comment = Printer Drivers
+path = /var/lib/samba/drivers
+write list = @ntadmin root
+force group = ntadmin
+create mask = 0664
+directory mask = 0775
+
+#Aquí un exemple: volem que varis usuaris del grup "escriptors" puguin llegir i escriure sobre aquest recurs. L'usuari ruc
+#ha de tenir accés només de lectura. Amb aquestes línies, tots els fitxers seran creats amb els permisos 775, per tant
+#els usuaris del grups escriptors tindran accés total i la resta només de lectura. No obstant per a no tenir problemes amb els
+#accessos dels diferents usuaris del grup "escriptors", és necessari que es crein amb l'usuari "nobody" (última línia)
+
+[dades]
+		path = /RAID1-DADES/
+		read list = ruc
+		write list = @escriptors
+		force group = escriptors
+		create mask = 0775
+		force create mode = 0775
+		security mask = 0775
+		force security mode = 0775
+		directory mask = 0775
+		force directory mode = 0775
+		directory security mask = 0775
+		force directory security mode = 0775
+		*force user = nobody*
+</pre>
+        
+<div id="smb.conf-Obtenir del fitxer smb.conf només les línies &quot;actives&quot; (no comentades)"><h2 id="Obtenir del fitxer smb.conf només les línies &quot;actives&quot; (no comentades)" class="header"><a href="#smb.conf-Obtenir del fitxer smb.conf només les línies &quot;actives&quot; (no comentades)">Obtenir del fitxer smb.conf només les línies "actives" (no comentades)</a></h2></div>
+<p>
+Ho podem fer fent:<br />
+</p>
+
+<p>
+<code>    grep "^[^#;]" smb.conf</code><br />
+</p>
+
+
+<div id="smb.conf-Exemple de smb.conf mínim"><h2 id="Exemple de smb.conf mínim" class="header"><a href="#smb.conf-Exemple de smb.conf mínim">Exemple de smb.conf mínim</a></h2></div>
+<pre>
+# samba v2.4
+[global]
+   workgroup = WORKGROUP
+   log file = /var/log/samba/log.%m
+   max log size = 1000
+   logging = file
+   panic action = /usr/share/samba/panic-action %d
+   server role = standalone server
+   obey pam restrictions = yes
+   unix password sync = yes
+   passwd program = /usr/bin/passwd %u
+   passwd chat = *Enter\snew\s*\spassword:* %n\n *Retype\snew\s*\spassword:* %n\n *password\supdated\ssuccessfully* .
+   pam password change = yes
+   map to guest = bad user
+   usershare allow guests = yes
+        create mask = 0775
+        directory mask = 0775
+        # si intentem accedir des de windows i ens diu que el passwd no és correcte
+        ntlmauth=yes
+[admin]
+        path = /mnt/SDB3-DISCSYS/admin/
+        valid users = lasie
+        write list = lasie
+[GLPIMOM$]
+        path = /mnt/SDB3-DISCSYS/admin/GLPIMOM
+        guest ok = yes
+        writable = yes
+[admin_rsync$]
+        path = /mnt/SDA1/admin_rsync/
+        valid users = lasie
+        write list = lasie
+</pre>
+
+</body>
+</html>

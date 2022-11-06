@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>freeBSD_commandaments</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="freeBSD, comandaments útils"><h1 id="freeBSD, comandaments útils" class="header"><a href="#freeBSD, comandaments útils">freeBSD, comandaments útils</a></h1></div>
+<p>
+:tagfreebsd:<br />
+</p>
+
+
+<div id="freeBSD, comandaments útils-ZFS"><h2 id="ZFS" class="header"><a href="#freeBSD, comandaments útils-ZFS">ZFS</a></h2></div>
+
+<p>
+zpool status -v #shows zpool status infos<br />
+</p>
+
+<p>
+zpool iostat 1 #shows IOps and R/W bandwidth every second<br />
+</p>
+
+<p>
+zfs list -t snapshot #lists all the snapshots, add | grep "" to filter<br />
+</p>
+
+<p>
+arc_summary.py #shows ARC stats<br />
+</p>
+
+<p>
+arcstat.py #shows ARC stats<br />
+</p>
+
+<p>
+zdb -C your_pool_name | grep ashift #shows the ashift value<br />
+</p>
+
+
+
+<div id="freeBSD, comandaments útils-SMART"><h2 id="SMART" class="header"><a href="#freeBSD, comandaments útils-SMART">SMART</a></h2></div>
+
+<p>
+smartctl -h #shows smart control help, lots of commands examples<br />
+</p>
+
+<p>
+smartctl -a /dev/daX #shows all smart attributes<br />
+</p>
+
+<p>
+smartctl -A /dev/daX #same as -a but without vendor infos, last test infos, ...<br />
+</p>
+
+<p>
+smartctl -l selftest /dev/daX #shows result of last smart test<br />
+</p>
+
+<p>
+smartctl -l scttemp /dev/daX #shows the temperatures history<br />
+</p>
+
+<p>
+smartctl -t long /dev/daX #executes a long test (replace "long" by "short" for a short test)<br />
+</p>
+
+
+<div id="freeBSD, comandaments útils-HDD"><h2 id="HDD" class="header"><a href="#freeBSD, comandaments útils-HDD">HDD</a></h2></div>
+
+<p>
+glabel status  #shows gptids and devices names<br />
+</p>
+
+<p>
+gstat -f daX -I 1000ms #shows IOps and R/W bandwidth every second<br />
+</p>
+
+<p>
+iostat daX #shows IOps and R/W bandwidth<br />
+</p>
+
+<p>
+Informació discs al sistema:<br />
+</p>
+
+<p>
+egrep 'da[0-9]|cd[0-9]' /var/run/dmesg.boot<br />
+egrep 'ad[0-9]|cd[0-9]' /var/run/dmesg.boot<br />
+atacontrol list<br />
+camcontrol devlist<br />
+gpart show<br />
+sh -c '. /usr/share/bsdconfig/device.subr;f_device_menu "" "" "" DISK'<br />
+</p>
+
+
+<div id="freeBSD, comandaments útils-HBA"><h2 id="HBA" class="header"><a href="#freeBSD, comandaments útils-HBA">HBA</a></h2></div>
+
+<p>
+dmesg | grep mps #used to check FW and driver versions on HBA cards using the mps driver<br />
+</p>
+
+
+<div id="freeBSD, comandaments útils-UPS"><h2 id="UPS" class="header"><a href="#freeBSD, comandaments útils-UPS">UPS</a></h2></div>
+
+<p>
+upsc ups #shows all ups attributes (change "ups" with your ups name)<br />
+</p>
+
+
+<div id="freeBSD, comandaments útils-altres"><h2 id="altres" class="header"><a href="#freeBSD, comandaments útils-altres">altres</a></h2></div>
+
+<p>
+kldload ipmi.ko #loads ipmitool<br />
+ipmitool sensor #shows all ipmi sensors values<br />
+</p>
+
+<p>
+systat -vm #shows system infos (cpu load, ram usage, drives I/O, ...)<br />
+</p>
+
+<p>
+dmidecode | more #shows all hardware bios infos<br />
+</p>
+
+<p>
+cat /var/log/messages | more #shows the log (same as in the GUI footer)<br />
+</p>
+
+<p>
+freenas-debug -h more /var/tmp/fndebug #shows all debug infos<br />
+</p>
+
+<p>
+camcontrol devlist #shows all devices<br />
+</p>
+
+<p>
+usbconfig #shows all usb devices<br />
+</p>
+
+
+<div id="freeBSD, comandaments útils-Burn-in/Benchmark"><h2 id="Burn-in/Benchmark" class="header"><a href="#freeBSD, comandaments útils-Burn-in/Benchmark">Burn-in/Benchmark</a></h2></div>
+
+<p>
+dd if=/dev/zero of=/mnt/tank/tmp.zero bs=2048k count=50k #disable shares and compression for the test!!!<br />
+dd if=/mnt/tank/tmp.zero of=/dev/null bs=2048k count=50k #disable shares and compression for the test!!! don't forget to delete tmp.zero after<br />
+</p>
+
+<p>
+diskinfo -t daX #test seek and transfer times<br />
+</p>
+
+<p>
+for i in 1 2 3 4; do while : ; do : ; done &amp; done #cpu burn test for 4 threads<br />
+</p>
+
+
+
+<p>
+font: <a href="https://www.ixsystems.com/community/threads/useful-commands.30314/">https://www.ixsystems.com/community/threads/useful-commands.30314/</a> <br />
+</p>
+
+</body>
+</html>

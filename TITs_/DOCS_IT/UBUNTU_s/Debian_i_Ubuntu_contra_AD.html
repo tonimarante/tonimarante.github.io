@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>Debian_i_Ubuntu_contra_AD</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="Debian i Ubuntu contra AD"><h2 id="Debian i Ubuntu contra AD" class="header"><a href="#Debian i Ubuntu contra AD">Debian i Ubuntu contra AD</a></h2></div>
+<p>
+:tagad,tagda,tagactivedirectory:<br />
+</p>
+
+<p>
+ *<span id="Debian i Ubuntu contra AD-Configurar Debian (fins versió 7) i Ubuntu (fins 12.04) per a logar-se contra un domini d'Active Directory"></span><strong id="Configurar Debian (fins versió 7) i Ubuntu (fins 12.04) per a logar-se contra un domini d'Active Directory">Configurar Debian (fins versió 7) i Ubuntu (fins 12.04) per a logar-se contra un domini d'Active Directory</strong>*<br />
+Última actualització: juliol 2013 <br />
+</p>
+
+<p>
+Els exemples funcionen segur amb un domini suportat per controladors de domini (DC) Windows Server 2003 SP3 o 2008 R2. <br />
+Provat amb Debian 6 i 7 (wheezy) i Ubuntu 9.10, 10.04,10.10 i 12.04 com a clients. El exemple es centra en la configuració per Ubuntu, però tot és vàlid per Debian.<br />
+Escenari:<br />
+	-Domini de Active Directory: mydomain.local<br />
+	-Adreça de la xarxa: 10.0.0.0/24<br />
+	-Algun dels Domains controlers: en aquest exemple agafarem un DC del domini: srvdc1.mydomain.local amb IP 10.0.0.1<br />
+	-Client Ubuntu: el seu hostname serà clientubuntu amb IP 10.0.0.239. Haurà de tenir una IP fixa.<br />
+</p>
+
+<p>
+A la feina:<br />
+</p>
+
+<p>
+Primer de tot: crearem un usuari amb drets d'administrador a l'Ubuntu, p.e. admin. Aquest usuari també el donarem d'alta al domini mydomain.local. Un cop tinguem la màquina enllaçada al domini, si la màquina no te connexió de xarxa o presenta algun problema per logar-se al domini, podrem logar-nos amb aquest usuari local admin. En canvi si la màquina està enllaçada al domini de manera correcta, quan ens loguem amb admin ens validarà contra els servidors DC, per tant hem de comprovar que aquest compte no estigui bloquejat al domini, p.e. si veiem que no ens deixa accedir.<br />
+</p>
+
+<p>
+Necessitem instal.lar:<br />
+</p>
+
+<p>
+	krb5-user: Basic programs to authenticate using MIT Kerberos.<br />
+</p>
+
+<p>
+	libpam-krb5: PAM module for MIT Kerberos. (aquest no ens farà falta si no hem d'obtenir un tiquet Kerberos al login)<br />
+</p>
+
+<p>
+	krb5-config: Configuration files for Kerberos Version 5.<br />
+	libkadm55: MIT Kerberos administration runtime libraries.<br />
+</p>
+
+<p>
+	I també: winbind samba smbclient smbfs<br />
+</p>
+
+<p>
+NOTA per Ubuntu 10.10: en cas de problemes es pot provar de instal·lar winbind -en comptes de winbind4 que instal·la per defecte-. I sembla que per a la 10.10 el paquet libkadm55 no és necessari.<br />
+</p>
+
+<p>
+NOTA per Debian 6:  És un tema més de samba que de Debian. El cas és que amb la última actualització de wheezy he tingut problemes, que s'han solucionat fent un:<br />
+</p>
+<blockquote>
+apt-get install libnss-winbind
+</blockquote>
+
+<p>
+Això és deu a un canvi a samba (2:3.6.5-2): "NSS modules have been split out from libpam-winbind to libnss-winbind<br />
+</p>
+
+<p>
+Per a estalviar problemes primer de tot donarem d'alta al DNS  (registre A) del domini la nova màquina que volem incorporar (ho podem fer ja que tindrà una IP fixa). Si no ho fem ens podem trobar que quan intentem afegir el compte de màquina al domini amb el "net ads join..." obtinguem un error ja que el servidor intenta trobar l'equip que s'intenta afegir consultant al DNS.<br />
+</p>
+
+<p>
+Com ja hem dit abans la màquina linux es diu clientubuntu i ha de tenir IP fixa. És molt important que la configuració de xarxa sigui correcta al equip client Ubuntu. Comprovar que el servidor DNS és el correcte pel domini a etc/resolv.conf i mirar que /etc/hosts estigui impecable:<br />
+</p>
+
+<p>
+/etc/hosts<br />
+</p>
+
+<p>
+127.0.0.1	localhost <br />
+127.0.1.1	clientubuntu<br />
+</p>
+ 
+<ol>
+<li>
+les dues línies següents no son necessàries si tenim DNS funcionant correctament
+
+</ol>
+<p>
+10.0.0.239 	clientubuntu clientubuntu.mydomain.local<br />
+10.0.0.1	srvdc1.mydomain.local  srvdc1  srvdc1.MYDOMAIN.LOCAL<br />
+</p>
+
+<ol>
+<li>
+The following lines are desirable for IPv6 capable hosts
+
+</ol>
+<p>
+::1     localhost ip6-localhost ip6-loopback<br />
+fe00::0 ip6-localnet<br />
+ff00::0 ip6-mcastprefix<br />
+ff02::1 ip6-allnodes<br />
+ff02::2 ip6-allrouters<br />
+ff02::3 ip6-allhosts<br />
+</p>
+
+<p>
+Important, a l'hora de configurar la xarxa hem d'assegurar-nos de tenir marcat el check "Disponible per a tots els usuaris". Si no ho fem així l'ordinador no agafarà IP fins que no entrem en sessió i sense xarxa seria impossible poder logar-nos al domini.<br />
+</p>
+
+<p>
+També MOLT important es configurar el client de temps per tal que l'equip Linux es sincronitzi amb el servidor de domini. Ho podem fer des de la mateixa interfície gràfica d'Ubuntu (Sistema / administració / Data i Hora) o des del terminal si simplement instal·lem ntp: apt-get install ntp<br />
+</p>
+
+<p>
+Més fitxers a modificar:<br />
+</p>
+
+<p>
+/etc/samba/smb.conf<br />
+</p>
+
+<p>
+[global]<br />
+		security = ads<br />
+		realm = MYDOMAIN.LOCAL<br />
+		password server = 10.0.0.1<br />
+</p>
+<ol>
+<li>
+note that workgroup is the 'short' domain name (o el nom del domini netbios si és diferent al nom del domini DNS)
+<br />		workgroup = MYDOMAIN     
+
+<li>
+      winbind separator = +
+<br />		idmap uid = 10000-20000
+<br />		idmap gid = 10000-20000
+<br />		winbind enum users = yes
+<br />		winbind enum groups = yes
+<br />		template homedir = /home/%D/%U
+<br />		template shell = /bin/bash
+<br />		client use spnego = yes
+<br />		client ntlmv2 auth = yes
+<br />		encrypt passwords = yes
+<br />		winbind use default domain = yes
+<br />		restrict anonymous = 2
+
+</ol>
+
+<p>
+/etc/krb5.conf<br />
+</p>
+
+<p>
+[logging]<br />
+	default = FILE:/var/log/krb5.log<br />
+</p>
+
+<p>
+[libdefaults]<br />
+	default_realm = MYDOMAIN.LOCAL<br />
+	kdc_timesync = 1<br />
+	ccache_type = 4<br />
+	forwardable = true<br />
+	proxiable = true<br />
+</p>
+
+<p>
+[realms]<br />
+	MYDOMAIN.LOCAL = {<br />
+		kdc = srvdc1.mydomain.local<br />
+		admin_server = srvdc1.mydomain.local<br />
+		default_domain = MYDOMAIN.LOCAL<br />
+	}<br />
+</p>
+
+<p>
+[domain_realm]<br />
+	.mydomain.local = MYDOMAIN.LOCAL<br />
+	mydomain.local = MYDOMAIN.LOCAL<br />
+</p>
+
+
+<p>
+Un altre possible opció (amb 3 controladors de domini) de fitxer /etc/krb5.conf:<br />
+</p>
+
+
+<p>
+[logging]<br />
+	default = FILE:/var/log/krb5.log<br />
+</p>
+
+<p>
+[libdefaults]<br />
+	default_realm = MYDOMAIN.LOCAL<br />
+	kdc_timesync = 1<br />
+	ccache_type = 4<br />
+	forwardable = true<br />
+	proxiable = true<br />
+</p>
+
+<p>
+[realms]<br />
+ MYDOMAIN.LOCAL = {<br />
+ kdc = srvdc1.MYDOMAIN.local:88<br />
+ master_kdc = srvdc1.MYDOMAIN.local:88<br />
+ kpasswd = srvdc1.MYDOMAIN.local:464<br />
+ kpasswd_server = srvdc1.MYDOMAIN.local:464<br />
+</p>
+
+<p>
+ kdc = srvdc2.MYDOMAIN.local:88<br />
+ master_kdc = srvdc2.MYDOMAIN.local:88<br />
+ kpasswd = srvdc2.MYDOMAIN.local:464<br />
+ kpasswd_server = srvdc2.MYDOMAIN.local:464<br />
+ kdc = srvdc3.MYDOMAIN.local:88<br />
+</p>
+
+<p>
+ master_kdc = srvdc3.MYDOMAIN.local:88<br />
+ kpasswd = srvdc3.MYDOMAIN.local:464<br />
+ kpasswd_server = srvdc3.MYDOMAIN.local:464<br />
+}<br />
+</p>
+
+<p>
+[domain_realm]<br />
+	.MYDOMAIN.local = MYDOMAIN.LOCAL<br />
+	 MYDOMAIN.local = MYDOMAIN.LOCAL<br />
+	 srvdc1.MYDOMAIN.local = MYDOMAIN.LOCAL<br />
+	 srvdc2.MYDOMAIN.local = MYDOMAIN.LOCAL<br />
+	 srvdc3.MYDOMAIN.local = MYDOMAIN.LOCAL <br />
+</p>
+<ol>
+<li>
+si o no?
+
+</ol>
+<p>
+[login]<br />
+		krb4_convert = true<br />
+		krb4_get_tickets = false<br />
+</p>
+
+<p>
+Comprovem ara que funciona Kerberos:<br />
+kinit usuari@MYDOMAIN.LOCAL   (com a root i important les majúscules)<br />
+Demana password. Si li fiquem i no dona cap error, vol dir que està tot ok.<br />
+Podem fer un klist per a veure el tiquet que ens han concedit.<br />
+</p>
+
+<p>
+Afegir l'equip al domini<br />
+Millor fer-ho contra un GC. Considerem que srvdc1 es Global Catalog del nostre domini. Llavors:<br />
+</p>
+
+<p>
+net ads join -S srvdc1 -U administrador    <br />
+</p>
+
+<p>
+Més fitxers a modificar: <br />
+/etc/nsswitch.conf<br />
+</p>
+
+<p>
+passwd:         compat  winbind<br />
+group:          compat  winbind<br />
+shadow:         compat<br />
+</p>
+
+<p>
+hosts:          files dns wins [NOTFOUND=return]<br />
+networks:       files<br />
+</p>
+
+<p>
+protocols:      db files<br />
+services:       db files<br />
+ethers:         db files<br />
+rpc:            db files<br />
+</p>
+
+<p>
+netgroup:       nis<br />
+</p>
+
+<p>
+Per tal que es creïn automàticament els homes dels usuaris en logar-se el primer cop hem d'afegir aquesta línia a: <br />
+/etc/pam.d/common-session<br />
+</p>
+
+<p>
+session required        pam_mkhomedir.so umask=0022 skel=/etc/skel<br />
+</p>
+
+<p>
+Crear el pre-home dels usuaris<br />
+</p>
+
+<p>
+mkdir /home/MYDOMAIN<br />
+</p>
+
+<p>
+Logar-se com a usuari del domini<br />
+Ho hem de fer amb usuari@mydomain.local (com a mínim per a la versió 10.10)<br />
+</p>
+
+<p>
+Si tenim problemes, podem mirar si es solucionen reiniciant els serveis:<br />
+</p>
+
+<p>
+/etc/init.d/samba stop<br />
+/etc/init.d/winbind stop<br />
+/etc/init.d/samba start<br />
+/etc/init.d/winbind start<br />
+</p>
+
+<p>
+Doncs ja està. Si vols alguna cosa semblant als logon scripts per a connectar les unitats de xarxa als usuaris, pots mirar aquí<br />
+</p>
+
+<p>
+-Problemes per a logar-nos al domini (bàsicament que no ens deixa). <br />
+Hauriem de comprovar:<br />
+	-Que tenim marcat "Disponible per a tots els usuaris" a la configuració de xarxa.<br />
+	-Que tenim accés a la xarxa. Fer un ping a srvdc1 i/o a d'altres equips per a comprovar-ho. Amb màquines virtuals es comú que davant d'algun canvi o actualització a l'hipervisor es desactivi la xarxa.<br />
+	-Que l'hora del sistema de la Ubuntu és correcta: Mirem abans de logar-nos a l'Ubuntu que és el que marca el rellotge; hem de tenir en compte que aquest rellotge ha d'estar sincronitzat amb els dels controladors de domini.<br />
+	-La IP de l'equip és la correcta i que el registre al nostre DNS coincideix en nom i IP amb el de la màquina. Revisar els possibles registres dinàmics generats automàticament al DNS si la màquina en algun moment ha obtingut una IP amb l'DHCP del domini<br />
+</p>
+
+</body>
+</html>

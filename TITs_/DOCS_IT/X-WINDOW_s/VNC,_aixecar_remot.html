@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>VNC,_aixecar_remot</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="VNC, aixecar remot"><h2 id="VNC, aixecar remot" class="header"><a href="#VNC, aixecar remot">VNC, aixecar remot</a></h2></div>
+<p>
+*<span id="VNC, aixecar remot-VNC: aixequem a demanda el servidor d'VNC a l'equip remot"></span><strong id="VNC: aixequem a demanda el servidor d'VNC a l'equip remot">VNC: aixequem a demanda el servidor d'VNC a l'equip remot</strong>*<br />
+Última actualització: gener 2013<br />
+</p>
+
+<p>
+L'escenari seria el següent:<br />
+</p>
+
+<p>
+	Volem entrar al servidor remot via VNC amb l'usuari "bmw"<br />
+	A l'equip remot volem aixecar temporalment el servidor VNC. Un cop acabada la feina remota, tornarem a aturar el servidor VNC.<br />
+</p>
+
+<p>
+ Preparatius al servidor remot:<br />
+</p>
+
+<p>
+	Instal·lem el servidor vnc:     apt-get install vncserver<br />
+	Entrem com usuari bmw al sevidor remot i configurem la contrasenya que ens demanarà VNC:     vncpasswd<br />
+	Configurem amb quin gestor de finestres voldrem treballar quan entrem en remot, configurant el fitxer ~/.vnc/xstartup. Un exemple si volguéssim treballar amb icewm:<br />
+</p>
+
+<p>
+xrdb $HOME/.Xresources<br />
+xsetroot -solid grey<br />
+#x-terminal-emulator -geometry 80x24+10+10 -ls -title "$VNCDESKTOP Desktop" &amp;<br />
+icewm &amp;<br />
+</p>
+<ol>
+<li>
+Fix to make GNOME work
+
+</ol>
+<p>
+#export XKL_XMODMAP_DISABLE=1<br />
+#/etc/X11/Xsession<br />
+</p>
+
+
+<p>
+Per arrencar el servidor a l'equip remot, fem vncserver. S'engega i ens indica a quin display ha engegat.<br />
+Hem de tenir en compte aixo, ja que des de un vncviewer haurem de donar adreça:display. Exemple: engeguem el servidor i ens diu que s'ha aixecat al display 3. Llavors:<br />
+xvncviewer 192.168.0.35:3<br />
+</p>
+
+<p>
+Si tenim que aturar el servidor, podem matar el procés amb vncserver -kill :3<br />
+</p>
+ 
+<p>
+Ara, que faríem per a entrar a treballar al servidor remot? La seqüència seria:<br />
+	1- ssh al servidor remot:    ssh bmw@servidor_remot<br />
+	2- Engegar dimoni X (si estigués apagat)<br />
+	3- Engeguem vncserver:    vncserver    <br />
+	4- xvncviewer des de la maquina a la que estem fisicament (client)<br />
+	5- Treballem... Un cop acabem la feina:<br />
+	6- Entrem al servidor remot via ssh. Matem VNC server amb vncserver -kill :display<br />
+	7- Aturem dimoni X (si toca)<br />
+	8- Tancar sessió ssh<br />
+</p>
+
+</body>
+</html>

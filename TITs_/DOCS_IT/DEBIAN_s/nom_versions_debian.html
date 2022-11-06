@@ -26,60 +26,36 @@ Per a saber quina versió de Debian tenim instal.lada:<br />
 El nom de les versions Debian estan trets de Toy Story.<br />
 <a href="https://www.debian.org/releases/<br">https://www.debian.org/releases/<br</a> />
 </p>
-<ul>
-<li>
-Debian_9_(stretch) — current stable release
 
-<ul>
-<li>
-Debian_8_(jessie) — obsolete stable release
+<p>
+Debian_9_(stretch) — current stable release<br />
+Debian_8_(jessie) — obsolete stable release<br />
+Debian_7_(wheezy) — obsolete stable release<br />
+Debian_6.0_(squeeze) — obsolete stable release<br />
+Debian_GNU/Linux_5.0_(lenny) — obsolete stable release<br />
+Debian_GNU/Linux_4.0_(etch) — obsolete stable release<br />
+Debian_GNU/Linux_3.1_(sarge) — obsolete stable release<br />
+Debian_GNU/Linux_3.0_(woody) — obsolete stable release<br />
+Debian_GNU/Linux_2.2_(potato) — obsolete stable release<br />
+Debian_GNU/Linux_2.1_(slink) — obsolete stable release<br />
+Debian_GNU/Linux_2.0_(hamm) — obsolete stable release<br />
+</p>
 
-<li>
-Debian_7_(wheezy) — obsolete stable release
-
-<li>
-Debian_6.0_(squeeze) — obsolete stable release
-
-<li>
-Debian_GNU/Linux_5.0_(lenny) — obsolete stable release
-
-<li>
-Debian_GNU/Linux_4.0_(etch) — obsolete stable release
-
-<li>
-Debian_GNU/Linux_3.1_(sarge) — obsolete stable release
-
-<li>
-Debian_GNU/Linux_3.0_(woody) — obsolete stable release
-
-<li>
-Debian_GNU/Linux_2.2_(potato) — obsolete stable release
-
-<li>
-Debian_GNU/Linux_2.1_(slink) — obsolete stable release
-
-<li>
-Debian_GNU/Linux_2.0_(hamm) — obsolete stable release
-
-</ul>
-</ul>
-<blockquote>
-The current testing distribution is buster.
-</blockquote>
+<p>
+ The current testing distribution is buster.<br />
+</p>
 
 
 <p>
 Aquí un script que ens genera aquesta llista:<br />
 </p>
+
 <pre>
 # Optimitzat gràcies a la gent r/bash de Reddit
 # Requires: html2text, wget
-
 wget -q -O - https://www.debian.org/releases/ | html2text &gt; /tmp/debian.txt
 cat &lt;&lt;EOF
-
 $(grep '* Debian.*[Rr]elease' /tmp/debian.txt)
-
 $(grep 'current testing' /tmp/debian.txt)
 
 -----------------------------------------------------------
@@ -90,9 +66,13 @@ EOF
 rm -f /tmp/debian.txt
 sleep 60
 exit 0
+</pre>
 
-#-----------------------------------------------------------
-#la meva versió:
+
+<p>
+La meva versió:<br />
+</p>
+<pre>
 #Requires: html2text, wget
 #rm /home/bmw/bins/Debian/index.html*
 rm `pwd`/index.html*;

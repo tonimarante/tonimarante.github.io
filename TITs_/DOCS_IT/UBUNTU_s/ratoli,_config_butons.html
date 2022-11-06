@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>ratoli,_config_butons</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="ratoli, config butons"><h2 id="ratoli, config butons" class="header"><a href="#ratoli, config butons">ratoli, config butons</a></h2></div>
+<p>
+ *<span id="ratoli, config butons-Configurar els botons del ratolí"></span><strong id="Configurar els botons del ratolí">Configurar els botons del ratolí</strong>*<br />
+</p>
+
+<p>
+Última modificació: agost de 2012<br />
+</p>
+
+<p>
+La meva pobre mà ha dit basta, i finalment he tingut que canviar els meus ratolins per un 3M-EM500GPL. El canvi ha provocat que vulgui configurar-me la funció dels botons; ho he pogut fer amb xmodmap -e.<br />
+Per exemple:<br />
+</p>
+
+<p>
+	el primer botó com sempre,<br />
+	el segon (botó dret) vull que es comporti com si fos el tercer (botó del mig)<br />
+	el tercer vull que es comporti com el segon:<br />
+</p>
+
+<p>
+<code>xmodmap -e "pointer = 1 3 2"</code><br />
+</p>
+
+<p>
+Un altre exemple:<br />
+</p>
+
+<p>
+	el primer botó com sempre,<br />
+	el segon (botó dret) vull que es comporti com si fos el tercer (botó del mig)<br />
+	el tercer vull que no faci res:<br />
+</p>
+
+<p>
+<code>xmodmap -e "pointer = 1 3 0"</code><br />
+</p>
+
+<p>
+M'he creat un script-diàleg gràfic. Només funciona si tenim zenity instal·lat:<br />
+</p>
+<pre>
+if zenity --question --text "Estàs treballant amb el 3M-EM500GPL?" ;
+	then
+		xmodmap -e "pointer = 1 3 0"
+		#xmodmap -e "pointer = 1 3 2"
+	else
+		xmodmap -e "pointer = 1 2 3"
+fi
+</pre>
+
+</body>
+</html>

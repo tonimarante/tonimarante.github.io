@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>time</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="time"><h2 id="time" class="header"><a href="#time">time</a></h2></div>
+<p>
+*<span id="time-Muntar un servidor de temps i com canviar l'hora del sistema i altres coses sobre date"></span><strong id="Muntar un servidor de temps i com canviar l'hora del sistema i altres coses sobre date">Muntar un servidor de temps i com canviar l'hora del sistema i altres coses sobre date</strong>*<br />
+Última modificació: desembre 2014<br />
+</p>
+
+<p>
+Continguts<br />
+</p>
+
+<p>
+	1 Treballant amb date<br />
+	2 Configurar el fus horari<br />
+	3 Sincronitzar l'hora amb un servidor de temps<br />
+	4 Configurar el nostre equip per a actuar com a un servidor de temps<br />
+	5 Data i hora en format llarg en ls<br />
+</p>
+
+<p>
+Treballant amb date<br />
+</p>
+
+<p>
+date 1125170904<br />
+M'explico:<br />
+		11= mes<br />
+		25= dia<br />
+		17= hora<br />
+		09= minuts<br />
+		04= any<br />
+</p>
+
+<p>
+Això canvia l'hora del sistema, però per a canviar el rellotge del hardware ho hem de fer amb: hwclock. Així:<br />
+</p>
+
+<p>
+<code>hwclock --set --date="10/17/1972 03:25:00"</code><br />
+</p>
+
+<p>
+Compte ja que el format de la data és: mes/dia/any.<br />
+Si volem copiar ara la hora del hardware a l'hora del sistema farem:<br />
+</p>
+
+<p>
+<code>hwclock --hctosys</code><br />
+</p>
+
+<p>
+Potser una mica espartà; per a compensar, una mica de màgia:<br />
+</p>
+
+<p>
+-Quin és el tercer divendres a partir d'ara mateix:<br />
+<code>date -d "third friday"</code><br />
+-Just d'aquí 6 mesos:<br />
+<code>date -d "sixth month"</code><br />
+-Just fa 20 anys:<br />
+<code>date -d "20 years ago"</code><br />
+-Fa 20 anys, més exactament:<br />
+<code>date -d "20 years ago 3 months 13 days 5 hours 22 minutes"</code><br />
+</p>
+
+<p>
+Configurar el fus horari<br />
+<code>dpkg-reconfigure tzdata</code><br />
+</p>
+
+
+<p>
+Sincronitzar l'hora amb un servidor de temps<br />
+Tenim dues opcions:<br />
+</p>
+
+<p>
+1- apt-get install ntpdate.<br />
+És un client de temps que s'executa només un cop l'ordinador arrenca. Si el volem executar un altre vegada, ho farem "a mà":<br />
+</p>
+
+<p>
+<code>	ntpdate  0.debian.pool.ntp.org</code><br />
+</p>
+
+<p>
+2- apt-get install ntp.<br />
+Aquest paquet instal·la client i servidor. El client va sincronitzant cada x temps i podem modificar la llista de servidors de temps a /etc/ntp.conf.<br />
+Si volem informació de si realment estem sincronitzant podem fer :<br />
+</p>
+   
+<p>
+<code>	ntptrace</code><br />
+</p>
+
+<p>
+Configurar el nostre equip per a actuar com a un servidor de temps<br />
+Per a actuar com a servidor hem d'eliminar la directiva "noquery" del fitxer /etc/ntp.conf (i assegurar-nos que no estem tallant l'accés al nostre port 123 UDP). També definir quins equips poden accedir:<br />
+restrict 192.168.123.0 mask 255.255.255.0 trust<br />
+</p>
+
+
+<p>
+Data i hora en format llarg en ls<br />
+El format que més m'agrada per a mostar el dia i hora de modificació dels fitxers quan fem un ls és:<br />
+</p>
+
+<p>
+<code>ls -l --time-style=long-iso</code><br />
+</p>
+
+<p>
+-rw------- 1 bmw bmw    9600 2012-10-13 23:45 unison.log<br />
+-rw-r--r-- 1 bmw bmw   32309 2012-04-20 21:36 preferences<br />
+-rw------- 1 bmw bmw    5600 2011-09-04 11:03 mbox<br />
+</p>
+
+<p>
+Si volem mostrar sempre dia i hora en aquest format, afegirem al nostre fitxer ~/.bash.rc la següent línia:<br />
+</p>
+
+<p>
+export TIME_STYLE=long-iso<br />
+</p>
+
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>tftpd</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="tftpd"><h2 id="tftpd" class="header"><a href="#tftpd">tftpd</a></h2></div>
+<p>
+*<span id="tftpd-Instal·lar un servidor tftpd a Debian"></span><strong id="Instal·lar un servidor tftpd a Debian">Instal·lar un servidor tftpd a Debian</strong>*<br />
+Última actualització: juny de 2013<br />
+</p>
+
+<p>
+Instal·lem el servidor:<br />
+</p>
+
+<p>
+<code>apt-get install tftpd-hpa</code><br />
+</p>
+
+<p>
+Revisem la configuració del fitxer /etc/default/tftpd-hpa:<br />
+</p>
+
+<p>
+TFTP_USERNAME="tftp"<br />
+TFTP_DIRECTORY="/srv/tftp"<br />
+TFTP_ADDRESS="0.0.0.0:69"<br />
+TFTP_OPTIONS="--secure --create"<br />
+</p>
+
+<p>
+Atenció al "--create" de la última línia; ens hem d'assegurar d'afegir-lo.<br />
+</p>
+
+<p>
+Finalment, comprovar que podrem escriure a /srv/tftp:<br />
+</p>
+
+<p>
+<code>chmod 777 /srv/tftpd</code><br />
+</p>
+
+<p>
+Reiniciem el servidor:<br />
+</p>
+
+<p>
+<code>service tftpd-hpa restart</code><br />
+</p>
+
+</body>
+</html>

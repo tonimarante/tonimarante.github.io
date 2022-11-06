@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>VNC,_x11vnc</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="VNC, x11vnc"><h2 id="VNC, x11vnc" class="header"><a href="#VNC, x11vnc">VNC, x11vnc</a></h2></div>
+<p>
+*<span id="VNC, x11vnc-Servidor VNC para Debian. Com configurar x11vnc"></span><strong id="Servidor VNC para Debian. Com configurar x11vnc">Servidor VNC para Debian. Com configurar x11vnc</strong>*<br />
+Última actualització: octubre de 2013<br />
+</p>
+
+<p>
+Per a compartir un escriptori Linux i poder connectar-nos-hi des de qualsevol equip Linux, Mac o Windows, ho podem fer instal.lant Xvnc (protocol Vnc) o Xrdp (protocol rdp). El problema és que en tots dos casos el que passarà quan ens hi connectem és que ho estarem fent a un a sessió pròpia i nova per al nostre usuari. Això per una banda és fantàstic ja que, per exemple, podem tenir una màquina que faci de servidor de “sessions” i a ella es podran connectar diversos usuaris amb ordinadors poc potents o thinclients que treballaran cadascú a la seva sessió particular.<br />
+</p>
+
+<p>
+Però en ocasions interessa que aquest no sigui el comportament. Per exemple imaginem que volem tenir un ordinador dedicat a descarregar els nostres torrents (per a baixar les ISOS dels DVDs de Debian, p.e.;) i el que voldrem és connectar-nos precisament a aquest escriptori per administrar transmission i no entrar a una nova i diferent sessió. Si volem poder fer això, instal·larem x11vnc.<br />
+</p>
+
+<p>
+Com ho farem? (tot això ho farem a la màquina que volem compartir)<br />
+</p>
+
+<p>
+1- Si fem servir gdm com a gestió de sessions, al mateix gdm configurem que s'entrarà en sessió automàticament amb un usuari, el que haguem escollit per a aquesta tasca<br />
+2- Instal·lem x11vnc (apt-get install x11vnc si treballem amb Debian o Ubuntu)<br />
+3- Un cop entrats a l'escriptori amb l'usuari que hem escollit, executem només per a una vegada:<br />
+</p>
+
+<p>
+<code>	 x11vnc -storepasswd as $USERNAME</code><br />
+</p>
+
+<p>
+	i amb això configurem el password que es demanarà per a entrar remotament<br />
+4- Ara, hem de fer que cada cop que aquest usuari entri en sessió al seu escriptori s'executi el següent:<br />
+</p>
+
+<p>
+<code>	x11vnc -shared -display :0  -usepw -forever        </code><br />
+</p>
+
+<p>
+	amb això ja estem compartint l'escriptori, protocol VNC, port 5900.<br />
+</p>
+
+<p>
+Ens ho hem de muntar per a executar cada vegada aquesta instrucció i això dependrà del gestor de finestres que estem fent servir. Per exemple, amb Fluxbox podriem afegir aquesta línia a ~/.fluxbox/startup<br />
+</p>
+
+<p>
+Resultat, per tant: si reiniciem la màquina, un cop arrenqui gdm, aquest autologarà a l'usuari que tenim configurat i un cop aixecat l'escriptori s'executarà x11vnc -shared -display :0  -usepw -forever i per tant compartirem automàticament aquest escriptori via protocol VNC.<br />
+</p>
+
+</body>
+</html>

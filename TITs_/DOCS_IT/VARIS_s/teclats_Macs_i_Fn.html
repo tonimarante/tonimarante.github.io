@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>teclats_Macs_i_Fn</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="teclats Macs i Fn"><h2 id="teclats Macs i Fn" class="header"><a href="#teclats Macs i Fn">teclats Macs i Fn</a></h2></div>
+<p>
+*<span id="teclats Macs i Fn-Canviar el comportament per defecte de les tecles de funció als teclats Mac"></span><strong id="Canviar el comportament per defecte de les tecles de funció als teclats Mac">Canviar el comportament per defecte de les tecles de funció als teclats Mac</strong>*<br />
+Última actualització: novembre de 2016<br />
+</p>
+
+<p>
+Els teclats de Mac (a part de ser cars) son molt bons; del millor si has d'estar teclejant tot el dia. No obstant emprenya bastant el comportament per defecte de les tecles de funció, ja que si les vols fer servir (per exemple amb el fantàstic Double Commander) has de fer-ho picant sempre primer la tecla Fn que es troba a la dreta del teclat.<br />
+</p>
+
+<p>
+Si volem que el comportament de les tecles de funció sigui el normal, només hem d'executar com a root:<br />
+</p>
+
+<p>
+	 echo 2 &gt; /sys/module/hid_apple/parameters/fnmode<br />
+</p>
+
+<p>
+Tenim tres valors possibles; per defecte Apple treballa en mode 1:<br />
+</p>
+
+<p>
+		0 = tecla Fn deshabilitada<br />
+		1 = tecla Fn pulsada per defecte<br />
+</p>
+
+<p>
+		2 = tecla Fn no pulsada per defecte<br />
+</p>
+
+<p>
+També poder intercanviar les tecles de Alt i Cmd fent:<br />
+</p>
+
+<p>
+echo 1 | sudo tee /sys/module/hid_apple/parameters/swap_opt_cmd<br />
+</p>
+
+
+<p>
+Ara ens faltarà que això s'executi cada vegada que iniciem el sistema. Des de que tenim systemd la cosa s'ha complicat una mica (ja no ens serveix /etc/rc.local), però tampoc tant.<br />
+</p>
+
+<p>
+Tot el que ve a continuació ho hem de fer com a root:<br />
+</p>
+
+
+<p>
+Fem un script, per exemple /usr/local/bin/rc.local.sh amb aquest contingut:<br />
+</p>
+
+
+<p>
+	#!/bin/bash<br />
+	echo 2 &gt; /sys/module/hid_apple/parameters/fnmode<br />
+	echo 1 | sudo tee /sys/module/hid_apple/parameters/swap_opt_cmd<br />
+</p>
+
+<p>
+És important la primera línea amb el shebang i hem de fer el fitxer executable amb:<br />
+</p>
+
+<p>
+	chmod  ugo+x   /usr/local/bin/rc.local.sh<br />
+</p>
+
+
+
+<p>
+Ara hem de crear un service de systemd. Crearem un fitxer /etc/systemd/system/rclocal.service amb aquest contingut:<br />
+</p>
+
+<p>
+	[Unit]<br />
+	Description=Script rclocal com a root<br />
+</p>
+
+<p>
+	[Service]<br />
+	Type=oneshot<br />
+	ExecStart=/usr/local/bin/rc.local.sh<br />
+</p>
+
+<p>
+	[Install]<br />
+	WantedBy=multi-user.target<br />
+</p>
+
+<p>
+I l'aplicarem els permisos necessaris (important també):<br />
+</p>
+
+<p>
+	chmod 755 /etc/systemd/system/rclocal.service<br />
+</p>
+
+
+
+<p>
+Ja ho tenim. Podem provar manualment si la cosa funciona:<br />
+</p>
+
+<p>
+	systemctl start rclocal.service<br />
+</p>
+
+
+<p>
+Si no obtenim cap error i les tecles de funció es comporten ara com esperem, podem instal·lar el servei i que s'executi en iniciar el sistema:<br />
+</p>
+
+<p>
+	systemctl enable rclocal.service<br />
+</p>
+
+</body>
+</html>

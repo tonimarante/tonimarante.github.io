@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>xrandr</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="xrandr"><h2 id="xrandr" class="header"><a href="#xrandr">xrandr</a></h2></div>
+<p>
+*<span id="xrandr-xrandr no mostra totes les resolucions de pantalla"></span><strong id="xrandr no mostra totes les resolucions de pantalla">xrandr no mostra totes les resolucions de pantalla</strong>*<br />
+Última actualització: juliol de 2012<br />
+</p>
+
+<p>
+En alguna ocasió, després d'actualitzar el sistema ens podem trobar amb que no es pot establir la resolució de pantalla desitjada amb xrandr, degut a que aquest no mostra totes les resolucions de pantalla possibles (en canvi, si que podrem setejar la resolució des dels "parametres del sistema" a Gnome 3 o Kde).<br />
+Això es deu a que existeix una línia "modes" a /etc/X11/xorg.conf, a la SubSection "Display":<br />
+</p>
+<pre>
+Section "Screen"
+	...
+	...
+	SubSection    "Display"
+		Depth    24
+		Modes    "1024x768" "800x600" "640x480"
+	EndSubSection
+EndSection
+</pre>
+
+<p>
+El problema és que xrandr llegeix aquesta línia si existeix, i llavors mostra les resolucions definides en ella. Solucionarem el tema simplement comentant aquesta línia "Modes":<br />
+</p>
+
+<ol>
+<li>
+Modes    "1024x768" "800x600" "640x480"
+
+</ol>
+
+
+<p>
+Com establir la resolució de pantalla per a gdm3<br />
+</p>
+
+<p>
+En ocasions ens serà necessari definir la resolució de pantalla que volem per a gdm3. Per a fer-ho hem d'afegir una línia al fitxer /etc/gdm3/Init/Default:<br />
+</p>
+
+<p>
+#Busquem aquestes dues línies (normalment estan al començament del fitxer):<br />
+PATH="/usr/bin:$PATH"<br />
+OLD_IFS=$IFS<br />
+</p>
+<ol>
+<li>
+afegim xrandr per a establir la resolució per defecte per a totes les sessions i gdm3
+
+</ol>
+<p>
+xrandr --output default --mode 1680x1050<br />
+</p>
+
+<p>
+Naturalment, la resolució que indiquem ha de ser una resolució vàlida (podem obtenir totes les resolucions possibles executant xrandr )<br />
+</p>
+
+</body>
+</html>

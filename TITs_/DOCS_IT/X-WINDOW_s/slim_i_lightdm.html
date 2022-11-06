@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>slim_i_lightdm</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="Slim i Lightdm a Debian"><h2 id="Slim i Lightdm a Debian" class="header"><a href="#Slim i Lightdm a Debian">Slim i Lightdm a Debian</a></h2></div>
+<p>
+Última actualització: setembre de 2019<br />
+</p>
+
+<div id="Slim i Lightdm a Debian-Slim"><h3 id="Slim" class="header"><a href="#Slim i Lightdm a Debian-Slim">Slim</a></h3></div>
+<p>
+Per a instal·lar-ho:<br />
+<code>    apt install slim</code><br />
+</p>
+    
+<p>
+Per a canviar el tema aplicat a slim ho farem a /etc/slim.conf:<br />
+</p>
+<blockquote>
+current_theme      TM_bandes,TM_candau,TM_edifici,TM_laberint
+</blockquote>
+<p>
+Podem definir diversos temes (separats amb punt i coma) i slim agafarà un aleatoriament.<br />
+Els temes estan a la carpeta /usr/share/slim/themes.<br />
+</p>
+
+<p>
+En la finestra de login, podem escollir sessió picant a F1. Les sessions disponibles, les llegueix slim dels fitxers existents al directory /usr/share/xsessions/<br />
+</p>
+
+
+<div id="Slim i Lightdm a Debian-Lightdm"><h3 id="Lightdm" class="header"><a href="#Slim i Lightdm a Debian-Lightdm">Lightdm</a></h3></div>
+<p>
+Per a instal·lar-lo:<br />
+<code>    apt install lightdm</code><br />
+</p>
+    
+<p>
+Si volem posar un tema diferent el que podem fer és instal·lar:<br />
+<code>    apt install lightdm-settings slick-greeter</code><br />
+Ara podem podrem aplicar fàcilment el tema que volguem o un fons de pantalla personalitzat, executant lightdm-settings.<br />
+</p>
+    
+<p>
+Per a definir la <span id="Slim i Lightdm a Debian-Lightdm-sessió per defecte"></span><strong id="sessió per defecte">sessió per defecte</strong>, ho farem a <br />
+/usr/share/lightdm/lightdm.conf.d/01_debian.conf<br />
+aquí afegirem una línia:<br />
+</p>
+<blockquote>
+user-session=i3
+</blockquote>
+<p>
+Si volem que i3 sigui la sessió per defecte. Podem obtenir la llista de sessions mirant els fitxers del directori /usr/share/xessions<br />
+</p>
+
+<p>
+Al mateix fitxer /usr/share/lightdm/lightdm.conf.d/01_debian.conf, poden configurar el <span id="Slim i Lightdm a Debian-Lightdm-greeter per defecte"></span><strong id="greeter per defecte">greeter per defecte</strong> (el greeter és el que ens proporciona el necessari per a poder logar-nos al sistema des d'un display manager). Hem de modificar la línia:<br />
+</p>
+<blockquote>
+greeter-session=lightdm-greeter
+</blockquote>
+<p>
+Podem obtenir la llista de greeters disponibles, mirant els fitxers que hi ha al directori /usr/share/xgreeters/<br />
+</p>
+
+</body>
+</html>

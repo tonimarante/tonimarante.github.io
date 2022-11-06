@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>grups_i_usuaris</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="grups i usuaris"><h2 id="grups i usuaris" class="header"><a href="#grups i usuaris">grups i usuaris</a></h2></div>
+<p>
+*<span id="grups i usuaris-Gestió de grups i usuaris"></span><strong id="Gestió de grups i usuaris">Gestió de grups i usuaris</strong>*<br />
+Última modificació: desembre de 2014<br />
+</p>
+
+<p>
+Continguts<br />
+</p>
+
+<p>
+	1 /etc/passwd<br />
+	2 /etc/shadow<br />
+	3 /etc/group   <br />
+	4 Crear, modificar i eliminar usuaris:<br />
+	5 Crear, modificar i eliminar grups:<br />
+	6 Més comandaments:<br />
+</p>
+
+<p>
+Tenim tres fitxers:<br />
+/etc/passwd<br />
+Aquí estan els usuaris donats d'alta al sistema. Cada línia un usuari, amb diferents camps:<br />
+	-Camp 1: login<br />
+	-Camp 2: conté una X indicant que aquest usuari té un password. Aquest password estarà emmagatzemat i xifrat al fitxer /etc/shadow<br />
+	-Camps 3 i 4: son l'-user ID i el group ID.<br />
+	-Camp 5: comentaris (camp gecos; el nom d'usuari, números de telèfon i altra informació personal s'emmagatzemen aquí)<br />
+	-Camp 6: directori home<br />
+	-Camp 7: intèrpret de comandaments que farà servir l'usuari<br />
+</p>
+    
+<p>
+/etc/shadow<br />
+	-Camp 1: login (el mateix que consti al fitxer passwd)<br />
+	-Camp 2: password xifrat<br />
+	-Camp 3: dies des de l'1 de gener de 1970 que han passat fins que el password ha estat canviat per últim cop<br />
+	-Camp 4: dies que han de passar fins que el passwd pugui ser canviat<br />
+	-Camp 5: dies que han de passar fins que el passwd hagui de ser canviat<br />
+	-Camp 6: quants dies abans de caducar el password s'avisarà a l'usuari de que l'ha de canviar<br />
+	-Camp 7: dies que poden passar un cop caducat el compte abans que es deshabiliti<br />
+	-Camp 8: dies des de l'1 de gener de 1970 des de que el compte ha estat deshabilitat<br />
+	-Camp 9: camp reservat<br />
+</p>
+ 
+<p>
+Podem desactivar un compte (bloquejar a un usuari). Un compte deshabilitat significa que l'usuari no pot iniciar sessió o tenir accés a la màquina. El compte es manté intacta en l'equip i no hi ha imatges o dades eliminats, és simplement inaccessible. Això s'aconsegueix mitjançant la comanda<br />
+passwd -l usuari (lock).<br />
+Tornar a activar el compte es realitza de manera similar, amb l'opció  -u (unlock).<br />
+</p>
+
+<p>
+/etc/group   <br />
+	-Camp 1: nom del grup<br />
+	-Camp 2: passwd xifrat. Un usuari pot canviar-se a un altre grup (amb newgrp o sg) i així executar programes amb permissos per aquest altre grup<br />
+	-Camp 3: id del grup<br />
+	-Camp 4: llista dels usuaris que pertanyen al grup<br />
+</p>
+
+<p>
+Per defecte, cada arxiu que crea un usuari pertany a ell i al seu grup principal. Això no sempre és convenient, per exemple, quan l'usuari necessita per treballar en un directori compartit per un grup diferent del grup principal. En aquest cas, l'usuari ha de canviar el seu grup principal usant un dels següents comandes: newgrp, que inicia un nou shell, o sg, que simplement executa una ordre amb el grup alternatiu subministrat. Aquestes ordres permeten als usuaris a unir-se a un grup al qual no pertanyen. Si el grup està protegit amb contrasenya, s'haurà de proporcionar la contrasenya correcta abans que s'executi la comanda.<br />
+Alternativament, l'usuari pot establir el bit setgid al directori, el que fa que els arxius creats en aquest directori a pertànyer automàticament al grup correcte. Per més detalls, vegeu a permisos extesos, setgid i sticky bit.<br />
+La comanda id mostra l'estat actual d'un usuari, amb el seu identificador personal (variable uid), principal grup actual (variable gid). També podem obtenir la info si especifiquem l'usuari: id usuari<br />
+</p>
+
+<p>
+Crear, modificar i eliminar usuaris:<br />
+-Afegir usuaris: adduser, useradd<br />
+-Modificar usuaris: usermod. Per exemple si volem afegir un usuari al grup de sudo:<br />
+usermod -a -G sudoers login_usuari<br />
+</p>
+
+<p>
+-Canviar informació personal d'un usuari: chfn (canvi de nom i cognoms, p.e.)<br />
+-Modificar GECOS: chfn (només la pot executar el root)<br />
+-Canviar shell d'un usuari: chsh  (si com a shell especifiquem /bin/false l'usuari no es podrà logar)<br />
+-Esborrar usuaris: deluser, userdel<br />
+-Canviar password usuari: passwd<br />
+-chage permet a l'administrador canviar els paràmetres de caducitat de contrasenya. Si fem<br />
+chage -l usuari<br />
+en mostra una llista dels valors actuals). També podem forçar que el usuari es canviÏ el password al proper login amb<br />
+passwd -e usuari<br />
+</p>
+
+<p>
+Crear, modificar i eliminar grups:<br />
+-Afegir grups: addgroup, groupadd<br />
+-Modificar grups: groupmod<br />
+-Esborrar grups: delgroup, groupdel<br />
+-Canviar password del grup: gpasswd<br />
+</p>
+
+<p>
+Més comandaments:<br />
+-whoami: qui som ara mateix<br />
+-groups: a quins grups pertanyem<br />
+-who: qui està logat al sistema<br />
+-w: que està fent la gent?<br />
+-write: un missatge per a algun usuari<br />
+-wall: un missatge per a tots els usuaris logats<br />
+-mesg: activa o desactiva l'opció de rebre missatges<br />
+-talk: chat amb un altre usuari<br />
+</p>
+
+</body>
+</html>

@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>Bluetooth</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="Bluetooth"><h2 id="Bluetooth" class="header"><a href="#Bluetooth">Bluetooth</a></h2></div>
+<p>
+*<span id="Bluetooth-Bluetooth: aparellar un dispositiu amb bluetoothctl"></span><strong id="Bluetooth: aparellar un dispositiu amb bluetoothctl">Bluetooth: aparellar un dispositiu amb bluetoothctl</strong>*<br />
+Última modificació: març de 2017<br />
+</p>
+
+<p>
+He hagut de utilitzar aquesta configuració manual amb un touchpad, donat que el blueman-applet no em deixava especificar-lo com "Input service" i m'era impossible aparellar-lo ja que al touchpad no li puc ficar el codi d'aparellament :(<br />
+Per a poder utilitzar bluetoothctl, hem de tenir instal·lat el paquet bluez<br />
+apt-get install bluez<br />
+</p>
+
+<p>
+Ara, fem com usuari:<br />
+</p>
+
+<p>
+Engeguem bluetoothctl:<br />
+</p>
+
+<p>
+bluetoothctl<br />
+</p>
+
+<p>
+A partir d'aquí estem dintre de la shell de bluetoothctl:<br />
+</p>
+
+<p>
+Llistar els controladors disponibles:<br />
+</p>
+
+<p>
+[bluetooth]# list<br />
+</p>
+
+<p>
+Mostrar informació sobre el controlador:<br />
+</p>
+
+<p>
+[bluetooth]# show controller_mac_address<br />
+</p>
+
+<p>
+Escollir aquest controlador per defecte (a partir d'aquí les instruccions que executem s'adreçaran a aquest controlador):<br />
+</p>
+
+<p>
+[bluetooth]# select controller_mac_address<br />
+</p>
+
+<p>
+Engegar el controlador:<br />
+</p>
+
+<p>
+[bluetooth]# power on<br />
+</p>
+
+<p>
+Habilitem l'agent i el posem per defecte:<br />
+</p>
+
+<p>
+[bluetooth]# agent on<br />
+[bluetooth]# default-agent<br />
+</p>
+
+<p>
+Fem que el controlador estigui visible (temporalment, per 3 minuts) i que sigui aparellable:<br />
+</p>
+
+<p>
+[bluetooth]# discoverable on<br />
+[bluetooth]# pairable on<br />
+</p>
+
+<p>
+Escanegem buscant dispositius:<br />
+</p>
+
+<p>
+[bluetooth]# scan on<br />
+</p>
+
+<p>
+Obtenir la llista de dispositius (i la seva MAC) que hem trobat:<br />
+</p>
+
+<p>
+[bluetooth]# devices<br />
+</p>
+
+<p>
+Aparellem el dispositiu:<br />
+</p>
+
+<p>
+[bluetooth]# pair device_mac_address<br />
+</p>
+
+<p>
+Introduïm el PIN si se'ns demana:<br />
+</p>
+
+<p>
+[agent]PIN code: ####<br />
+</p>
+
+<p>
+Autoritzem el servei si és necessari:<br />
+</p>
+
+<p>
+[agent]Authorize service service_uuid (yes/no): yes<br />
+</p>
+
+<p>
+Establim la confiança amb el dispositiu:<br />
+</p>
+
+<p>
+[bluetooth]# trust device_mac_address<br />
+</p>
+
+<p>
+Connectem amb el dispositiu:<br />
+</p>
+
+<p>
+[bluetooth]# connect device_mac_address<br />
+</p>
+
+<p>
+Informació sobre el dispositiu:<br />
+</p>
+
+<p>
+[bluetooth]# info device_mac_address<br />
+</p>
+
+<p>
+I ja està:<br />
+</p>
+
+<p>
+[bluetooth]# quit<br />
+</p>
+
+
+
+
+
+<p>
+Nota: si obtenim un error quan intentem fer el power on, és possible que es degui a que el bluetooth estigui desactivat. Ho comprovem fent:<br />
+</p>
+
+     
+
+<p>
+	 rfkill list bluetooth<br />
+</p>
+
+
+<p>
+Obtindrem una llista tal com:<br />
+</p>
+
+<p>
+	 ...<br />
+</p>
+
+<p>
+		2: hci0: Bluetooth<br />
+		Soft blocked: yes<br />
+		Hard blocked: no<br />
+</p>
+
+
+<p>
+Vol dir que el dispositiu està apagat des de la BIOS o EFI. Hard blocked ens dona la informació referent a un interruptor físic (en el cas de que existeixi).<br />
+</p>
+
+
+<p>
+Per a desbloquejar-los:<br />
+</p>
+
+
+<p>
+		rfkill unblock bluetooth<br />
+</p>
+
+
+
+<p>
+Font: <a href="https://wiki.gentoo.org/wiki/Bluetooth<br">https://wiki.gentoo.org/wiki/Bluetooth<br</a> />
+</p>
+
+</body>
+</html>

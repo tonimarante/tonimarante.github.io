@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>cron</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="cron"><h2 id="cron" class="header"><a href="#cron">cron</a></h2></div>
+<p>
+Última modificació: novembre de 2016<br />
+</p>
+
+
+<p>
+<code>crontab -l </code><br />
+llista de feines<br />
+</p>
+
+<p>
+<code>crontab -e</code><br />
+edicio del fitxer de forma segura. No es aconsellable editar /etc/crontab<br />
+"a ma"<br />
+-camps de temps: min hour day month day_of_week<br />
+</p>
+
+<p>
+Valors possibles:<br />
+min 0-59<br />
+hour 0-23<br />
+day 0-31<br />
+month 0-12<br />
+day_of_week 0-7<br />
+</p>
+
+<p>
+-Combinacions que podem fer servir:<br />
+1-5 tots els valors de 1 a 5: 1,2,3,4,5<br />
+1,3 valors 1 i 3<br />
+1-5,7 valors de 1 a 5 i el 7<br />
+0-12/3 0,3,6,9 i 12<br />
+*/3 per exemple si es al cam de les hores: 0.3.6.9.12.15.18.21<br />
+</p>
+
+<p>
+-Tenim l'arxiu /etc/cron.allow per permetre donar permis a alguns usuaris, i l'arxiu<br />
+/etc/cron.deny per no permetre l'acces. Per seguretat i estalvi de recursos<br />
+es bona practica no crear un deny, si no millor un cron.allow i nomes permetre<br />
+uns determinats usuaris.<br />
+</p>
+
+<p>
+Un exemple:<br />
+Tots els dilluns a les 00:30, executa el meu script:<br />
+30 0 * * 1 /root/scripts/elmeuscript<br />
+</p>
+
+<p>
+Altres:<br />
+MAILTO=root<br />
+</p>
+<ol>
+<li>
+m h  day month        d_o_w           command
+<br />  0 1  *     *       1          /root/scripts/estat_raids_detall
+<br />  0 1  *     *     2,3,4,5,6,7  /root/scripts/estat_raids
+<br />  0 3  *     *       1,4        /root/scripts/llistat_dades1
+<br />  0 3  *     *       2,5        /root/scripts/llistat_dades2
+<br />  0 3  *     *       3,6        /root/scripts/llistat_multimedia
+<br />  0 5  *     *       5          /root/scripts/arj_dades1
+<br />  0 5  *     *       6          /root/scripts/arj_dades2
+<br />  0 5  *     *       7          /root/scripts/arj_multimedia   
+<br />  0 7.11.15.18.21.24   * * *    /root/scripts/restart_twonky &gt;/dev/null 2&gt;&amp;1
+
+</ol>
+<p>
+*/5 *  *     *       *          /root/scripts/estat_serveis_cada_5_min<br />
+</p>
+
+<p>
+El /dev/null 2&gt;&amp;1 de la línia del restart_twonky serveix per a tenir cap tipus de sortida (d'error p.e.) cap als logs del sistema o cap al correu del generador del cron.<br />
+</p>
+
+<p>
+Tenim algunes opcions per a substituir els 5 camps de temps:<br />
+</p>
+       
+<p>
+  @yearly    :    Run once a year, ie.  "0 0 1 1 *"<br />
+  @annually  :    Run once a year, ie.  "0 0 1 1 *"<br />
+  @monthly   :    Run once a month, ie. "0 0 1 * *"<br />
+  @weekly    :    Run once a week, ie.  "0 0 * * 0"<br />
+  @daily     :    Run once a day, ie.   "0 0 * * *"<br />
+  @hourly    :    Run once an hour, ie. "0 * * * *"<br />
+</p>
+
+</body>
+</html>

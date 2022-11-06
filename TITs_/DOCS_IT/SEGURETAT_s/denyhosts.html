@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>denyhosts</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="denyhosts"><h2 id="denyhosts" class="header"><a href="#denyhosts">denyhosts</a></h2></div>
+<p>
+*<span id="denyhosts-Denyhosts. Protegir ssh dels atacs de força bruta"></span><strong id="Denyhosts. Protegir ssh dels atacs de força bruta">Denyhosts. Protegir ssh dels atacs de força bruta</strong>*<br />
+Última actualització: desembre 2011<br />
+</p>
+
+<p>
+Per a protegir un servidor ssh dels atacs de força bruta, simplement hem d'instal.lar denyhosts:<br />
+</p>
+
+<p>
+<code>apt-get install denyhosts</code><br />
+</p>
+
+<p>
+A Debian no haurem de fer res més i ja el tindrem funcionant. denyhosts comprova si algú intenta entrar per ssh de manera repetitiva i sense èxit. Si és així, afegeix la Ip de l'equip atancant al fitxer /etc/hosts.deny. Molt útil ja que a més de bloquejar l'accés a aquest equip atacant, la IP del equip atancat quedarà registrada al fitxer hosts.deny i als logs de denyhosts a /var/log<br />
+</p>
+
+<p>
+Com treure IP banejades i que considerem bones (de les FAQ de denyhosts):<br />
+</p>
+
+<p>
+	Stop DenyHosts<br />
+	Remove the IP address from /etc/hosts.deny<br />
+	Edit WORK_DIR/hosts and remove the lines containing the IP address. Save the file.<br />
+	Edit WORK_DIR/hosts-restricted and remove the lines containing the IP address. Save the file.<br />
+	Edit WORK_DIR/hosts-root and remove the lines containing the IP address. Save the file.<br />
+	Edit WORK_DIR/hosts-valid and remove the lines containing the IP address. Save the file.<br />
+	Edit WORK_DIR/user-hosts and remove the lines containing the IP address. Save the file.<br />
+	(optional) Consider adding the IP address to WORK_DIR/allowed-hosts<br />
+	Start DenyHosts"<br />
+</p>
+
+<p>
+El WORK_DIR el podem veure al fitxer de configuració /etc/denyhosts.conf. Normalment serà /var/lib/denyhosts<br />
+</p>
+
+</body>
+</html>

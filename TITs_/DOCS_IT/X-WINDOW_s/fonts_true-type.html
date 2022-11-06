@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>fonts_true-type</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="fonts true-type"><h2 id="fonts true-type" class="header"><a href="#fonts true-type">fonts true-type</a></h2></div>
+<p>
+*<span id="fonts true-type-Instal·lar fonts TrueType"></span><strong id="Instal·lar fonts TrueType">Instal·lar fonts TrueType</strong>*<br />
+Última actualització: gener 2020<br />
+</p>
+
+<p>
+A Debian instal·larem les fonts escollint el paquet que volguem.<br />
+Si volem saber les fonts que tenim disponibles en Debian ho podem mirar a <a href="http://fonts.debian.net<br">http://fonts.debian.net<br</a> />
+Hem de tenir en compte que si volem instal·lar fonts que no siguin lliures, ens haurem d'afegir el repositori contrib.<br />
+</p>
+
+<p>
+Si tenim que instal·lar fons TrueType de manera manual, ho podem fer copiant les fonts a dos llocs diferents:<br />
+</p>
+
+<ul>
+<li>
+A /usr/share/fonts (necessitarem permisos de root) si volem que estiguin disponibles per a tots als usuaris
+
+</ul>
+
+<ul>
+<li>
+A ~/.fonts (si no existeix la carpeta, la crearem) per a que estiguin disponibles només per a nosaltres. En aquest cas ho podem fer sense privilegis especials.
+
+</ul>
+
+<p>
+Aquestes rutes les podriem modificar si volguéssim a /etc/fonts/fonts.conf, que es el fitxer central de configuració de fontconfig. Podem configurar com renderitzem les fonts del sistema si fem:<br />
+</p>
+<blockquote>
+dpkg-reconfigure fontconfig-config
+</blockquote>
+
+<p>
+Si volem obtenir un fitxer de totes les fonts instal·lades:<br />
+</p>
+<blockquote>
+fc-list
+</blockquote>
+
+<p>
+Si hem de reconstruir la cache del llistat de fonts (això ho farem si un cop instal·lades les nostres fonts no ens aparèixen com disponibles):<br />
+</p>
+<blockquote>
+fc-cache -fv
+</blockquote>
+
+<p>
+Llista de les fonts disponibles per als servidor d'X:<br />
+</p>
+
+<p>
+xlsfonts -fn '<span id="fonts true-type--"></span><strong id="-">-</strong>-<span id="fonts true-type--"></span><strong id="-">-</strong>-<span id="fonts true-type--"></span><strong id="-">-</strong>-<span id="fonts true-type--"></span><strong id="-">-</strong>-<span id="fonts true-type--"></span><strong id="-">-</strong>-<span id="fonts true-type--m"></span><strong id="-m">-m</strong>'<br />
+</p>
+
+<p>
+xlsfonts -fn '<span id="fonts true-type--"></span><strong id="-">-</strong>-<span id="fonts true-type--"></span><strong id="-">-</strong>-<span id="fonts true-type--"></span><strong id="-">-</strong>-<span id="fonts true-type--"></span><strong id="-">-</strong>-<span id="fonts true-type--"></span><strong id="-">-</strong>-<span id="fonts true-type--c"></span><strong id="-c">-c</strong>'<br />
+</p>
+
+
+<p>
+SI volem utilitzar les fonts lliures més semblants a les fonts emprades en Windows, son: <br />
+</p>
+
+<ul>
+<li>
+Asap
+
+<li>
+Carlito
+
+<li>
+Dejavu
+
+<li>
+Liberation
+
+</ul>
+
+</body>
+</html>

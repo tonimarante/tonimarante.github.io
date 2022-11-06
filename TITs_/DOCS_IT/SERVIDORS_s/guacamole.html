@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>guacamole</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="guacamole"><h2 id="guacamole" class="header"><a href="#guacamole">guacamole</a></h2></div>
+<p>
+*<span id="guacamole-Instal·lar guacamole en Debian"></span><strong id="Instal·lar guacamole en Debian">Instal·lar guacamole en Debian</strong>*<br />
+Última actualització: gener 2014 <br />
+</p>
+
+<p>
+Guacamole ens permet tenir un "servidor" de sessions remotes rdp, vnc i ssh accessibles a través d'un navegador que suporti HTML5 i Ajax. Necessitem una màquina que faci de servidor o gateway, en el que instal·larem:<br />
+</p>
+<pre>
+apt-get install guacamole-tomcat
+apt-get install libguac-client-rdp0
+apt-get install libguac-client-ssh0
+apt-get install libguac-client-vnc0
+</pre>
+
+<p>
+Tenim que definir les nostres connexions remotes al fitxer /etc/guacamole/user-mapping.xml<br />
+Contingut exemple d'aquest fitxer:<br />
+</p>
+<pre>
+&lt;user-mapping&gt;
+&lt;authorize username="admin" password="admin"&gt;
+	   &lt;!-- First authorized connection --&gt;
+
+&lt;connection name="PC-VNC"&gt;
+	 &lt;protocol&gt;vnc&lt;/protocol&gt;
+	 &lt;param name="hostname"&gt;192.168.2.102&lt;/param&gt;
+	 &lt;param name="port"&gt;5900&lt;/param&gt;
+	 &lt;param name="password"&gt;passwdvnc&lt;/param&gt;
+&lt;/connection&gt;
+
+&lt;connection name="PC-rdp"&gt;
+	 &lt;protocol&gt;rdp&lt;/protocol&gt;
+	 &lt;param name="hostname"&gt;192.168.2.253&lt;/param&gt;
+	 &lt;param name="port"&gt;3389&lt;/param&gt;
+	 &lt;param name="username"&gt;PC\usuari&lt;/param&gt;
+	 &lt;param name="password"&gt;passwdrdp&lt;/param&gt;
+ &lt;/connection&gt;
+
+&lt;connection name="servidor-ssh"&gt;
+	 &lt;protocol&gt;ssh&lt;/protocol&gt;
+	 &lt;param name="hostname"&gt;192.168.2.100&lt;/param&gt;
+	 &lt;param name="port"&gt;22&lt;/param&gt;
+	 &lt;param name="username"&gt;root&lt;/param&gt;
+	 &lt;param name="password"&gt;passwd&lt;/param&gt;
+ &lt;/connection&gt;
+
+&lt;/authorize&gt;
+&lt;/user-mapping&gt;
+</pre>
+
+<p>
+Cada cop que fem canvis a aquest fitxer, per a que siguin efectius hem de reiniciar els serveis:<br />
+</p>
+<pre>
+service guacd restart
+service tomcat6 restart
+</pre>
+
+<p>
+Per a accedir al nostre "guacamole", fariem des d'un navegador:<br />
+</p>
+
+<p>
+<a href="http://servidor-guacamole:8080/guacamole<br">http://servidor-guacamole:8080/guacamole<br</a> />
+</p>
+
+<p>
+En el cas del fitxer anterior, entrariem amb admin / admin.<br />
+</p>
+
+</body>
+</html>

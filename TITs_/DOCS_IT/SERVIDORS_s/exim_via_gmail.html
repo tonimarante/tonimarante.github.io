@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>exim_via_gmail</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="exim via gmail"><h2 id="exim via gmail" class="header"><a href="#exim via gmail">exim via gmail</a></h2></div>
+<p>
+*<span id="exim via gmail-Enviar correu amb exim a través de Gmail"></span><strong id="Enviar correu amb exim a través de Gmail">Enviar correu amb exim a través de Gmail</strong>*<br />
+Última actualització: abril de 2014<br />
+</p>
+
+<p>
+Fem:<br />
+</p>
+
+<p>
+<code>dpkg-reconfigure exim4-config</code><br />
+</p>
+
+<p>
+I escollim aquestes opcions:<br />
+</p>
+
+<p>
+	S’envia a través d’smarthost i es rep via SMTP o fetchmail<br />
+	Nom del correu del sistema: nom_màquina<br />
+	Adreça IP on es vincula les connexions d’entrada de l’SMTP:<br />
+	D’altres destinacions per a les quals s’accepta correu: @nom_màquina<br />
+	Ordinadors dels quals sou repetidor: 192.168.1.0/24;192.168.6.0/24 (anòmin, pero com a mínim controlem des de quines subnets podem enviar)<br />
+	Adreça IP o nom del servidor del «smarthost» de sortida: smtp.gmail.com::587 (atenció, entre el com i el 587 hi han dues vegades dos punts; important)<br />
+	Voleu amagar el nom de correu local al correu de sortida? No<br />
+	Voleu mantenir el nombre mínim de consultes de DNS possibles (marcatge sota demanda)? No<br />
+	Mètode de lliurament per al correu local: format mbox a /var/mail/<br />
+	Voleu dividir la configuració en fitxers petits? No<br />
+</p>
+
+<p>
+El mateix ho podem fer afegint directament al fitxer /etc/exim4/update-exim4.conf.conf les següents línies:<br />
+</p>
+<pre>
+dc_eximconfig_configtype='smarthost'
+dc_other_hostnames='@nom_maquina'
+dc_local_interfaces=''
+dc_readhost=''
+dc_relay_domains=''
+dc_minimaldns='false'
+dc_relay_nets='192.168.1.0/24;192.168.6.0/24'
+dc_smarthost='smtp.gmail.com::587'
+CFILEMODE='644'
+dc_use_split_config='false'
+dc_hide_mailname='false'
+dc_mailname_in_oh='true'
+dc_localdelivery='mail_spool'
+</pre>
+
+<p>
+Editem el fitxer /etc/exim4/passwd.client i fiquem les credencials per a poder connectar-nos a gmail, afegint 3 línies:<br />
+</p>
+<pre>
+gmail-smtp.l.google.com:sadfdas:elteupasswd
+*.sfsdfdsfsdfsdf:sfsfsfs:elteupasswd
+smtp.gmail.com:sdfdasf:elteupasswd
+</pre>
+
+<p>
+Apliquem els permisos necessaris al fitxer (tot i que no sembla necessari):<br />
+</p>
+
+<p>
+<code>chown root:Debian-exim /etc/exim4/passwd.client</code><br />
+</p>
+
+<p>
+I ara:<br />
+<code>update-exim4.conf</code><br />
+</p>
+
+</body>
+</html>

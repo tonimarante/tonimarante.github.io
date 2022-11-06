@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>PC_com_a_AP_wi-fi</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="PC com a AP wi-fi"><h2 id="PC com a AP wi-fi" class="header"><a href="#PC com a AP wi-fi">PC com a AP wi-fi</a></h2></div>
+<p>
+*<span id="PC com a AP wi-fi-Compartir connexió a internet via WI-FI (convertir el nostre PC en un AP wifi)"></span><strong id="Compartir connexió a internet via WI-FI (convertir el nostre PC en un AP wifi)">Compartir connexió a internet via WI-FI (convertir el nostre PC en un AP wifi)</strong>*<br />
+Última modificació: juny de 2017<br />
+</p>
+
+<p>
+(Comprovat a Manjaro i Debian testing i funciona molt bé)<br />
+</p>
+
+<p>
+Tenim un PC que te una targeta de xarxa amb fil i una wifi.<br />
+El tenim connectat a internet amb un cable ethernet i volem compartir aquesta sortida a internet fent que el PC sigui un punt d'accés wifi.<br />
+</p>
+
+<p>
+Primer tenim que instal·lar aquests programaris:<br />
+</p>
+
+<p>
+yaourt -S util-linux hostapd iproute2 bridge-utils  iw rfkill  <br />
+</p>
+
+<p>
+o<br />
+</p>
+
+<p>
+apt-get install util-linux hostapd iproute2 bridge-utils  iw rfkill  <br />
+</p>
+
+<p>
+I aconseguir aquest script: <a href="https://raw.githubusercontent.com/oblique/create_ap/master/create_ap">https://raw.githubusercontent.com/oblique/create_ap/master/create_ap</a> d'aquest web: <a href="http://git.2f30.org/create_ap/">http://git.2f30.org/create_ap/</a> (aquí també tens l'última versió: d'aquest web: <a href="http://git.2f30.org/create_ap/">http://git.2f30.org/create_ap/</a> )<br />
+</p>
+
+<p>
+Tenim que posar a la llista negra el mòdul hp_wmi (no necessari en les últimes Debian):<br />
+</p>
+
+<p>
+echo "blacklist hp_wmi" &gt; /etc/modprobe.d/hp.conf<br />
+</p>
+
+
+<p>
+Un cop complerts els requisits, l'operativa seria la següent:<br />
+</p>
+
+<ul>
+<li>
+Desactivem la Wifi des de Network Manager (botó dret i desmarquem "Habilita el sense fil")
+
+<li>
+Executem aquestes tres instruccions com a root (podem fer-nos un script per a llançar-les totes d'un cop):
+
+</ul>
+
+<p>
+sudo rfkill unblock all<br />
+sudo killall wpa_supplicant<br />
+sudo ./create_ap  --no-virt  wlp3s0  enp2s0  elmeuSSID elmeupasswd<br />
+</p>
+<ol>
+<li>
+en ocasions pot ser necessari afegir a ma la ruta per defecte de sortida; descomentar la següent línia si és necessari:
+
+<li>
+route add default gw 192.168.1.1
+
+</ol>
+
+<p>
+Això es suposant que:<br />
+-La interficie de xarxa amb fil del nostre equip és la enp2s0<br />
+-La interfície de xarxa sense fil del nostre equip és la wlp3s0<br />
+-Estem al mateix directori que l'script create_ap (si no haurem de cridar-lo amb la ruta correcta)<br />
+-"elmeuSSID" serà el SSID (la xarxa wifi) amb que ens anunciarem com AP. "elmeupasswd" serà el password que haurem de posar per connectar-nos a la wifi que estem compartint.<br />
+</p>
+
+
+<p>
+Si la sortida a internet la tenim amb un mòdem USB 3G/4G i la volem compartir via WI-FI<br />
+</p>
+
+<p>
+El procediment és el mateix a l'explicat aquí, substituint simplement el nom de la interfície de la xarxa amb fil pel nom que tinguem per la interfície del mòdem USB 3G/4G.<br />
+</p>
+
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>router_Linux</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="router Linux"><h2 id="router Linux" class="header"><a href="#router Linux">router Linux</a></h2></div>
+<p>
+:tagrouter,tagmasquerade:<br />
+Última actualització: febrer de 2013<br />
+</p>
+
+<p>
+Router Linux:<br />
+Primerament, el kernel de Linux que utilitzem ha de tenir els mòduls necessaris activats, però no ens hem de preocupar ja que actualment tots els kernels de les distribucions estàndars els porten.<br />
+</p>
+
+<p>
+-Si tenim intenció de dedicar l'equip a fer de router, mirarem de configurar les interfícies de xarxa (2 o més) estáticament (veure com fer-ho a Debian i CentOS) i desinstal·larem gestors de configuració com network-manager.<br />
+-En viu, podem fer:<br />
+</p>
+
+<p>
+<code>echo '1' &gt; /proc/sys/net/ipv4/ip_forward</code><br />
+</p>
+
+<p>
+Seguit de sysctl -p, i ja tendrem el router funcionant.<br />
+</p>
+
+<p>
+-Si volem que la configuració sigui persistent entre arrencades del sistema, hem de modificar un valor a /etc/sysctl.conf:<br />
+</p>
+<pre>
+net.ipv4.ip_forward=1
+</pre>
+
+<p>
+Linux com a router per a sortir a Internet:<br />
+Si el que volem fer es fer sortir a internet a una xarxa a través del nostre router Linux, a més haurem d'activar NAT.<br />
+</p>
+
+<p>
+-Primer fem tot el que hem indicat abans per a posar en marxa un router Linux<br />
+-Ara, per a activar NAT, hem d'aplicar un parell de regles a iptables (suposem que eth1 és la interfície que està "de cara" al nostre router ADSL):<br />
+</p>
+<pre>
+iptables -P FORWARD ACCEPT
+iptables --table nat -A POSTROUTING -o eth1 -j MASQUERADE
+</pre>
+
+<p>
+Per a que siguin persistent entre arrencades del sistema, podem afegir aquestes línies a /etc/rc.local<br />
+</p>
+
+</body>
+</html>

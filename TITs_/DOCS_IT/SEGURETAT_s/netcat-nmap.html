@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>netcat-nmap</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="netcat-nmap"><h2 id="netcat-nmap" class="header"><a href="#netcat-nmap">netcat-nmap</a></h2></div>
+<p>
+*<span id="netcat-nmap-netcat &amp; nmap"></span><strong id="netcat &amp; nmap">netcat &amp; nmap</strong>*<br />
+Última modificació: juny de 2014<br />
+</p>
+	
+	
+	
+<p>
+	Transferir un fitxer entre dos ordinadors<br />
+</p>
+	
+<p>
+	Ordinador orígen: <br />
+</p>
+	
+<p>
+<code>		nc -v -w 30 33333 -l &lt; fitxer.txt</code><br />
+</p>
+	
+<p>
+	Ordinador destí:<br />
+</p>
+	
+<p>
+<code>		nc -v -w 2  ip_ord_origen  333333 &gt; fitxer.txt</code><br />
+</p>
+	
+<p>
+	Identificar versions de servidors:<br />
+<code>	nc ip_ord_analitzat 22   </code><br />
+</p>
+<blockquote>
+(obtindrem la versió de servidor ssh si el servidor no està configurat per a ocultar aquesta informació)
+</blockquote>
+	
+<p>
+<code>	nc ip_ord_analitzat 80  </code><br />
+</p>
+<blockquote>
+per a obtenir versió de servidor, un cop executat nc, podem enviar: HTTP/1.1 200
+</blockquote>
+	
+	
+<p>
+	Escanejar un rang de ports (en aquest cas serian dels ports 80 a 10000):<br />
+</p>
+	
+<p>
+<code>		nc -v -w 1  ip_ord_analitzat  -z 80-10000</code><br />
+</p>
+
+
+<div id="netcat-nmap-Escaneig que fa zenmap per defecte:"><h5 id="Escaneig que fa zenmap per defecte:" class="header"><a href="#netcat-nmap-Escaneig que fa zenmap per defecte:">Escaneig que fa zenmap per defecte:</a></h5></div>
+
+<p>
+<code>nmap -T4 -v 10.0.0.53</code><br />
+</p>
+
+</body>
+</html>

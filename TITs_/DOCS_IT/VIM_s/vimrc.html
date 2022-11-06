@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>vimrc</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="vimrc (2 versions)"><h2 id="vimrc (2 versions)" class="header"><a href="#vimrc (2 versions)">vimrc (2 versions)</a></h2></div>
+<p>
+Última modificació: octubre de 2017<br />
+</p>
+
+<p>
+Versió mínima de .vimrc (per un servidor, per exemple)<br />
+</p>
+
+<pre>
+"" minimal .vimrc for servers
+set t_Co=256  
+color murphy
+
+"" paste remotely
+set mouse=r
+
+"" line numbers. Deshabilita amb  :set nu ! o :set nonumber
+set number
+
+"" preserve original and have backup
+set backup
+set patchmode=.orig~  
+
+"" python devel
+"" for enhanced python syntax highlighting
+"" http://www.vim.org/scripts/script.php?script_id=790
+syntax on
+filetype plugin indent on
+autocmd Filetype python set et smarttab ts=4 sw=4 list lcs=tab:&gt;-,trail:.,nbsp:_
+</pre>
+
+</body>
+</html>

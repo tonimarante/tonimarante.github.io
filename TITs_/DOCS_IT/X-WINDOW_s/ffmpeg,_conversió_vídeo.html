@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>ffmpeg,_conversió_vídeo</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="ffmpeg, conversió vídeo"><h2 id="ffmpeg, conversió vídeo" class="header"><a href="#ffmpeg, conversió vídeo">ffmpeg, conversió vídeo</a></h2></div>
+<p>
+*<span id="ffmpeg, conversió vídeo-Conversió de vídeo amb ffmpeg"></span><strong id="Conversió de vídeo amb ffmpeg">Conversió de vídeo amb ffmpeg</strong>*<br />
+Última actualització: gener de 2014<br />
+</p>
+
+<p>
+ffmpeg ens permet fer conversions de vídeo. A Linux tenim alguns frontals com winff, però com sempre ens pot ser molt útil executar una conversió massiva des d'algun script. Per a poder encertar amb els paràmetres correctes si volem fer conversions, també FFmpeg Little Helper<br />
+</p>
+
+<p>
+Alguns exemples:<br />
+</p>
+
+<p>
+· Extreure audio d'un vídeo:<br />
+ffmpeg -i  video.mp4 -ab 128k -ac 2 -ar 444100 -vn  nomesaudio.mp3<br />
+</p>
+
+
+<p>
+· Extreure audio de tots els vídeos d'un directori a una carpeta anomenada mp3:<br />
+for i in *;<br />
+	do ffmpeg -i \(i -ab 128k -ac 2 -ar 444100 -vn  mp3/\)i.mp3<br />
+done<br />
+</p>
+
+
+<p>
+· Tallar un vídeo entre dos TCs determinats:<br />
+ffmpeg -i  video.avi -ss 01:06:17 -t 00:07:00 -async 1 -acodec copy -vcodec copy  -strict 2  video_tall.avi<br />
+El segon valor (-t) no és un TC, si no la durada del tall -en aquest cas tallarem 7 minuts a partir del TC 01:06:17-. Per a calcular aquesta durada haurem de restar tc final - tc inicial<br />
+</p>
+
+
+<p>
+· Convertir un fitxer a format flv, amb una mida de 320x240:<br />
+ffmpeg -i video_original -s 320x240 video_final.flv<br />
+</p>
+ 
+
+<p>
+· Convertir un fitxer a format iphone:<br />
+#! /bin/bash<br />
+echo<br />
+echo "Relació d'aspecte 16:9? (Enter per a 16:9. qualsevol altre cosa per a 4:3)"<br />
+read TXT<br />
+if [ $TXT ]  <br />
+	then<br />
+		RELASP=$TXT<br />
+	else       <br />
+		RELASP="169"<br />
+fi<br />
+</p>
+
+<p>
+cd IN<br />
+#Atenció, els noms no accepten espais<br />
+for i in <span id="ffmpeg, conversió vídeo-."></span><strong id=".">.</strong>;<br />
+do<br />
+if [ $RELASP = "169" ]<br />
+	then<br />
+		ffmpeg -i \(i -s 480x320 -aspect 16:9 -b 768k -ab 64k -ar 22050 -r 30000/1001 ../OUT/\)i.169.mp4<br />
+		echo "El vídeo ha estat encodat en 16:9"<br />
+	else<br />
+		ffmpeg -i \(i -s 480x320 -aspect 4:3 -b 768k -ab 64k -ar 22050 -r 30000/1001 ../OUT/\)i.43.mp4<br />
+		echo "El vídeo ha estat encodat en 4:3"<br />
+fi<br />
+</p>
+
+<p>
+done<br />
+</p>
+
+</body>
+</html>

@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>ownCloud</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="Contents" class="toc"><h1 id="Contents">Contents</a></h1></div>
+<ul>
+<li>
+<a href="ownCloud.html#ownCloud">ownCloud</a>
+
+<ul>
+<li>
+<a href="ownCloud.html#ownCloud-Configurar (bàsic i ràpid) un servidor ownCloud a Debian 8 i 9">Configurar (bàsic i ràpid) un servidor ownCloud a Debian 8 i 9</a>
+
+<li>
+<a href="ownCloud.html#ownCloud-Optimitzar el rendiment de mySQL/mariaDB per a Owncloud">Optimitzar el rendiment de mySQL/mariaDB per a Owncloud</a>
+
+<ul>
+<li>
+<a href="ownCloud.html#ownCloud-Optimitzar el rendiment de mySQL/mariaDB per a Owncloud-Tuneig del servidor mariaDB">Tuneig del servidor mariaDB</a>
+
+<li>
+<a href="ownCloud.html#ownCloud-Optimitzar el rendiment de mySQL/mariaDB per a Owncloud-Altres paràmetres per a tunejar mariaDB o mySQL">Altres paràmetres per a tunejar mariaDB o mySQL</a>
+
+<li>
+<a href="ownCloud.html#ownCloud-Optimitzar el rendiment de mySQL/mariaDB per a Owncloud-Redis per un socket">Redis per un socket</a>
+
+</ul>
+</ul>
+</ul>
+
+<div id="ownCloud"><h1 id="ownCloud" class="header"><a href="#ownCloud">ownCloud</a></h1></div>
+
+<div id="ownCloud-Configurar (bàsic i ràpid) un servidor ownCloud a Debian 8 i 9"><h2 id="Configurar (bàsic i ràpid) un servidor ownCloud a Debian 8 i 9" class="header"><a href="#ownCloud-Configurar (bàsic i ràpid) un servidor ownCloud a Debian 8 i 9">Configurar (bàsic i ràpid) un servidor ownCloud a Debian 8 i 9</a></h2></div>
+<p>
+Última actualització: agost de 2017<br />
+</p>
+
+<p>
+Si volem sincronitzar fitxers entre els nostres equips (com a Dropbox), però sense sortir de la nostra xarxa interna, ens podem instal·lar un servidor ownCloud. Si aquest servidor al publiquem a internet, podrem tenir el nostre propi núvol, amb aplicacions client disponibles per Linux, Mac, Windows, Android, iOS i Blackberry.<br />
+</p>
+
+<p>
+Instal·lem ownCloud:<br />
+</p>
+
+<p>
+<code>apt-get install owncloud</code><br />
+</p>
+
+<p>
+A Debian 9 ja no ve com disponible per instal·lar. Haurem d'afegir els repositoris de: <a href="https://download.owncloud.org/download/repositories/stable/owncloud/">https://download.owncloud.org/download/repositories/stable/owncloud/</a> <br />
+</p>
+
+<p>
+Instal·lem el servidor de base de dades:<br />
+</p>
+
+<p>
+<code>apt-get install mariadb-server</code><br />
+</p>
+
+<p>
+Ara creem la base de dades. Primer ens loguem al servidor mariadb:<br />
+<code>mysql --defaults-file=/etc/mysql/debian.cnf</code><br />
+</p>
+
+<p>
+Creem la base de dades "owncloud". A la següent línia substituirem "elmeupasswd" per la contrasenya que vulguem per l'usuari owncloud:<br />
+</p>
+
+<p>
+CREATE DATABASE owncloud;<br />
+CREATE USER owncloud@localhost IDENTIFIED BY 'elmeupasswd';<br />
+GRANT ALL PRIVILEGES ON owncloud.* TO owncloud@localhost;<br />
+flush privileges;<br />
+quit<br />
+</p>
+
+<p>
+Ara hem d'escollir el directori a on es guardaran els fitxers dels usuaris. En el meu cas ha estat el directori /mnt/disc_extern i per tant:<br />
+</p>
+<pre>
+chown www-data:www-data /mnt/disc_extern
+chmod 750 /mnt/disc_extern
+</pre>
+
+<p>
+Ja tenim el servidor instal·lat. Per a posar-lo en marxa hem d'obrir un navegador des d'algun equip de la xarxa i anar a <a href="http://ip_del_server/owncloud">http://ip_del_server/owncloud</a> i omplir algunes dades:<br />
+</p>
+
+<p>
+------------------------------------------------------------------------------------- <br />
+   Usuari i passwd administrador d'ownCloud:<br />
+	  El que volguem <br />
+</p>
+
+<p>
+   Data Folder: <br />
+	  En el meu cas /mnt/disc_extern<br />
+</p>
+ 
+<p>
+   Database user:<br />
+	  owncloud<br />
+</p>
+
+<p>
+   Database password:<br />
+	  el passwd que haguem escollit<br />
+</p>
+
+<p>
+   Database name:<br />
+	  owncloud<br />
+</p>
+
+<p>
+   Database server:<br />
+	  localhost<br />
+<hr />
+</p>
+
+<p>
+	Accedir al servidor ownCloud via SSL<br />
+	Si volem accedir al servidor amb https, hem de fer:<br />
+</p>
+<pre>
+	apt-get install ssl-cert
+	make-ssl-cert generate-default-snakeoil --force-overwrite
+	a2enmod ssl
+	a2ensite default-ssl
+	service apache2 restart
+</pre>
+
+<p>
+	Finalment, per deshabilitar el port 80, hem d'editar el fitxer /etc/apache2/ports.conf i comentar la línia:<br />
+</p>
+	
+<ol>
+<li>
+Listen 80
+
+</ol>
+	
+	
+<p>
+	Per a canviar l'arrel del servidor apache, editem el fitxer /etc/apache2/sites-enabled/default-ssl.conf <br />
+	i canviem la línia:<br />
+</p>
+	
+<p>
+	DocumentRoot /var/www/html<br />
+</p>
+	
+<p>
+	per:<br />
+	DocumentRoot /var/www/owncloud<br />
+</p>
+	
+	
+<p>
+	Memory caching<br />
+</p>
+	
+<p>
+<code>	apt install php5-apcu</code><br />
+</p>
+	
+<p>
+	I afegim aquesta línia a  /var/www/owncloud/config/config.php:<br />
+</p>
+	
+<p>
+	'memcache.local' =&gt; '\\OC\\Memcache\\APCu',<br />
+</p>
+
+
+
+<div id="ownCloud-Optimitzar el rendiment de mySQL/mariaDB per a Owncloud"><h2 id="Optimitzar el rendiment de mySQL/mariaDB per a Owncloud" class="header"><a href="#ownCloud-Optimitzar el rendiment de mySQL/mariaDB per a Owncloud">Optimitzar el rendiment de mySQL/mariaDB per a Owncloud</a></h2></div>
+
+<div id="ownCloud-Optimitzar el rendiment de mySQL/mariaDB per a Owncloud-Tuneig del servidor mariaDB"><h3 id="Tuneig del servidor mariaDB" class="header"><a href="#ownCloud-Optimitzar el rendiment de mySQL/mariaDB per a Owncloud-Tuneig del servidor mariaDB">Tuneig del servidor mariaDB</a></h3></div>
+<p>
+Podem jugar amb aquests paràmetres:<br />
+</p>
+<blockquote>
+skip-name-resolve
+query_cache_type = 1
+query_cache_limit = 256K
+query_cache_min_res_unit = 2k
+query_cache_size = 80M
+tmp_table_size= 64M
+max_heap_table_size= 64M
+wait_timeout=60
+</blockquote>
+<p>
+<a href="https://www.tecmint.com/mysql-mariadb-performance-tuning-and-optimization/2/<br">https://www.tecmint.com/mysql-mariadb-performance-tuning-and-optimization/2/<br</a> />
+</p>
+
+<div id="ownCloud-Optimitzar el rendiment de mySQL/mariaDB per a Owncloud-Altres paràmetres per a tunejar mariaDB o mySQL"><h3 id="Altres paràmetres per a tunejar mariaDB o mySQL" class="header"><a href="#ownCloud-Optimitzar el rendiment de mySQL/mariaDB per a Owncloud-Altres paràmetres per a tunejar mariaDB o mySQL">Altres paràmetres per a tunejar mariaDB o mySQL</a></h3></div>
+
+<p>
+With some mysql-tuning (<a href="https://forum.owncloud.org/viewtopic.php?f=31&amp;t=30083#p95636)">https://forum.owncloud.org/viewtopic.php?f=31&amp;t=30083#p95636)</a> and these parameter in my.cnf<br />
+</p>
+
+<p>
+innodb_buffer_pool_size = 512M<br />
+innodb_buffer_pool_instance = 1<br />
+innodb_flush_log_at_trx_commit = 2<br />
+innodb_log_buffer_size = 32M<br />
+innodb_max_dirty_pages_pct = 90<br />
+</p>
+
+<p>
+I was able to upload more than 1000 files/minute. The total upload time for all 10000 files was 9min 28s.<br />
+</p>
+
+<p>
+This is only a workaround. There is a risk data loss when the system crashes. More reports on this modification (one user wasn't able to restore the database after a hard-reset of his system):<br />
+</p>
+
+<div id="ownCloud-Optimitzar el rendiment de mySQL/mariaDB per a Owncloud-Redis per un socket"><h3 id="Redis per un socket" class="header"><a href="#ownCloud-Optimitzar el rendiment de mySQL/mariaDB per a Owncloud-Redis per un socket">Redis per un socket</a></h3></div>
+
+<ol>
+<li>
+0 = do not listen on a port
+
+</ol>
+<p>
+port 0<br />
+</p>
+
+<ol>
+<li>
+listen on localhost only
+
+</ol>
+<p>
+bind 127.0.0.1<br />
+</p>
+
+<ol>
+<li>
+create a unix domain socket to listen on
+
+</ol>
+<p>
+unixsocket /tmp/redis.sock<br />
+</p>
+
+<ol>
+<li>
+set permissions for the socket
+
+</ol>
+<p>
+unixsocketperm 755<br />
+</p>
+
+<p>
+test:<br />
+<code>redis-cli -s /var/run/redis/redis.sock</code><br />
+</p>
+
+<hr />
+
+</body>
+</html>

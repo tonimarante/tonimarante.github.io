@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>problemes_connectant_amb_SSH_antic</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="Problemes per connectar per SSH un servidor antic"><h1 id="Problemes per connectar per SSH un servidor antic" class="header"><a href="#Problemes per connectar per SSH un servidor antic">Problemes per connectar per SSH un servidor antic</a></h1></div>
+<p>
+:taghellman,tagssh:<br />
+Última modificació: maig de 2022<br />
+</p>
+
+
+<p>
+Si no podem connectar a servidor SSH antic per què ens diu:<br />
+</p>
+
+<p>
+"no matching key exchange method found. Their offer: diffie-hellman-group-exchange-sha1..."<br />
+</p>
+
+<p>
+Haurem d'afegir com a opció que el nostre client ofereixi treballar amb algun dels algoritmes que ofereix el servidor SSH:<br />
+</p>
+<blockquote>
+ssh  -o KexAlgorithms=+diffie-hellman-group1-sha1   IP_servidor_SSH
+</blockquote>
+<p>
+o bé:<br />
+</p>
+<blockquote>
+ssh -oHostKeyAlgorithms=+ssh-dss IP_servidor_SSH
+</blockquote>
+
+<p>
+Si no volem afegir aquesta opció continuament, podem afegir al nostre fitxer .ssh/config:<br />
+</p>
+<blockquote>
+KexAlgorithms +diffie-hellman-group1-sha1
+</blockquote>
+
+</body>
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>xdotool</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="xdotool"><h2 id="xdotool" class="header"><a href="#xdotool">xdotool</a></h2></div>
+<p>
+Última actualització: març de 2016<br />
+</p>
+
+<p>
+Xdotool permet fer scripts per a fer coses com pulsacions de tecles, events de ratolí o operacions amb finestres de X-window.<br />
+L'instal·lem amb:<br />
+</p>
+
+<p>
+<code>	apt-get install xdotool</code><br />
+</p>
+
+<p>
+Només algunes de les moltes coses que pot fer<br />
+Escriure text:<br />
+<code>	xdotool type "el meu text"</code><br />
+</p>
+
+<p>
+Ratoli:<br />
+<code>	xdotool mousemove x y click 1  </code><br />
+</p>
+
+<p>
+	x i y son coordenades de la pantalla, en píxels<br />
+	1 és el botó esquerra, 2 l'scroll, 3 el botó dret) <br />
+</p>
+
+<p>
+Teclat:<br />
+<code>	xdotool key Alt+Tab</code><br />
+</p>
+
+<p>
+Si el volem fer en una pantalla determinada:<br />
+</p>
+
+<p>
+<code>	xdotool search --name [nom de la finestra] key Alt+Tab</code><br />
+</p>
+
+<p>
+Com a valor de tecla li podem passar qualsevol valor de X Keysym. Els més comuns:<br />
+</p>
+<pre>
+BackSpace   0xFF08      Erase the previous character, unlike loadkeys, Delete does not do the same thing
+Tab         0xFF09
+Linefeed    0xFF0A      Linefeed, LF
+Return      0xFF0D      Return, enter
+Escape      0xFF1B
+Delete      0xFFFF      Erase the character under the cursor. This is the same as Rubout in loadkeys.
+Home        0xFF50
+Left        0xFF51      Move left, left arrow
+Up          0xFF52      Move up, up arrow
+Right       0xFF53      Move right, right arrow
+Down        0xFF54      Move down, down arrow
+Prior       0xFF55      Prior, previous; Page_Up is a synonym
+Next        0xFF56      Next; Page_Down is a synonym
+End         0xFF57      EOL
+Begin       0xFF58      BOL
+Shift_L     0xFFE1      Left shift
+Shift_R     0xFFE2      Right shift
+Control_L   0xFFE3      Left control
+Control_R   0xFFE4      Right control
+Caps_Lock   0xFFE5      Caps lock
+Shift_Lock  0xFFE6      Shift lock
+Meta_L      0xFFE7      Left meta
+Meta_R      0xFFE8      Right meta
+Alt_L       0xFFE9      Left alt
+Alt_R       0xFFEA      Right alt
+Super_L     0xFFEB      Left super
+Super_R     0xFFEC      Right super
+Hyper_L     0xFFED      Left hyper
+Hyper_R     0xFFEE      Right hyper
+3270_Enter  0xFD1E   
+space       0x020
+</pre>
+
+<p>
+La llista completa la podem veure a: <a href="http://wiki.linuxquestions.org/wiki/List_of_Keysyms_Recognised_by_Xmodmap">http://wiki.linuxquestions.org/wiki/List_of_Keysyms_Recognised_by_Xmodmap</a>   <br />
+</p>
+
+</body>
+</html>

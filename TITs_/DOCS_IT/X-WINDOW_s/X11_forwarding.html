@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>X11_forwarding</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="X11 forwarding"><h2 id="X11 forwarding" class="header"><a href="#X11 forwarding">X11 forwarding</a></h2></div>
+<p>
+*<span id="X11 forwarding-X11 forwarding (enviar-nos una aplicació gràfica remota)"></span><strong id="X11 forwarding (enviar-nos una aplicació gràfica remota)">X11 forwarding (enviar-nos una aplicació gràfica remota)</strong>*<br />
+Última modificació: desembre de 2014<br />
+</p>
+
+<p>
+Podem connectar via ssh a un servidor remot i, un cop establerta la connexió, enviar-nos finestres cap al nostre equip.<br />
+Així:<br />
+</p>
+
+<p>
+-Comprovem que al servidor remot tenim, al fitxer /etc/sshd_config aquest valor en yes:<br />
+</p>
+
+<p>
+X11Forwarding yes<br />
+</p>
+
+<p>
+-Connectem al servidor remot habilitant la compressió (-C) i habilitant el forwarding de les X:<br />
+</p>
+
+<p>
+ssh -C -X elmeulogin@servidorremot<br />
+</p>
+
+<p>
+-Ara, des del servidor remot engegem alguna aplicació que rebrem el nostre client, p.e:<br />
+</p>
+
+<p>
+xclock &amp;<br />
+</p>
+
+<p>
+virtualbox &amp;<br />
+</p>
+
+<p>
+o qualsevol altre...<br />
+</p>
+
+</body>
+</html>

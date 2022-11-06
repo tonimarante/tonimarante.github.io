@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>exim_cheatsheet</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="exim cheatsheet"><h1 id="exim cheatsheet" class="header"><a href="#exim cheatsheet">exim cheatsheet</a></h1></div>
+<p>
+:tagexim:<br />
+<a href="http://bradthemad.org/tech/notes/exim_cheatsheet.php<br">http://bradthemad.org/tech/notes/exim_cheatsheet.php<br</a> />
+</p>
+
+
+<p>
+Print a count of the messages in the queue:<br />
+<code>	root@localhost# exim -bpc</code><br />
+</p>
+
+<p>
+Print a listing of the messages in the queue (time queued, size, message-id, sender, recipient):<br />
+<code>	root@localhost# exim -bp</code><br />
+</p>
+
+<p>
+Print a summary of messages in the queue (count, volume, oldest, newest, domain, and totals):<br />
+<code>	root@localhost# exim -bp | exiqsumm</code><br />
+</p>
+
+<p>
+Print what Exim is doing right now:<br />
+<code>	root@localhost# exiwhat</code><br />
+</p>
+
+<p>
+View a message's headers:<br />
+<code>	root@localhost# exim -Mvh &lt;message-id&gt;</code><br />
+</p>
+
+<p>
+Trobar segon una cerca<br />
+<code>exigrep celebre.com /var/log/exim/mainlog</code><br />
+</p>
+
+</body>
+</html>

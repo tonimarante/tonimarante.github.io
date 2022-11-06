@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>bleachbit</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="bleachbit"><h1 id="bleachbit" class="header"><a href="#bleachbit">bleachbit</a></h1></div>
+<p>
+:tagbleachbit,tagclean,tagneteja:<br />
+Última modificació: maig de 2019<br />
+</p>
+
+<div id="bleachbit-Netejar locales no desitjats"><h2 id="Netejar locales no desitjats" class="header"><a href="#bleachbit-Netejar locales no desitjats">Netejar locales no desitjats</a></h2></div>
+<p>
+Amb les eines de Debian podem fer:<br />
+<code>    dpkg-reconfigure locales</code><br />
+</p>
+
+<p>
+I seleccionar només els locales que volguem.<br />
+Tenim una eina més especialitzada que és localepurge:<br />
+<code>    apt install localepurge</code><br />
+</p>
+
+<p>
+El problema es que aquestes dues eines no permeten deseleccionar en massa. Tenim un altre opció:<br />
+</p>
+
+<p>
+<code> apt purge locales </code><br />
+<code> dpkg-reconfigure locales </code><br />
+</p>
+
+
+<div id="bleachbit-Netejar coses amb bleachbit des de la CLI"><h2 id="Netejar coses amb bleachbit des de la CLI" class="header"><a href="#bleachbit-Netejar coses amb bleachbit des de la CLI">Netejar coses amb bleachbit des de la CLI</a></h2></div>
+<p>
+Per a fer neteja de temporals del sistema, thumbnails, fitxers de caché i altres, tenim bleachbit: <a href="https://www.bleachbit.org<br">https://www.bleachbit.org<br</a> />
+</p>
+
+<p>
+El bo és que a més de poder fer-lo servir des de la interfície gràfica, també el podem executar des de la línia de comandaments el que ens pot ser útil per aplicar-lo a servidores que no tinguin instal·lades les X, per exemple.<br />
+</p>
+
+<p>
+<code>    bleachbit --list</code><br />
+</p>
+
+<p>
+Ens donarà una llista amb totes les accions que pot executar.<br />
+Podem executar una acció particular, per exemple:<br />
+</p>
+
+<p>
+<code>    bleachbit --clean chromium.cache</code><br />
+</p>
+
+<p>
+Si volem executar totes les accions:<br />
+</p>
+
+<p>
+<code>    bleachbit --list | grep -E "[a-z]+\.[a-z]+" | xargs bleachbit --clean</code><br />
+</p>
+
+</body>
+</html>

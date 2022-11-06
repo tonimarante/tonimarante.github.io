@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>iptables_Debian</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="iptables Debian"><h2 id="iptables Debian" class="header"><a href="#iptables Debian">iptables Debian</a></h2></div>
+<p>
+*<span id="iptables Debian-iptables en Debian"></span><strong id="iptables en Debian">iptables en Debian</strong>*<br />
+Última actualització: desembre de 2019<br />
+</p>
+
+<p>
+iptables és el firewall integrat en el kernel de Linux. Veurem aquí com configurar un iptables senzill per a un servidor o estació de treball amb una targeta de xarxa. Si estem pensant en muntar un firewall dedicat amb vàries targetes de xarxa, la meva recomanació es que provis l'increïble pfSense.<br />
+</p>
+
+<p>
+Creem primer un fitxer /etc/iptables.up.rules. Un possible contingut de sortida seria aquest:<br />
+</p>
+
+
+<p>
+*filter<br />
+</p>
+<ol>
+<li>
+Per a filtrar paquets que van o surten de la pròpia màquina farem servir INPUT i OUTPUT.
+
+<li>
+Per a filtrar paquets que van a altres equips remots, fem servir FORWARD.
+
+</ol>
+
+<p>
+:INPUT ACCEPT [0:0]<br />
+:FORWARD ACCEPT [0:0]<br />
+:OUTPUT ACCEPT [0:0]<br />
+</p>
+<ol>
+<li>
+permet tot el trafic de loopback però fa un drop a tot el trafic que va a 127/8 i que no fa servir lo0
+
+</ol>
+<p>
+-A INPUT -i lo -j ACCEPT<br />
+-A INPUT -d 127.0.0.0/8 ! -i lo -j REJECT --reject-with icmp-port-unreachable<br />
+</p>
+<ol>
+<li>
+accepta l'entrada a totes les connexions establertes
+
+</ol>
+<p>
+-A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT<br />
+</p>
+
+<ol>
+<li>
+les meves regles
+
+</ol>
+<p>
+-A INPUT  -s 192.168.1.200 -j ACCEPT<br />
+-A INPUT  -s 192.168.2.0/24 -j ACCEPT<br />
+-A INPUT -p tcp -m tcp --dport 80 -j ACCEPT<br />
+-A INPUT -p tcp -m tcp --dport 443 -j ACCEPT<br />
+</p>
+<ol>
+<li>
+permet ssh al port 30000
+
+</ol>
+<p>
+-A INPUT -p tcp -m state --state NEW -m tcp --dport 30000 -j ACCEPT<br />
+</p>
+
+<ol>
+<li>
+permet ping (o no)
+
+</ol>
+<p>
+#-A INPUT -p icmp -m icmp --icmp-type 8 -j REJECT<br />
+-A INPUT -p icmp -m icmp --icmp-type 8 -j ACCEPT<br />
+</p>
+
+<ol>
+<li>
+log iptables denied calls (access via 'dmesg' command)
+
+</ol>
+<p>
+-A INPUT -m limit --limit 5/min -j LOG --log-prefix "iptables denied: " --log-level 7<br />
+</p>
+
+<ol>
+<li>
+Denega tot el que no hagi estat autoritzat abans
+
+</ol>
+<p>
+-A INPUT -j REJECT --reject-with icmp-port-unreachable<br />
+-A FORWARD -j REJECT --reject-with icmp-port-unreachable<br />
+-A OUTPUT -j ACCEPT<br />
+COMMIT<br />
+</p>
+
+
+<p>
+Per a executar el firewall a l'inici necessitarem un fitxer /etc/network/if-pre-up/iptables, amb aquest contingut:<br />
+</p>
+
+<p>
+ #!/bin/bash<br />
+ /sbin/iptables-restore &lt; /etc/iptables.up.rules<br />
+</p>
+
+<p>
+Si fem canvis al fitxer de regles i volem recarregar el firewall "en viu", simplement farem:<br />
+</p>
+
+<p>
+/etc/network/if-pre-up.d/iptables<br />
+</p>
+
+<p>
+Si volem veure quines regles estem aplicant:<br />
+iptables -L<br />
+</p>
+
+<p>
+En cas de problemes, podem analitzar que està pasant amb iptraf.<br />
+</p>
+
+
+<p>
+Exemple d'script inicial iptables amb possibles regles inicials:<br />
+sysctl net.ipv6.conf.all.disable_ipv6=1<br />
+sysctl net.ipv4.ip_forward=0<br />
+iptables -F<br />
+iptables --flush<br />
+iptables -t nat --flush<br />
+iptables -t mangle --flush<br />
+iptables --delete-chain<br />
+iptables -t nat --delete-chain<br />
+iptables -t mangle --delete-chain<br />
+</p>
+
+<p>
+#drop per defecte a tot, excepte sortida<br />
+iptables --policy INPUT DROP<br />
+iptables --policy OUTPUT ACCEPT<br />
+iptables --policy FORWARD DROP<br />
+</p>
+ 
+<p>
+#accept loopback<br />
+iptables -A INPUT -i lo -j ACCEPT<br />
+</p>
+ 
+<p>
+#accept related<br />
+iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT<br />
+</p>
+ 
+<p>
+#permetem ssh<br />
+iptables -A INPUT -m tcp -p tcp --dport 22 -j ACCEPT<br />
+</p>
+
+<p>
+#Si volem permetre ssh, http i https, descomenten següent línia<br />
+</p>
+<ol>
+<li>
+iptables -A INPUT -p tcp -m state --state NEW -m multiport --dports ssh,http,https -j ACCEPT
+
+</ol>
+
+<p>
+#Si volem permetre ssh, http i https però només per eth0, descomenten següent línia<br />
+</p>
+<ol>
+<li>
+iptables -A INPUT -i eth0 -s 192.168.1.0/24 -p tcp -m state --state NEW -m multiport --dports http,https -j ACCEPT
+
+</ol>
+
+<div id="iptables Debian-nftables és el nou iptables"><h3 id="nftables és el nou iptables" class="header"><a href="#iptables Debian-nftables és el nou iptables">nftables és el nou iptables</a></h3></div>
+<p>
+nftables va ser inclós al kernel de Linux al 2014, per a solucionar algunes coses d'iptables com simplificar la sintaxi, proporcionar escalabilitat i evitar haver de duplicar les regles iptables per a IPv4 i IPv6 (que es gestionen amb iptables i ip6tables respectivament).<br />
+</p>
+
+<p>
+El funcionament de nftables és també amb chains i rules, però a diferència d'iptables no partim amb cap chain per defecte (recordem que a iptables tenim de sortida els chains: input, output i forward).<br />
+</p>
+
+<p>
+Per a instal·lar-ho a Debian, farem:<br />
+</p>
+<blockquote>
+apt install nftables
+sudo systemctl enable nftables
+</blockquote>
+    
+<p>
+I ja està. Per a poder convertir antics scripts iptables o simplement si encara no dominem la sintaxi nftables, però si la d'iptables, tenim el conversor iptables-translate. Un parell d'exemples:<br />
+</p>
+
+<ul>
+<li>
+Si volem bloquejar totes les entrades provinents de 192.168.1.1:
+<br />    linux@box:~$ iptables-translate -A INPUT -s 192.168.1.1 -j DROP
+<br />    nft add rule ip filter INPUT ip saddr 192.168.2.1 counter drop
+
+</ul>
+
+<ul>
+<li>
+Si volem permetre que es pugui accedir al servidor SSH, desde un rang d'adreces:
+<br />    linux@box:~$ iptables-translate -A INPUT -p tcp -s 192.168.1.0/24 --dport 22 -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
+<br />    nft add rule ip filter INPUT ip saddr 192.168.1.0/24 tcp dport 22 ct state new,established counter accept
+
+</ul>
+
+</body>
+</html>

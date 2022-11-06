@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>synergy</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="synergy"><h2 id="synergy" class="header"><a href="#synergy">synergy</a></h2></div>
+<p>
+*<span id="synergy-Un teclat i un ratolí per a controlar vàries pantalles: Synergy"></span><strong id="Un teclat i un ratolí per a controlar vàries pantalles: Synergy">Un teclat i un ratolí per a controlar vàries pantalles: Synergy</strong>*<br />
+Última actualització: gener 2013<br />
+</p>
+
+<p>
+Està força bé synergy. Ens permet controlar varis equips només amb un teclat i un ratolí. Per a posar-lo en marxa hem de fer que un dels equips tingui el rol de servidor i la resta seran clients.<br />
+</p>
+
+<p>
+Si fa de servidor Ubuntu:<br />
+Si el nostre servidor serà una Ubuntu, simplement instal·larem QuickSynergy i als settings l'indicarem quin equip tindrem a cada banda:<br />
+</p>
+
+
+
+<p>
+En el cas de la imatge, tindrem el pc8 a la nostra dreta.<br />
+A la resta d'equips simplement hem d'aixecar el client i dir-li quin és el seu servidor.<br />
+</p>
+
+<p>
+Si fa de servidor Windows:<br />
+Instal·lem i configurem synergy al Windows (imaginem que aquest equip es diu "sy_server") amb aquests settings per a que tot vagi fi:<br />
+</p>
+
+<p>
+	Server<br />
+	"Start Synergy after loggin in" o "Automatically start server/client" segons ens interessi<br />
+	Check clients every 5000 ms<br />
+</p>
+
+<p>
+Finalment, definim la posició dels equips que es connectaran a aquest client amb la interfície gràfica.<br />
+</p>
+
+<p>
+Ara, imaginem que una Ubuntu es connectarà com client. Instal·lem synergy i fem que s'arrenqui amb l'equip afegint aquestes línies a /etc/gdm/Init/Default:<br />
+killall synergyc<br />
+sleep 1<br />
+synergyc --daemon sy_server<br />
+</p>
+
+<p>
+(al final del fitxer, just abans de la línia que diu "exit 0")<br />
+</p>
+
+<p>
+En aquest cas la cosa està més "acabada", ja que tindrem control des de synergy abans d'entrar en sessió.<br />
+Hem de tenir en compte que:<br />
+</p>
+
+<p>
+	si entrem a un terminal virtual amb Ctrl+Alt+F1, F2, etc ens quedarem sense connexió<br />
+	També hauriem de desactivar que els usuaris puguin "iniciar sessió com un usuari diferent", ja que synergy només "funcionarà" per a la primera sessió, un cop entrem a la segona perdrem la connexió.<br />
+</p>
+
+</body>
+</html>

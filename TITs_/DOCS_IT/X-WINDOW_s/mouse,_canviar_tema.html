@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>mouse,_canviar_tema</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="mouse, canviar tema"><h2 id="mouse, canviar tema" class="header"><a href="#mouse, canviar tema">mouse, canviar tema</a></h2></div>
+<p>
+*<span id="mouse, canviar tema-Canviar el tema del punter del ratolí a Debian"></span><strong id="Canviar el tema del punter del ratolí a Debian">Canviar el tema del punter del ratolí a Debian</strong>*<br />
+Última actualització: juliol de 2013<br />
+</p>
+
+<p>
+Si volem un punter més gran:<br />
+</p>
+
+<p>
+apt-get install big-cursor<br />
+</p>
+
+
+
+<p>
+Si el que volem es canviar el tema del punter:<br />
+</p>
+
+<p>
+Instal·lem temes:<br />
+</p>
+
+<p>
+apt-get install dmz-cursor-theme<br />
+</p>
+
+
+<p>
+Ara escollim un dels temes (això s'aplica a nivell global, per a tots els usuaris del sistema):<br />
+</p>
+
+<p>
+update-alternatives --config x-cursor-theme<br />
+</p>
+
+
+<p>
+Si el tema del punter es escalable (dmz-cursor-theme ho és), podem definir la mida que volem a nivell d'usuari, definint-la en el fitxer ~/.Xresources:<br />
+</p>
+
+<p>
+cat ~/.Xresources<br />
+</p>
+
+<p>
+Xcursor.size:  32       ! 16, 32, 48 or 64 may also be good values<br />
+</p>
+
+</body>
+</html>

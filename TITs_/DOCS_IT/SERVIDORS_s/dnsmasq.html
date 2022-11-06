@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>dnsmasq</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="dnsmasq"><h2 id="dnsmasq" class="header"><a href="#dnsmasq">dnsmasq</a></h2></div>
+<p>
+*<span id="dnsmasq-Configurar (bàsic i ràpid) dnsmasq a Debian"></span><strong id="Configurar (bàsic i ràpid) dnsmasq a Debian">Configurar (bàsic i ràpid) dnsmasq a Debian</strong>*<br />
+Última actualització:setembre de 2021<br />
+</p>
+
+<p>
+Dnsmasq és un paquet molt interessant ja que ens proporciona tres servidors: DNS, DHCP i TFTP. Son considerats com una alternativa lleugera i domèstica als servidors més professionals com bind i ISC-DHCP.<br />
+El servidor DNS ens proporciona caché i també resolució de noms interna, és a dir que podrem primer resoldre les nostres màquines de casa, configurades al fitxer /etc/hosts del servidor dnsmasq.<br />
+</p>
+
+<p>
+Instal·lem amb:<br />
+</p>
+
+<p>
+<code>	apt-get install dnsmasq</code><br />
+</p>
+
+
+<p>
+Ara modifiquem el fitxer /etc/dnsmasq.conf<br />
+</p>
+
+<p>
+Per quina interficie servirem:<br />
+</p>
+
+<p>
+	interface=eth1<br />
+</p>
+<blockquote>
+bind-interfaces
+</blockquote>
+
+
+<p>
+Respondrem a les consultes DNS primer resolent el fitxer /etc/hosts del servidor dnsmasq<br />
+</p>
+
+<p>
+	expand-hosts<br />
+</p>
+<blockquote>
+local=/tux.home/
+domain=tux.home
+</blockquote>
+
+
+<p>
+Si tenim un servidor DNS que serveixi a un domini intern, li podem reenviar les consultes:<br />
+</p>
+<blockquote>
+server=/tux2.home/192.168.1.254
+</blockquote>
+    
+
+<p>
+Rang DHCP:<br />
+</p>
+
+<p>
+	dhcp-range=192.168.1.175,192.168.1.199,12h<br />
+</p>
+
+
+<p>
+Si volem definir pels clients una porta de sortida diferent a la del propi servidor dnsmasq:<br />
+</p>
+
+<p>
+	dhcp-option=option:router,192.168.1.10<br />
+</p>
+
+
+<p>
+Reserves DHCP (poden estar fora del rang DHCP principal):<br />
+</p>
+
+<p>
+	dhcp-host=00:3a:05:00:12:45,ug802,192.168.1.209<br />
+	dhcp-host=b8:c5:eb:53:ee:74,xbian,192.168.1.2<br />
+</p>
+
+
+<p>
+Per a veure la llista de concessions:<br />
+</p>
+
+<p>
+<code>cat /var/lib/misc/dnsmasq.leases </code><br />
+</p>
+
+</body>
+</html>

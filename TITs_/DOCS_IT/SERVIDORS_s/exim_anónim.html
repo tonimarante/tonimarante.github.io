@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>exim_anónim</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="exim anónim"><h2 id="exim anónim" class="header"><a href="#exim anónim">exim anónim</a></h2></div>
+<p>
+*<span id="exim anónim-Servidor smtp anònim amb Exim4"></span><strong id="Servidor smtp anònim amb Exim4">Servidor smtp anònim amb Exim4</strong>*<br />
+Última actualització: abril de 2015<br />
+</p>
+
+<p>
+Fem:<br />
+</p>
+
+<p>
+<code>dpkg-reconfigure exim4-config</code><br />
+</p>
+
+<p>
+I fiquem aquestes opcions:<br />
+</p>
+
+<p>
+lloc d'internet; s'envia i es rep directament utilitzant SMTP<br />
+system mail name: nom_màquina<br />
+IP-addresses to listen: CAP<br />
+Other destinations for which mail is accepted: aquí tinc @nom_màquina, crec que pots posar el que vulguis<br />
+Dominis del qual és repetidor:  CAP<br />
+Ordinadors dels quals sou repetidor: 192.168.1.0/24;192.168.6.0/24 (anòmin, pero com a mínim controlem des de quines subnets podem enviar)<br />
+Voleu mantenir el nombre mínim de consultes de DNS possibles (marcatge sota demanda)?: NO<br />
+Mètode de lliurament per al correu local: format mbox a /var/mail/   <br />
+Split configuration into small files? NO<br />
+</p>
+
+<p>
+En algunes ocasions sembla que la llista de repetidors (si hi han varies xarxes) no l'acaba d'agafar bé. Mirar d'editar a mà el fitxer /etc/exim4/update-exim4.conf.conf i anar fent proves afegint i/o canviant les subnets fins a detectar a on està el problema.<br />
+</p>
+
+<p>
+NOTA: gmail cada cop restringeix més la recepció de correus des de servidors no autoritzats. Un altre enfoc que podem fer servir seria enviar correus amb exim a través d'un servidor extern (gmail, p.e.). Fes una ullada aquí: <a href="https://sites.google.com/site/tonimarante/apunts-de-linux-debian/servidors/enviar-correu-amb-exim-a-traves-de-gmail<br">https://sites.google.com/site/tonimarante/apunts-de-linux-debian/servidors/enviar-correu-amb-exim-a-traves-de-gmail<br</a> />
+</p>
+
+</body>
+</html>

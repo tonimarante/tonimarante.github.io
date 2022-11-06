@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>route</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="route. Exemples"><h1 id="route. Exemples" class="header"><a href="#route. Exemples">route. Exemples</a></h1></div>
+<p>
+:tagestàtica,tagruta:<br />
+Última actualització: agost de 2021<br />
+</p>
+
+<p>
+"Route manipula la taula d'encaminament IP del kernel. El seu ús fonamental és el d'establir rutes estátiques cap a ordinadors o xarxes específics".<br />
+Si fem "route" veurem les rutes d'encaminaments actuals. Si tenim configurat un servidor de noms, route ens mostra els noms resolts en comptes dels valors IP numèrics. Si volem veure les rutes amb els valors numèrics, farem "route -n".<br />
+Exemples:<br />
+</p>
+
+<p>
+-Ruta cap a una xarxa des d'una interfície local:<br />
+<code>route add -net 192.56.76.0 netmask 255.255.255.0 eth0</code><br />
+</p>
+
+<p>
+-Configurar ruta per defecte:<br />
+<code>route add 0.0.0.0 netmask 0.0.0.0 gw 192.56.76.254 eth0</code><br />
+</p>
+
+<p>
+o més breu:<br />
+<code>route add default gw 192.56.76.254 eth0</code><br />
+</p>
+
+<p>
+també:<br />
+<code>route add default gw 192.56.76.254</code><br />
+</p>
+
+<p>
+-Esborrar ruta per defecte:<br />
+<code>route del default</code><br />
+</p>
+
+<p>
+-Ruta cap a una màquina via un router de la xarxa interna:<br />
+<code>route add -host 192.56.66.5 netmask 255.255.255.0 gw 192.56.76.254 eth0</code><br />
+</p>
+
+<p>
+-Ruta cap a una xarxa via un router de la xarxa interna:<br />
+<code>route add -net 192.56.66.0 netmask 255.255.255.0 gw 192.56.76.254 eth0</code><br />
+</p>
+
+<p>
+Podem fer servir també CDIR:<br />
+</p>
+
+<p>
+<code>	route add -net 192.56.66.0/24 gw 192.56.76.254 eth0</code><br />
+</p>
+
+
+<p>
+Podem fem servir una ruta nul·la per a tractar el tràfic no desitjat. Una ruta nul·la (també anomenada ruta blackhole) és una ruta de xarxa que no va enlloc. Els paquets que coincideixen amb la ruta configurada es "dropegen" (s'ignoren), actuant com una espècie de firewall molt limitat. Aquesta tècnica d'usar les rutes de nul·les es diu blackhole filtering. Exemple de ruta:<br />
+<code>route add -net 10.0.0.0 netmask 255.0.0.0 reject</code><br />
+</p>
+
+<p>
+Aquí <a href="https://sites.google.com/site/tonimarante/apunts-de-linux-debian/xarxa/xarxa-exemple-de-interfaces">https://sites.google.com/site/tonimarante/apunts-de-linux-debian/xarxa/xarxa-exemple-de-interfaces</a> podem veure com configurar rutes estàtiques a Debian.<br />
+</p>
+
+
+<div id="route. Exemples-Afegir ruta estàtica a centOS"><h2 id="Afegir ruta estàtica a centOS" class="header"><a href="#route. Exemples-Afegir ruta estàtica a centOS">Afegir ruta estàtica a centOS</a></h2></div>
+<p>
+S'ha de crear un fitxer amb el nom route-interface a /etc/sysconfig/network-scripts, tal com:<br />
+</p>
+<blockquote>
+vim /etc/sysconfig/network-scripts/route-eth0
+</blockquote>
+
+<p>
+afegir les rutes estàtiques que volguem, p.e.:<br />
+</p>
+<blockquote>
+172.16.5.0/24 via 10.0.0.101 dev eth0
+</blockquote>
+
+<p>
+per acabar:<br />
+</p>
+
+<p>
+<code>    service network restart</code><br />
+</p>
+
+
+<p>
+paraules clau: rutes, rutas, estàtiques, estáticas, routes<br />
+</p>
+
+</body>
+</html>

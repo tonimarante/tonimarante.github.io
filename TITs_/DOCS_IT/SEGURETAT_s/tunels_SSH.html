@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>tunels_SSH</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="tunels SSH"><h1 id="tunels SSH" class="header"><a href="#tunels SSH">tunels SSH</a></h1></div>
+<p>
+*<span id="tunels SSH-Tunelització de ports amb ssh"></span><strong id="Tunelització de ports amb ssh">Tunelització de ports amb ssh</strong>*<br />
+Última actualització: octubre de 2019<br />
+</p>
+
+<div id="tunels SSH-Local port forwarding"><h2 id="Local port forwarding" class="header"><a href="#tunels SSH-Local port forwarding">Local port forwarding</a></h2></div>
+
+<p>
+Mira aquest esquema:<br />
+</p>
+
+<p>
+  +--+                   +---+                                                         <br />
+<table class='center'>
+<tr>
+<td>
+&nbsp;
+</td>
+<td>
++-----+
+</td>
+<td>
+&nbsp;
+</td>
+</tr>
+<tr>
+<td>
+&nbsp;
+</td>
+<td>
+----&gt;
+</td>
+<td>
+&nbsp;
+</td>
+<td>
+----&gt;
+</td>
+<td>
+&nbsp;
+</td>
+</tr>
+<tr>
+<td>
+&nbsp;
+</td>
+<td>
++-----+
+</td>
+<td>
+&nbsp;
+</td>
+</tr>
+</table>
+  +--+                   +---+                                                         <br />
+Extern      Fire         Intern   <br />
+</p>
+<blockquote>
+233.33.33.33   10.0.0.1
+</blockquote>
+
+
+
+<p>
+Estem a un pc a casa nostra (extern) i volem connectar per rdp a la màquina 10.0.0.1 que es troba a una xarxa remota. Ho podem fer fàcilment si tenim a aquella xarxa remota un servidor ssh publicat a l'exterior. Al nostre pc haurem de fer (com a root):<br />
+</p>
+
+<p>
+<code>    ssh usuari@233.33.33.33 -L 9999:10.0.0.1:3389</code><br />
+</p>
+
+<p>
+Un cop validats amb un usuari i password al servidor ssh 15.233.223.223, tindrem mapejat el port local 9999 del nostre pc al port 3389 de la màquina remota 10.0.0.1.<br />
+Per accedir via rdp al 10.0.0.1, simplement haurem de fer:<br />
+</p>
+
+<p>
+<code>    rdesktop localhost:9999</code><br />
+</p>
+
+<p>
+Podem fer forward de varis ports de cop (útils per a "portar-se" rpd, vncs, http i altres al teu ordinador)<br />
+</p>
+ 
+<p>
+Si el client a connectar-se és un Windows farem servir putty. Si és Mac i volem interfície gràfica tenim <a href="https://tunnelblick.net/">https://tunnelblick.net/</a> o bé simplement línia de commandament amb un script bash.<br />
+</p>
+
+
+
+<div id="tunels SSH-Tunel proxy socks"><h2 id="Tunel proxy socks" class="header"><a href="#tunels SSH-Tunel proxy socks">Tunel proxy socks</a></h2></div>
+<p>
+Podem fer que un servidor remot SSH faci de proxy socks HTTP. Mira aquest esquema:<br />
+</p>
+
+<p>
+  +--+                   +---+                                                         <br />
+<table class='center'>
+<tr>
+<td>
+&nbsp;
+</td>
+<td>
++-----+
+</td>
+<td>
+&nbsp;
+</td>
+</tr>
+<tr>
+<td>
+&nbsp;
+</td>
+<td>
+----&gt;
+</td>
+<td>
+&nbsp;
+</td>
+<td>
+----&gt;
+</td>
+<td>
+&nbsp;
+</td>
+</tr>
+<tr>
+<td>
+&nbsp;
+</td>
+<td>
++-----+
+</td>
+<td>
+&nbsp;
+</td>
+</tr>
+</table>
+  +--+                   +---+                                                         <br />
+Extern      Fire         Xarxa interna   <br />
+</p>
+<blockquote>
+244.44.44.44    10.0.0.x/24
+port SSH: 6666 
+</blockquote>
+
+<p>
+Extern és el nostre equip a casa nostra (o a qualsevol altre localització) i volem accedir a serveis web que estan a la xarxa remota (Xarxa interna 10.0.0.x). El servidor SSH que ens donarà accés a la Xarxa interna, està a la IP pública 244.44.44.44, port 6666.<br />
+Des del notre PC:<br />
+</p>
+
+<p>
+<code>    ssh -D 12345 usuari@244.44.44.44 -p 6666</code><br />
+</p>
+    
+<p>
+Un cop logats als servidor SSH, tindrem accés a qualsevol web de la xarxa 10.0.0.x, si configurem un navegador amb aquesta configuració:<br />
+Per exemple a Firefox, anem a la configuració de xarxa i li configurem:<br />
+</p>
+
+<ul>
+<li>
+Configuració de proxy: manual
+
+<li>
+Ordinador SOCKS: localhost
+
+<li>
+Port SOCKS: 12345
+
+</ul>
+
+<ul>
+<li>
+* * * * * * * * * * * * * * * * *
+
+</ul>
+
+</body>
+</html>

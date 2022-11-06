@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>optimitzar_rendiment</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="optimitzar rendiment"><h2 id="optimitzar rendiment" class="header"><a href="#optimitzar rendiment">optimitzar rendiment</a></h2></div>
+<p>
+*<span id="optimitzar rendiment-Optimitzar el rendiment d'equips antics amb Debian"></span><strong id="Optimitzar el rendiment d'equips antics amb Debian">Optimitzar el rendiment d'equips antics amb Debian</strong>*<br />
+Última actualització: febrer de 2013<br />
+</p>
+
+<p>
+Provat tot a Debian Wheezy:<br />
+</p>
+
+<p>
+No swapiness<br />
+Si el disc dur que tenim és lent, però tenim algo de memòria RAM, forcem a que el sistema primer consumeixi tota la memòria RAM abans d'anar a fer swap a disc:<br />
+echo 1 &gt; /proc/sys/vm/swappiness<br />
+Comprovem valor:<br />
+cat /proc/sys/vm/swappiness<br />
+</p>
+
+
+<p>
+zram<br />
+Si el disc dur que tenim és lent, però tenim algo de memòria RAM i una CPU potent, podem activar zram:<br />
+Afegim aquestes línies a /etc/rc.local:<br />
+modprobe zram &amp;&amp;<br />
+</p>
+<ol>
+<li>
+250 MB (com a referència podem posar un 10% de la RAM física que tinguem)
+
+</ol>
+<p>
+echo $((250*1024*1024)) &gt; /sys/block/zram0/disksize &amp;&amp;<br />
+mkswap /dev/zram0 &amp;&amp;<br />
+swapon -p 10 /dev/zram0 &amp;&amp;<br />
+Un cop reiniciat l'equip, comprovem si zram està funcionant:<br />
+swapon -s<br />
+</p>
+
+
+<p>
+Temporals a RAMdisc<br />
+Si els disc dur que tenim és lent, però tenim algo de RAM, podem fer Ramdiscs per a allotjar temporals. Per exemple a /etc/fstab:<br />
+</p>
+
+<p>
+	tmpfs   /tmp            tmpfs   defaults,noatime 0 0<br />
+	tmpfs   /var/tmp        tmpfs   defaults,noatime 0 0<br />
+</p>
+
+
+
+<p>
+Que el sistema no mantigui la data d'última modificació als fitxers<br />
+Poden esgarrapar algo de rendiment si no fem que el sistema mantingui la data d'última modificació dels fitxers.<br />
+Per a desactivar-lo, hem de modificar a /etc/fstab les opciones del punt de muntatge de l'arrel (o de qualsevol altre disc). Si no diu res afegirem a les opcions de muntatge: "noatime" (si digués "relatime" ho substituirem per "noatime").<br />
+</p>
+
+</body>
+</html>

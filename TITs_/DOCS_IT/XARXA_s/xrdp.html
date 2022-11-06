@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>xrdp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="xrdp"><h2 id="xrdp" class="header"><a href="#xrdp">xrdp</a></h2></div>
+<p>
+*<span id="xrdp-Instal·lació d'xrdp (accedir a un escriptori Linux des de Windows)"></span><strong id="Instal·lació d'xrdp (accedir a un escriptori Linux des de Windows)">Instal·lació d'xrdp (accedir a un escriptori Linux des de Windows)</strong>*<br />
+Última actualització: maig de 2019<br />
+</p>
+
+<p>
+Una opció per accedir remotament a un escriptori Linux, és instal·lar xrdp<br />
+</p>
+
+<p>
+<code>apt-get install xrdp xorgxrdp</code><br />
+</p>
+
+<p>
+xrdp obre l'últim entorn d'escriptori que hagi utilitzat l'usuari executant /etc/xrdp/startwm.sh.<br />
+</p>
+ 
+<p>
+Si volem connectar amb xrdp i treballar sempre amb un escriptori en particular, per exemple xfce4, hem de modificar el fitxer .xsession propi:<br />
+</p>
+
+
+<p>
+<code>	echo xfce4-session &gt; ~/.xsession</code><br />
+</p>
+
+<p>
+o si volem treballar amb i3:<br />
+</p>
+
+
+<p>
+<code>	echo i3 &gt; ~/.xsession</code><br />
+</p>
+
+<p>
+Contingut una mica més depurat de .xsession:<br />
+</p>
+<pre>
+#!/bin/sh 
+if [ -r /etc/default/locale ]; then 
+    . /etc/default/locale 
+    export LANG LANGUAGE 
+fi 
+# default (= ubuntu) 
+#. /etc/X11/Xsession 
+
+# unity 2d 
+#echo "gnome-session --session=ubuntu-2d" &gt; ~/.xsession 
+#. /etc/X11/Xsession 
+
+# xfce 
+# startxfce4 
+  
+i3
+exit(0)
+</pre>
+
+<p>
+Un cop configurat podrem accedir des de qualsevol client com l'escriptori remot de windows o des de remmina o rdesktop des de Linux.<br />
+</p>
+
+</body>
+</html>

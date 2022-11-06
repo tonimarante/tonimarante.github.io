@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>ntop</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="ntop"><h2 id="ntop" class="header"><a href="#ntop">ntop</a></h2></div>
+<p>
+*<span id="ntop-Ntop: anàlisi de consum de recursos de xarxa"></span><strong id="Ntop: anàlisi de consum de recursos de xarxa">Ntop: anàlisi de consum de recursos de xarxa</strong>*<br />
+Última modificació: maig de 2013<br />
+</p>
+
+<p>
+Ntop va molt bé per a veure que està consumint recursos de xarxa o bé si hi ha algun equip mal configurat i que pot provocar problemes a la resta de veïns de xarxa. La instal·lació i ús és molt senzilla:<br />
+</p>
+   
+<p>
+<code>		apt-get install ntop</code><br />
+</p>
+   
+<p>
+Per a dir per a quina interfície de xarxa "escoltarem":<br />
+</p>
+   
+<p>
+<code>		dpkg-reconfigure ntop</code><br />
+</p>
+
+<p>
+I per a setejar el password de l'administrador:<br />
+</p>
+
+<p>
+<code>		ntop set-admin-password</code><br />
+</p>
+
+<p>
+A més de setejar el password en aquest cas ntop es posa ja a treballar. Per a engegar ntop les properes ocasions ho podem fer a través de l'entrada a init.d:<br />
+</p>
+
+<p>
+<code>		/etc/init.d/ntop start</code><br />
+</p>
+
+<p>
+Per a administrar entrarem a <a href="http://localhost:3000<br">http://localhost:3000<br</a> />
+</p>
+
+</body>
+</html>

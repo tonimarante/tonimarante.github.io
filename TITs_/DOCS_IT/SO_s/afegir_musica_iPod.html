@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>afegir_musica_iPod</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="Afegir música a iPod Classic des de Linux"><h1 id="Afegir música a iPod Classic des de Linux" class="header"><a href="#Afegir música a iPod Classic des de Linux">Afegir música a iPod Classic des de Linux</a></h1></div>
+<p>
+<em>Última actualització: març de 2019</em><br />
+</p>
+
+<p>
+Per a que Linux pugui muntar un iPod en mode d'escriptura, el sistema de fitxers de l'iPod (hfs+) no ha de tenir journaling. Des de un Mac hem de fer:<br />
+</p>
+<blockquote>
+diskutil list 
+</blockquote>
+    
+<p>
+Per a saber quin es el disc i partició del iPod. I ara:<br />
+</p>
+<blockquote>
+diskutil disableJournal /dev/xxx
+</blockquote>
+
+
+<p>
+Ara des de Linux i el Rythmbox, p.e., podrem passar-li música.<br />
+</p>
+
+<p>
+Possible <span id="Afegir música a iPod Classic des de Linux-problema: no es munta"></span><strong id="problema: no es munta">problema: no es munta</strong>. El problema és que el sistema de fitxer s'ha desmuntat malament.<br />
+Podem reparar-ho des del mateix Linux. Si la partició és /dev/sdb3, p.e., farem:<br />
+</p>
+<blockquote>
+sudo fsck.hfsplus -r /dev/sdb3 
+</blockquote>
+
+</body>
+</html>

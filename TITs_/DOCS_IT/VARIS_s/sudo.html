@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>sudo</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="sudo"><h2 id="sudo" class="header"><a href="#sudo">sudo</a></h2></div>
+<p>
+:tagsudo,tagsudoers:<br />
+Última actualització: setembre de 2019<br />
+</p>
+
+<p>
+Si tenim instal.lat sudo podem executar un programa com un altre usuari. La utilitat principal es permetre que usuaris normals puguin executar comandaments amb els privilegis de root. Treballarem sobre l'arxiu /etc/sudoers. Per a editar-lo ho farem amb visudo.<br />
+</p>
+
+<p>
+A sudoers tenim potencia a l'hora de definir grups de comandaments, usuaris, etc amb l'ús d'alias. Aquí només veurem uns exemples simples en els que no farem servir alias.<br />
+</p>
+
+<p>
+	Necessitem afegir una línia a /etc/sudoers per a permetre que  l'usuari bmw pugui executar com a root aquest script:  /Magatzem/bins/segfilezsuse<br />
+	Necessitem afegir una línia a /etc/sudoers per a permetre que l'usuari bmw pugui apagar l'equip amb "poweroff"<br />
+</p>
+
+<p>
+*******************************************<br />
+</p>
+<ol>
+<li>
+sudoers file.
+
+<li>
+This file MUST be edited with the 'visudo' command as root.
+
+<li>
+See the sudoers man page for the details on how to write a sudoers file.
+
+</ol>
+
+<ol>
+<li>
+Atenció, posarem les nostres línies al FINAL del fitxer /etc/sudoers
+
+</ol>
+<p>
+bmw debiant1=PASSWD:/Magatzem/bins/segfilezsuse<br />
+bmw debiant1=PASSWD:/usr/bin/updatemanager<br />
+bmw debiant1=NOPASSWD:/sbin/poweroff<br />
+</p>
+
+<ol>
+<li>
+El grup wheel podrà executar ntpdate com root
+
+</ol>
+<p>
+%wheel   ALL=NOPASSWD:/usr/bin/ntpdate<br />
+*******************************************<br />
+</p>
+
+<p>
+El format de les línies afegides és el següent:  usuari (bmw), ordinador (debiant1), condició d'execució del comandament (PASSWD, NOPASSWD, EXEC, NOEXEC)  i comandament a executar, tenint en compte que <span id="sudo-ha de ser amb la ruta completa sempre. Posarem les nostres línies al FINAL del fitxer /etc/sudoers"></span><strong id="ha de ser amb la ruta completa sempre. Posarem les nostres línies al FINAL del fitxer /etc/sudoers">ha de ser amb la ruta completa sempre. Posarem les nostres línies al FINAL del fitxer /etc/sudoers</strong> <br />
+Veiem doncs, que bmw podrà executar /Magatzem/bins/segfilezsuse, però haurà de proporcionar el seu password. En canvi podrà executar /sbin/poweroff sense haver de proporcionar cap password.<br />
+Hi ha possiblitat de combinar varis comandaments en una sola línia. Per exemple les dues línies anteriors es podrien fusionar en una sola:<br />
+	bmw debiant1=PASSWD:/Magatzem/bins/segfilezsuse,NOPASSWD:/sbin/poweroff<br />
+</p>
+
+<ul>
+<li>
+* * * * * * * * * * * * * * * * * *
+
+</ul>
+
+</body>
+</html>

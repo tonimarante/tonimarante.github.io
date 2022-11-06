@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>NFS_debian_6</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="NFS debian 6"><h2 id="NFS debian 6" class="header"><a href="#NFS debian 6">NFS debian 6</a></h2></div>
+<p>
+*<span id="NFS debian 6-Configurar (bàsic i ràpid) un servidor NFS a Debian 6"></span><strong id="Configurar (bàsic i ràpid) un servidor NFS a Debian 6">Configurar (bàsic i ràpid) un servidor NFS a Debian 6</strong>*<br />
+Última actualització: maig de 2013<br />
+</p>
+
+<p>
+Instal·lació del servidor NFS<br />
+Instal·lem els paquets necessaris:<br />
+</p>
+
+<p>
+	apt-get install nfs-kernel-server portmap nfs-common nfswatch<br />
+</p>
+
+<p>
+(nfswatch és opcional i serveix per a monitoritzar el tràfic cap al servidor NFS)<br />
+</p>
+
+<p>
+NOTA: hem de tenir en compte que la carpeta a compartir ha de pertàner a nobody:nogroup. Per<br />
+exemple si la carpeta és /disc1/NFS, farem:  chown nobody:nogroup /disc1/NFS<br />
+</p>
+
+<p>
+Ara definim els recursos a compartir al fitxer /etc/exports<br />
+</p>
+
+<p>
+	/exemple  *(ro,sync,no_root_squash,insecure)<br />
+	/disc1/NFS 192.168.1.0/24(rw,sync,insecure)<br />
+</p>
+
+
+<p>
+	En la primera línia de l'exemple estem compartint la carpeta /exemple a qualsevol equip de la xarxa. L'usuari root es podrà connectar degut a que hem especificat la directiva no_root_squash<br />
+	La segona línia comparteix /disc1/NFS només als equips amb IP del rang 192.168.1.x.<br />
+</p>
+
+<p>
+Alguns exemples més de la manpage de exports:<br />
+</p>
+<blockquote>
+EXAMPLE
+</blockquote>
+<ol>
+<li>
+sample /etc/exports file
+<br />	   /               master(rw) trusty(rw,no_root_squash)
+<br />	   /projects       proj*.local.domain(rw)
+<br />	   /usr            *.local.domain(ro) @trusted(rw)
+<br />	   /home/joe       pc001(rw,all_squash,anonuid=150,anongid=100)
+<br />	   /pub            *(ro,insecure,all_squash)
+<br />	   /srv/www        -sync,rw server @trusted @external(ro)
+<br />	   /foo            2001:db8:9:e54::/64(rw) 192.0.2.0/24(rw)
+<br />	   /build          buildhost[0-9].local.domain(rw)
+
+</ol>
+<blockquote>
+The first line exports the entire  filesystem  to  machines
+master  and  trusty.   In addition to write access, all uid
+squashing is turned off for host  trusty.  The  second  and
+third  entry  show examples for wildcard hostnames and net‐
+groups (this is the  entry  `@trusted').  The  fourth  line
+shows the entry for the PC/NFS client discussed above. Line
+5 exports the public FTP directory to  every  host  in  the
+world, executing all requests under the nobody account. The
+insecure option in this entry also allows clients with  NFS
+implementations  that  don't  use  a reserved port for NFS.
+The sixth  line  exports  a  directory  read-write  to  the
+machine  'server'  as  well as the `@trusted' netgroup, and
+read-only to netgroup `@external', all  three  mounts  with
+the  `sync'  option  enabled.  The  seventh  line exports a
+directory to both an IPv6 and an IPv4  subnet.  The  eighth
+line demonstrates a character class wildcard match.
+</blockquote>
+
+
+<p>
+Instal·lació d'un client NFS<br />
+El primer de tot es comprovar que el kernel te suport per a nfs:<br />
+lsmod @ grep nfs<br />
+</p>
+
+<p>
+Ara instal·lem els paquets necessaris:<br />
+</p>
+
+<p>
+	apt-get install nfs-common portmap<br />
+	(a Fedora yum install nfs-utils portmap)<br />
+</p>
+
+<p>
+Ara podem muntar el recurs remot. El podem muntar a /etc/fstab:<br />
+</p>
+
+<p>
+	192.168.1.69:/disc1/NFS   /mnt/NFS_remot   nfs rw,hard,intr 0 1<br />
+</p>
+
+
+
+<p>
+O bé muntar-lo manualment des de la línia de commandaments i com a root:<br />
+</p>
+
+<p>
+	mount 192.168.1.69:/disc1/NFS  /mnt/NFS_remot<br />
+</p>
+
+     
+
+<p>
+Tenim una solució intermitja que seria executar aquest mount quan s'inicia el sistema, des del fitxer /etc/rc.local. <br />
+(a Fedora seria des del fitxer /etc/rc.d/rc.local)<br />
+</p>
+
+</body>
+</html>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>smart</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="smart"><h2 id="smart" class="header"><a href="#smart">smart</a></h2></div>
+<p>
+:tagsmart:<br />
+*<span id="smart-Monitoratge de discs durs amb SMART"></span><strong id="Monitoratge de discs durs amb SMART">Monitoratge de discs durs amb SMART</strong>*<br />
+Última actualització: octubre de 2018 <br />
+</p>
+
+<p>
+Cap a l'any 1996 els fabricants de discs durs van especificar i incorporar als discs SMART (Self-Monitoring, Analysis and Reporting Technology systems). Permet monitoritzar l'estat dels discs per tal d'avisar-nos quan estan a punt de petar i poder canviar-los a temps a abans de perdre informació.<br />
+A Linux el paquet smartmontools és el que ens permet manegar-nos SMART i ens proveeix de smartctl que és una mena de client d'SMART i de smartd que es un dimoni que podem deixar corrents per a que ens avisi de seguida que detecti algun problema, per correu electrònic, p.e. si volem.<br />
+En aquesta plana només explicaré breument com fem servir smartctl (als exemples suposem que volem testejar el disc /dev/sda):<br />
+</p>
+
+<p>
+	Informació general del disc:  <br />
+<code>    smartctl -i /dev/sda</code><br />
+</p>
+<blockquote>
+Activem l'SMART pel disc (si no estava activat amb anterioritat):   
+</blockquote>
+<p>
+<code>    smartctl -s on /dev/sda   </code><br />
+</p>
+<blockquote>
+(-s off per a desactivar)
+</blockquote>
+    
+<p>
+	Veure l'estat de salut del disc:  <br />
+<code>    smartctl -H /dev/sda</code><br />
+</p>
+
+<p>
+Podem efectuar varis tipus de tests al disc, els normals seran long i short:<br />
+</p>
+
+<p>
+	Test curt:  <br />
+<code>    smartctl -t short /dev/sda</code><br />
+</p>
+<blockquote>
+Test llarg: 
+</blockquote>
+<p>
+<code>    smartctl -t long /dev/sda</code><br />
+</p>
+<blockquote>
+Veure en quin estat està el test (en curs o bé el resultat un cop acabat):  
+</blockquote>
+<p>
+<code>    smarctl -l selftest /dev/sda</code><br />
+</p>
+<blockquote>
+Informació detallada:  
+</blockquote>
+<p>
+<code>    smartctl -a /dev/sda</code><br />
+</p>
+
+<p>
+Tenim una eina gràfica que ens permet fer totes aquestes operacions i ens ajuda a interpretar la infomació resultant dels test. Aquesta eina es diu GSmartControl (<a href="https://gsmartcontrol.sourceforge.io/home/)<br">https://gsmartcontrol.sourceforge.io/home/)<br</a> />
+</p>
+
+
+<div id="smart-Interpretant la informació que ens proporciona smart"><h3 id="Interpretant la informació que ens proporciona smart" class="header"><a href="#smart-Interpretant la informació que ens proporciona smart">Interpretant la informació que ens proporciona smart</a></h3></div>
+
+<p>
+Per veure l'estat d'un disc, fem <br />
+<code>smartctl -a /dev/sda </code><br />
+(substituirem /dev/sda pel nostre disc a comprovar). Ens fixarem en aquest valors:<br />
+</p>
+
+<p>
+Attribute            Description<br />
+SMART 5        Reallocated Sectors Count<br />
+SMART 187    Reported Uncorrectable Errors<br />
+SMART 188    Command Timeout<br />
+SMART 197    Current Pending Sector Count<br />
+SMART 198    Uncorrectable Sector Count<br />
+</p>
+
+<p>
+Si aquests 5 atributs tenen un valor més gran que zero, hay motius per preocupar-se per la salut del disc, i toca investigar.<br />
+</p>
+
+<p>
+També ens fixarem en aquest atribut:<br />
+</p>
+
+<p>
+SMART 10     Spin_Retry_Count<br />
+</p>
+
+<p>
+Si tenim aquí un valor més gran de 30, podem preveure que els disc fallarà de manera inminent durant les properes hores.<br />
+</p>
+
+</body>
+</html>

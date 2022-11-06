@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>Muntar_samba_fstab</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="Muntar recursos smb o cifs a /etc/fstab"><h2 id="Muntar recursos smb o cifs a /etc/fstab" class="header"><a href="#Muntar recursos smb o cifs a /etc/fstab">Muntar recursos smb o cifs a /etc/fstab</a></h2></div>
+<p>
+Última actualització: agost 2019<br />
+</p>
+
+<p>
+Per connectar automàticament un recurs en arrencar la màquina, afegirem una línia com aquesta a fstab:<br />
+</p>
+<blockquote>
+//server92/E920/Invoices  /mnt/Invoices cifs uid=jde920,gid=jde920,username=xxx,password=xxxx,file_mode=0777,dir_mode=0777 0 0
+UID i GID son el de l'usuari local que haurà d'accedir al recurs remot.
+</blockquote>
+
+
+<p>
+Més info:  <a href="https://wiki.ubuntu.com/MountWindowsSharesPermanently<br">https://wiki.ubuntu.com/MountWindowsSharesPermanently<br</a> />
+</p>
+
+</body>
+</html>

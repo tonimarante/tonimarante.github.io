@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>imagemagick</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="imagemagick"><h2 id="imagemagick" class="header"><a href="#imagemagick">imagemagick</a></h2></div>
+<p>
+*<span id="imagemagick-Conversions batch d'imatges amb imagemagick + identify"></span><strong id="Conversions batch d'imatges amb imagemagick + identify">Conversions batch d'imatges amb imagemagick + identify</strong>*<br />
+Última actualització: octubre de 2013<br />
+</p>
+
+<p>
+CROP:<br />
+</p>
+
+<p>
+#! /bin/bash<br />
+#primer mida, després coordenades inici (+HOR+VERT amb inici dalt/esquerra) pel crop<br />
+for i in <span id="imagemagick-."></span><strong id=".">.</strong>;<br />
+do convert -crop 1350x1350+425+100 \(i ./conversos/\)i<br />
+done<br />
+</p>
+
+<p>
+RESIZE:<br />
+</p>
+
+<p>
+#! /bin/bash<br />
+for i in <span id="imagemagick-."></span><strong id=".">.</strong>;<br />
+do convert -geometry 150x  \(i ./conversos/\)i<br />
+done<br />
+</p>
+
+<p>
+ROTATE:<br />
+</p>
+
+<p>
+#! /bin/bash<br />
+</p>
+<ol>
+<li>
+rotar 90 graus esquerra
+
+</ol>
+<p>
+for i in <span id="imagemagick-."></span><strong id=".">.</strong>;<br />
+do convert -rotate -90  \(i ./conversos/\)i<br />
+done<br />
+</p>
+
+
+<p>
+Obtenir informació d'una imatge:<br />
+</p>
+
+<p>
+La informació que ens dona file sobre les imatges, és bastant escasa:<br />
+</p>
+
+<p>
+$ file image2.jpeg<br />
+image2.jpeg: JPEG image data, JFIF standard 1.01<br />
+</p>
+
+<p>
+Si tenim instal·lat imagemagick, podem utilitzar identify:<br />
+</p>
+
+<p>
+$ identify image2.jpeg<br />
+image2.jpeg JPEG 874x373 874x373+0+0 8-bit sRGB 125KB 0.000u 0:00.029<br />
+</p>
+
+<p>
+Una mica de grep per a obtenir la info que volguem:<br />
+</p>
+
+<p>
+$ identify -verbose image2.jpeg | grep -E '(Resolution:|Geometry:)'<br />
+  Geometry: 874x373+0+0<br />
+  Resolution: 111x111<br />
+	exif:XResolution: 111/1<br />
+	exif:YResolution: 111/1<br />
+</p>
+
+</body>
+</html>

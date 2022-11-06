@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>locales</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="locale"><h2 id="locale" class="header"><a href="#locale">locale</a></h2></div>
+<p>
+*<span id="locale-locale, disposicions de teclat, idiomes"></span><strong id="locale, disposicions de teclat, idiomes">locale, disposicions de teclat, idiomes</strong>*<br />
+Última actualització: novembre 2022<br />
+</p>
+	
+    
+<div id="Configuració de teclat i locale a nivell de root"><h2 id="Configuració de teclat i locale a nivell de root" class="header"><a href="#Configuració de teclat i locale a nivell de root">Configuració de teclat i locale a nivell de root</a></h2></div>
+   
+<p>
+apt-get install console-data console-setup keyboard-configuration<br />
+</p>
+   
+<p>
+dpkg-reconfigure console-data<br />
+dpkg-reconfigure console-setup<br />
+dpkg-reconfigure keyboard-configuration   <br />
+</p>
+
+
+<p>
+<em>"Until Debian Lenny, the keyboard layout was controlled by two different systems: for the console, console-tools/console-data; for graphical environments, keyboard-configuration. Since Squeeze, these two systems have been unified and keyboard-configuration controls the keyboard layout in both console and graphical mode. The dpkg-reconfigure keyboard-configuration command can be used at any time to reset the keyboard layout." (The Debian Administrator's Handbook)</em><br />
+</p>
+
+
+<p>
+Configuració manual de locale:    <br />
+</p>
+<blockquote>
+Podem saber en qualsevol moment els nostres locale fent:
+</blockquote>
+<blockquote>
+locale
+</blockquote>
+<blockquote>
+La configuració dels locale que volem està a /etc/default/locale. 
+Podem escollir quins locale volem habilitar a /etc/locale.gen. Un cop modificat el fitxer hem de fer:
+</blockquote>
+<blockquote>
+locale-gen
+</blockquote>
+
+
+
+<p>
+Configuració manual de /etc/default/keyboard:<br />
+</p>
+	
+<p>
+	XKBMODEL="pc105"<br />
+	XBLAYOUT="es"<br />
+	....<br />
+</p>
+	
+<p>
+	Amb això configurem el teclat espanyol per a totes les consoles virtuals.<br />
+</p>
+	
+	
+
+	
+<div id="Configuració de locale i teclat a nivell d'usuari als terminals tty"><h2 id="Configuració de locale i teclat a nivell d'usuari als terminals tty" class="header"><a href="#Configuració de locale i teclat a nivell d'usuari als terminals tty">Configuració de locale i teclat a nivell d'usuari als terminals tty</a></h2></div>
+	
+<p>
+Quan entrem a un tty se'ns carregaran els locale que tingui configurat per defecte el sistema. Si volem tenir uns locale diferents, haurem d'afegir algunes línies al fitxer ~/.bashrc. Si per exemple volem locale en espanyol afegirem:<br />
+</p>
+	
+<p>
+		export LC_ALL=es_ES.utf8<br />
+		export LANG=es_ES.UTF-8<br />
+		export LANGUAGE=es_ES.utf8<br />
+		export LC_CTYPE=es_ES.utf8<br />
+</p>
+	
+<p>
+Això ens canviarà els locale a nivell del nostre usuari <span id="Configuració de locale i teclat a nivell d'usuari als terminals tty-sempre que treballem amb bash"></span><strong id="sempre que treballem amb bash">sempre que treballem amb bash</strong>, ja sigui al tty o a un terminal virtual des d'un entorn gràfic.<br />
+</p>
+	
+<p>
+El tema de la disposició del teclat és una mica més complicada: no coneixo ni he trobat cap manera (desembre 2014) que un usuari normal pugui canviar-se la disposició del teclat per a treballar als ttys; haurà de treballar amb la disposició de teclat per defecte del sistema. Si volem treballar amb una disposició diferent, ho haurem de fer des d'un terminal virtual (xterm, gnome-terminal, lxterminal, ...) des de dintre d'un entorn gràfic.<br />
+</p>
+
+
+
+<div id="Configuració de locale i teclat a nivell d'usuari per a les interfícies gràfiques"><h2 id="Configuració de locale i teclat a nivell d'usuari per a les interfícies gràfiques" class="header"><a href="#Configuració de locale i teclat a nivell d'usuari per a les interfícies gràfiques">Configuració de locale i teclat a nivell d'usuari per a les interfícies gràfiques</a></h2></div>
+	
+<p>
+En anteriors versions de xorg, la distribució del teclat es configurava al fitxer /etc/xorg.conf amb el keymap del teclat designat. En versions modernes, com aquest fitxer està buit, la configuració del keymap (i els locale) es fa a nivell de desktop manager:<br />
+</p>
+	
+<p>
+		A Kde, busquem el menú de  configuració regional.<br />
+</p>
+	
+<p>
+		Per a fluxbox, afegirem a ~/.fluxbox/startup aquesta línia:<br />
+</p>
+<blockquote>
+setxkbmap es
+</blockquote>
+	
+<p>
+		A Knoppix 6.2, amb lxde afegirem a /etc/xdg/lxsession/LXDE/autostart, aquesta línia:<br />
+</p>
+<blockquote>
+@setxkbmap es
+</blockquote>
+
+
+<ul>
+<li>
+* * * * * * * * * * * * * * * * *
+
+</ul>
+
+</body>
+</html>

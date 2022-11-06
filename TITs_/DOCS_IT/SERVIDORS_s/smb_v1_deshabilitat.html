@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>smb_v1_deshabilitat</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="smb v1 deshabilitat"><h2 id="smb v1 deshabilitat" class="header"><a href="#smb v1 deshabilitat">smb v1 deshabilitat</a></h2></div>
+<p>
+:tagsamba,tagwannacry,tagsmbv1:<br />
+*<span id="smb v1 deshabilitat-Deshabilitar samba v1 al servidor samba"></span><strong id="Deshabilitar samba v1 al servidor samba">Deshabilitar samba v1 al servidor samba</strong>*<br />
+Última modificació: juny de 2017<br />
+</p>
+
+<p>
+Per a deshabilitar smb v1 del nostre servidor samba, hem de tenir habilitades aquestes dues línies a la secció GLOBAL del nostre fitxer /etc/samba/smb.conf:<br />
+</p>
+
+
+<p>
+min protocol = LANMAN2<br />
+max protocol = SMB2<br />
+</p>
+
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>roxfiler-PCMan-thunar</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="roxfiler-PCMan-thunar"><h2 id="roxfiler-PCMan-thunar" class="header"><a href="#roxfiler-PCMan-thunar">roxfiler-PCMan-thunar</a></h2></div>
+<p>
+Última actualització: maig de 2013<br />
+</p>
+
+<p>
+L'apariència simple i antiga de *<span id="roxfiler-PCMan-thunar-rox-filer"></span><strong id="rox-filer">rox-filer</strong>* enganya, ja que te funcionalitats potents i que no he trobat a cap altre gestor de fitxers. Algunes d'elles:<br />
+</p>
+
+<p>
+Renomenat molt potent: simplement seleccionem varis fitxers o carpetes, botó dret / renomenar<br />
+</p>
+
+<p>
+Podem guardar seleccions: <br />
+Ctrl + num del 0 al 9: per exemple, estem a  /home/lamevacarpeta. Guardem aquesta ubicació amb Ctrl + 1.<br />
+En qualsevol noment poden anar (recuperar) aquestes seleccions/ubicacions simplement picant el número de selecció (en aquest cas picarem el "1").<br />
+</p>
+
+<p>
+Selecció "intel·ligent":<br />
+</p>
+
+<p>
+	botó dret / seleccionar / seleccionar per nom (podem filtrar per extensió, un part del nom, podem fer servir regex i afegir varies condicions separant-les amb comes)<br />
+	botó dret / seleccionar / seleccionar si... (podem filtrar de manera potent amb diferents condicions i expressions). Exemple d'operativa:<br />
+			a una ubicació qualsevol piquem ? (és una drecera de teclat que ens porta a "seleccionar si..."<br />
+			a sota ens apareix la barra que rox-filer anomena "mini-buffer". Escrivim "size &gt; 1MB" (o "tamaño &gt; 1Mb" si tenim rox-filer en castellà)<br />
+</p>
+
+<p>
+Executar un commandament: botó dret / finestra / commandament de terminal. Exemple; volem comprimir una carpeta:<br />
+A una ubicació qualsevol piquem ! (drecera de teclat)<br />
+Al mini-buffer escrivim "tar cvzf fitxercoprimit.tar.gz" i ara arrosseguem a aquesta barra la carpeta que volem comprimir. Fem enter.<br />
+</p>
+
+
+
+<div id="roxfiler-PCMan-thunar-Canviar icones a pcmanFM i rox-filer"><h3 id="Canviar icones a pcmanFM i rox-filer" class="header"><a href="#roxfiler-PCMan-thunar-Canviar icones a pcmanFM i rox-filer">Canviar icones a pcmanFM i rox-filer</a></h3></div>
+
+<p>
+A pcmanFM:<br />
+Un cop tinguem instal·lat algun paquet d'icones, comprovem les que tenim disponibles a /usr/share/icons:<br />
+</p>
+
+<p>
+ls  /usr/share/icons/<br />
+Adwaita       gnome    HighContrast         locolor      oxygen<br />
+default.kde4  hicolor  HighContrastInverse  LowContrast  Tango<br />
+</p>
+
+<p>
+Definim el set d'icones que volem utilitzar al fitxer ~/.gtkrc-2.0 amb aquesta línia:<br />
+</p>
+
+<p>
+gtk-icon-theme-name = "Tango"<br />
+</p>
+
+<p>
+Si la definició la volem fer a nivell de tot l'equip en comptes de a nivell d'usuari, la farem al fitxer /etc/gtk-2.0/gtkrc<br />
+</p>
+
+
+<p>
+A rox-filer:<br />
+Des del mateix rox-filer anem a Options/Types/Themes. A "Icon theme" tenim un desplegable amb els sets d'icones que tenim disponibles (hem de tenir en compte que no tots els sets d'icones funcionen al rox-filer)<br />
+</p>
+
+</body>
+</html>

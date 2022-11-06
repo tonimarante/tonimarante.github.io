@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>tsclient-rdesktop</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="tsclient-rdesktop"><h2 id="tsclient-rdesktop" class="header"><a href="#tsclient-rdesktop">tsclient-rdesktop</a></h2></div>
+<p>
+*<span id="tsclient-rdesktop-Sortir de pantalla completa en tsclient i llençador simple de rdesktop"></span><strong id="Sortir de pantalla completa en tsclient i llençador simple de rdesktop">Sortir de pantalla completa en tsclient i llençador simple de rdesktop</strong>*<br />
+Última actualització: octubre de 2013<br />
+</p>
+
+
+<p>
+Si estem treballar sobre en servidor remot amb tsclient i a pantalla completa, per a sortir d'aquesta pantalla completa hem de fer:<br />
+</p>
+
+<p>
+Ctrl + Alt + Enter<br />
+</p>
+
+<hr />
+
+<p>
+Un llençador moooolt simple de rdesktop:<br />
+</p>
+
+<p>
+	clear<br />
+	echo "-------------------------"<br />
+	echo "rdp contra quin servidor?"<br />
+	read REMOTESERVER<br />
+	rdesktop $REMOTESERVER -0 -a 16 -k es -g 90% &amp;<br />
+</p>
+
+</body>
+</html>

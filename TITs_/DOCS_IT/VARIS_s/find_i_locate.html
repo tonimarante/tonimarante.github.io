@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>find_i_locate</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="find i locate"><h2 id="find i locate" class="header"><a href="#find i locate">find i locate</a></h2></div>
+<p>
+Última actualització: setembre 2018<br />
+</p>
+
+
+<p>
+*<span id="find i locate-Find"></span><strong id="Find">Find</strong>*<br />
+És molt flexible a l'hora de buscar, però pot ser bastant lent ja que repassa tota la llista d'inodes fins que troba el que busca.<br />
+Exemples:<br />
+</p>
+
+<p>
+Buscar "seamonkey" case insensitive, a /home:<br />
+<code>find /home -iname seamonkey</code><br />
+(atenció: no podem posar només "seamonk", si volem trobar seamo nkey, haurem de posar o bé la paraula completa o bé <span id="find i locate-seamonk"></span><strong id="seamonk">seamonk</strong>)<br />
+</p>
+
+<p>
+Buscar fitxers .sh, case sensitive, a /home:<br />
+<code>find /home -name '*.sh'</code><br />
+</p>
+
+<p>
+Buscar fitxers i directoris més grans de 1 GB a tot el sistema:<br />
+<code>find / -size +1G</code><br />
+</p>
+
+<p>
+Llistar els fitxers modificats les últimes 24 h:<br />
+<code>find /var/log -mtime 0</code><br />
+</p>
+
+<p>
+Esborrar logs més antics de 15 dies:<br />
+<code>find /var/log/mylogs -name  '*.tar.gz' -mtime +14 -exec rm -f {} \;</code><br />
+</p>
+
+
+<p>
+*<span id="find i locate-Locate"></span><strong id="Locate">Locate</strong>*<br />
+Locale genera una base de dades amb tots els noms dels fitxers i carpetes del sistema. Aquesta base de dades s'actualitza si executem<br />
+</p>
+
+<p>
+<code>updatedb</code><br />
+</p>
+
+<p>
+El sistema normalmente te un cron (/etc/cron.daily/locate) que diariament actualitza aquesta base de dades.<br />
+</p>
+
+<p>
+Buscar "seamonkey" a /home:<br />
+<code>locate seamonkey</code><br />
+(atenció: amb locate no fa falta posar la paraula completa. Podrem ficar semonk, p.e.)<br />
+</p>
+
+<p>
+Buscar fitxers .sh, a /home:<br />
+<code>locate *.sh</code><br />
+</p>
+
+
+<hr />
+<p>
+Finalment, veiem la diferència en temps de cerca entre find i locate amb un exemple:<br />
+<code>time find / -iname raspberrypi.pdf</code><br />
+real    0m11.242s<br />
+</p>
+
+<p>
+<code>time locate raspberrypi.pdf</code><br />
+real    0m0.315s<br />
+</p>
+
+</body>
+</html>

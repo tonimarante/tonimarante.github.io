@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>dhcp_debian_6</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="dhcp debian 6"><h2 id="dhcp debian 6" class="header"><a href="#dhcp debian 6">dhcp debian 6</a></h2></div>
+<p>
+*<span id="dhcp debian 6-Configurar (bàsic i ràpid) un servidor DHCP a Debian 6"></span><strong id="Configurar (bàsic i ràpid) un servidor DHCP a Debian 6">Configurar (bàsic i ràpid) un servidor DHCP a Debian 6</strong>*<br />
+Última actualització: març 2012<br />
+</p>
+
+<p>
+Instal·lem el servidor amb:<br />
+</p>
+
+<p>
+<code>apt-get install dhcp3-server</code><br />
+</p>
+
+<p>
+Ara modifiquem el fitxer /etc/dhcp/dhcp.conf (comentem totes les línies que hi hagin actives o bé esborrem el contingut -prèvia còpia de seguretat-) i enganxem aquestes línies:<br />
+</p>
+
+<p>
+subnet 192.168.1.0 netmask 255.255.255.0 {<br />
+		range 192.168.1.175 192.168.1.199;<br />
+		option routers 192.168.1.1;<br />
+		#option broadcast-address 192.168.1.255;<br />
+		#option domain-name "tux.home";<br />
+		option domain-name-servers 208.67.222.222,208.67.220.220;<br />
+		default-lease-time 86400;<br />
+		max-lease-time 172800;<br />
+}<br />
+</p>
+
+<p>
+host equip_exemple_reserva {<br />
+  hardware ethernet 58:b0:35:7f:8d:55;<br />
+  fixed-address 192.168.1.200;<br />
+  #option routers 192.168.1.1;<br />
+  #option domain-name-servers 208.67.222.222,208.67.220.220;<br />
+  #option domain-name "foo";<br />
+  #option broadcast-address 192.168.1.255;<br />
+  #default-lease-time 86400;<br />
+}<br />
+</p>
+
+<p>
+Amb això servim adreces de la 192.168.1.175 a la 199. El temps de concesió és de 1 dia.<br />
+</p>
+
+<p>
+Iniciem el servidor amb:<br />
+</p>
+
+<p>
+<code>service isc-dhcp-server start</code><br />
+</p>
+
+<p>
+Podem veure les concesions actuals amb:<br />
+</p>
+
+<p>
+<code>cat /var/lib/dhcp/dhcpd.leases</code><br />
+</p>
+
+</body>
+</html>

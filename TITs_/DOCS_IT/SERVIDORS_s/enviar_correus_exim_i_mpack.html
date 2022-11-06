@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>enviar_correus_exim_i_mpack</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="enviar correus exim i mpack"><h2 id="enviar correus exim i mpack" class="header"><a href="#enviar correus exim i mpack">enviar correus exim i mpack</a></h2></div>
+<p>
+*<span id="enviar correus exim i mpack-Enviament de correus de forma automàtica amb Exim, bash, mail i mpack"></span><strong id="Enviament de correus de forma automàtica amb Exim, bash, mail i mpack">Enviament de correus de forma automàtica amb Exim, bash, mail i mpack</strong>*<br />
+Última actualització: maig de 2010<br />
+</p>
+
+<p>
+Podem fer que els sistema ens envii correus de manera automàtica. Primer ens farà falta tenir ben configurat exim (<a href="https://sites.google.com/site/tonimarante/apunts-de-linux-debian/servidors/servidor-smtp-anonim-amb-exim4)">https://sites.google.com/site/tonimarante/apunts-de-linux-debian/servidors/servidor-smtp-anonim-amb-exim4)</a> i llavors podem fer:<br />
+</p>
+
+<p>
+<code>cat  /root/logs/estat_raids.txt  |  mail   -s "Estat raids"    la_meva_adreça@gmail.com</code><br />
+</p>
+
+<p>
+Si volem adjuntar fitxers, el més ràpid es instal.lar mpack; un cop el tenim instal.lat podem fer:<br />
+</p>
+
+<p>
+<code>mpack -s "Enviament fitxer adjunt"    el_fitxer_que_vull_adjuntar.zip     la_meva_adreça@gmail.com</code><br />
+</p>
+
+</body>
+</html>

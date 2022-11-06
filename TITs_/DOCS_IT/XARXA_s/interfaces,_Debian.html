@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>interfaces,_Debian</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="interfaces, Debian"><h2 id="interfaces, Debian" class="header"><a href="#interfaces, Debian">interfaces, Debian</a></h2></div>
+<p>
+*<span id="interfaces, Debian-Xarxa. Exemple de interfaces (Debian)"></span><strong id="Xarxa. Exemple de interfaces (Debian)">Xarxa. Exemple de interfaces (Debian)</strong>*<br />
+Última actualització: agost de 2022<br />
+</p>
+
+<p>
+Exemple senzill de /etc/network/interfaces:<br />
+</p>
+
+<ol>
+<li>
+/etc/network/interfaces -- configuration file for ifup(8), ifdown(8) 
+
+</ol>
+
+<ol>
+<li>
+automatically added when upgrading
+
+</ol>
+<p>
+auto lo eth0 eth0:0<br />
+</p>
+
+
+<ol>
+<li>
+The loopback interface
+
+</ol>
+<p>
+iface lo inet loopback<br />
+address 127.0.0.1<br />
+netmask 255.0.0.0<br />
+</p>
+
+<ol>
+<li>
+The primary network interface
+
+</ol>
+<p>
+allow-hotplug eth0<br />
+</p>
+
+<p>
+#Si fem servir NetworkManager, comentar o esborrar tot el que hi ha a partir d'aquí:<br />
+</p>
+
+<p>
+#Interfície eth0. dhcp o estàtica. En aquest cas, adreça estàtica<br />
+#iface eth0 inet dhcp<br />
+iface eth0 inet static<br />
+address 10.0.0.50<br />
+netmask 255.255.254.0<br />
+gateway 10.0.0.2<br />
+</p>
+
+<p>
+#Interfície eth0:0 Adreça secundària sobre la mateixa targeta<br />
+iface eth0:0 inet static<br />
+address 192.168.0.101<br />
+netmask 255.255.255.0<br />
+network 192.168.0.0<br />
+broadcast 192.168.0.255<br />
+</p>
+
+<ol>
+<li>
+Rutes estàtiques
+
+<li>
+up ip route add 192.1.0.0/16 via 10.0.0.33 dev eth0 || true
+
+<li>
+up ip route del 192.1.0.0/16 via 10.0.0.33 dev eth0 || true
+
+<li>
+
+
+<li>
+També podem afegir rutes al fitxer /etc/network/if-up.d/rutes (li aplicarem un chmod 751) amb aquest contingut, p.e.
+
+<li>
+#!/bin/sh 
+
+<li>
+if [ "$IFACE" = "eth0" ]; then
+
+<li>
+   ip route add 192.1.0.0/16 via 10.0.0.33
+
+<li>
+fi
+
+</ol>
+
+
+
+<ol>
+<li>
+DNS-* options are implemented by the resolvconf package, if installed
+
+<li>
+  dns-nameservers 8.8.8.8
+
+<li>
+  dns-search tux.local
+
+<li>
+Si no tenim resolconf instal·lat afegir a /etc/resolv.conf en aquest format:
+
+<ol>
+<li>
+nameserver 8.8.8.8
+
+<li>
+domain tux.home
+
+<li>
+search tux.home
+
+</ol>
+</ol>
+
+<ul>
+<li>
+* * * * * * * * * * * * * * * * *
+
+</ul>
+ 
+<ul>
+<li>
+Configuració de xarxa a Ubuntu: <a href="https://ubuntu.com/server/docs/network-configuration">https://ubuntu.com/server/docs/network-configuration</a>
+
+<li>
+Bonding, teaming, LACP: <a href="https://www.mybluelinux.com/bonding-teaming-802.3ad-lacp-on-debian-11-bullseye/">https://www.mybluelinux.com/bonding-teaming-802.3ad-lacp-on-debian-11-bullseye/</a>
+
+</ul>
+
+</body>
+</html>

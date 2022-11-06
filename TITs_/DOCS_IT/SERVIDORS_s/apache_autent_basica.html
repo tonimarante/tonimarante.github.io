@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>apache_autent_basica</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="Apache"><h1 id="Apache" class="header"><a href="#Apache">Apache</a></h1></div>
+<p>
+Última actualització: abril de 2019<br />
+</p>
+
+
+
+<p>
+Instead of playing around with the original httpd.conf, copy it to a new httpd.conf.debug and use this new httpd.conf.debug file with Apache for testing purpose as shown below using option -f.<br />
+ <br />
+</p>
+<ol>
+<li>
+apachectl -f conf/httpd.conf.debug
+
+</ol>
+<p>
+ <br />
+ <br />
+</p>
+<ol>
+<li>
+httpd -k start -f conf/httpd.conf.debug
+
+</ol>
+<p>
+Use a temporary DocumentRoot without modifying httpd.conf<br />
+</p>
+<ol>
+<li>
+httpd -k start -c "DocumentRoot /var/www/html_debug/"
+
+</ol>
+<p>
+ <br />
+ <br />
+ <br />
+If you want to go back to original configuration using the default DocumentRoot (/var/www/html), simply restart the Apache as shown below.<br />
+ <br />
+</p>
+<ol>
+<li>
+httpd -k stop
+
+<li>
+apachectl start
+
+</ol>
+<p>
+Display the modules compiled inside Apache using option<br />
+-l<br />
+ <br />
+</p>
+<ol>
+<li>
+httpd -l
+
+</ol>
+<p>
+Compiled in modules:<br />
+When you pass option -l, to httpd, it will display only the static modules. Passing option -M, will display both static and shared modules as shown below.<br />
+ <br />
+</p>
+<ol>
+<li>
+httpd -M 
+
+</ol>
+<p>
+Use option -t to validate whether there are any issues with a specific Apache configuration file<br />
+</p>
+<ol>
+<li>
+httpd -t -f conf/httpd.conf.debug
+
+</ol>
+<p>
+Syntax OK<br />
+<hr />
+</p>
+
+
+
+
+
+
+<div id="Apache-Apache, autent. bàsica"><h2 id="Apache, autent. bàsica" class="header"><a href="#Apache-Apache, autent. bàsica">Apache, autent. bàsica</a></h2></div>
+
+<p>
+Per ficar un password d'entrada a un lloc web:<br />
+</p>
+
+<p>
+-creem un usuari i un password amb el commandament htpasswd, p.e. htpasswd<br />
+/etc/mariseg progra. Això creara una base de dades d'usuaris a l'arxiu<br />
+(/etc/mariseg) i el primer usuari introduït serà progra (ens preguntarà el<br />
+password per aquest usuari).<br />
+</p>
+
+<p>
+-Si l'arrel de la plana web està a /home/bmw/public_html, afegirem aquest codi a<br />
+l'arxiu httpd.conf:<br />
+</p>
+
+<p>
+&lt;Directory /home/bmw/public_html&gt;<br />
+AuthName "Programari"<br />
+AuthType Basic<br />
+AuthUserFile /etc/mariseg<br />
+Require user progra<br />
+</p>
+
+<p>
+#Opcions indexat<br />
+Options Indexes Multiviews<br />
+IndexOptions FancyIndexing FoldersFirst SuppressDescription<br />
+</p>
+
+<p>
+&lt;/Directory&gt;<br />
+</p>
+
+<p>
+Amb això només podrà entrar l'usuari progra, encara que tinguem creats més. <br />
+</p>
+
+</body>
+</html>

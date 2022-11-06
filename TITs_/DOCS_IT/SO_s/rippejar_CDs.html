@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="../../../style.css">
+<title>rippejar_CDs</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="rippejar CDs"><h2 id="rippejar CDs" class="header"><a href="#rippejar CDs">rippejar CDs</a></h2></div>
+<p>
+*<span id="rippejar CDs-Ripejar cds amb jack"></span><strong id="Ripejar cds amb jack">Ripejar cds amb jack</strong>*<br />
+Última actualització: abril de 2012<br />
+</p>
+
+<p>
+jack és un excel·lent riperjador de cds. Llegueix CDDB i omple els tags dels fitxers generats amb la informació obtinguda. Tot des de la línia de comandaments.<br />
+Aquí un exemple d'script per ripejar un Cds. Com no he descobert com fer que afegeixi l'any que prové del CDDB als tags, he fet que li hagis d'introduir manualment a l'inici de script i aquest s'encarrega de posar-lo al fitxer.<br />
+Partim de la base de que tenim instal·lat al sistema lame, que es el que farem servir per encodar a mp3.<br />
+</p>
+
+<p>
+echo "Any?"<br />
+read any<br />
+jack -Q -v --quality 4 -E lame -R -Y $any --rename-fmt %n-%t<br />
+eject<br />
+beep -f 300.7 -r 2 -d 100 -l 400<br />
+</p>
+
+</body>
+</html>
