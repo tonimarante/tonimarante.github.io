@@ -2,4 +2,4 @@
 
 
 Apunts de Linux. (sobretot de) Debian
-[[http://tonimarante.github.io]]
+http://tonimarante.github.io
