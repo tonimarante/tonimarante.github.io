@@ -13,7 +13,7 @@ echo "</UL>" >> "$OUTPUT"
 echo "</body>" >> "$OUTPUT"
 echo "</html>" >> "$OUTPUT"
 
-git fetch
+git pull
 git add .
 git commit
 git push
