@@ -12,7 +12,7 @@
 <p>
 :tagsamba,tagwannacry,tagsmbv1:<br />
 *<span id="smb v1 deshabilitat-Deshabilitar samba v1 al servidor samba"></span><strong id="Deshabilitar samba v1 al servidor samba">Deshabilitar samba v1 al servidor samba</strong>*<br />
-Última modificació: juny de 2017<br />
+Última modificació: novembre de 2022<br />
 </p>
 
 <p>
@@ -23,6 +23,16 @@ Per a deshabilitar smb v1 del nostre servidor samba, hem de tenir habilitades aq
 <p>
 min protocol = LANMAN2<br />
 max protocol = SMB2<br />
+</p>
+
+
+<p>
+Si el volem tornar a habilitar (tant com a servidor, com a client), hem de posar aquestes línies a /etc/samba/smb.conf:<br />
+</p>
+
+<p>
+client min protocol = NT1<br />
+server min protocol = NT1<br />
 </p>
 
 </body>
