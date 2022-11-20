@@ -66,17 +66,23 @@ Instal·lem el servidor de base de dades:<br />
 <code>apt-get install mariadb-server</code><br />
 </p>
 
-<p>
-Per defecte el servidor només "escolta" per la ip de localhost 127.0.0.1. Si volem que escolti també per la IP que veuran els Kodi, haurem d'afegir al fitxer /etc/mysql/my.conf un parell de línies com aquestes:<br />
-</p>
 
 <p>
-[mysqld]<br />
-bind-address            = 192.168.1.176<br />
+Per defecte el servidor només "escolta" per la ip de localhost 127.0.0.1. Si volem que escolti també per la IP que veuran els  Kodi, haurem de canviar al fitxer /etc/mysql/mariadb.conf.d/50-server.cnf la línia de bind-address per:<br />
 </p>
+
+<pre>
+# la IP del servidor 
+bind-address            = 192.168.1.76
+</pre>
 
 <p>
 (o be posar bind-adress = 0.0.0.0 per a permetre que el servidor "escolti" per totes les seves interfícies de xarxa)<br />
+</p>
+
+<p>
+A sota d'aquesta línia, també afegirem:<br />
+<code>default_authentication_plugin=mysql_native_password</code><br />
 </p>
 
 

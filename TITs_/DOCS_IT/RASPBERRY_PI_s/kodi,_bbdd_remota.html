@@ -23,16 +23,21 @@ Primer necessitem tenir a la mateix xarxa un servidor de MySQL o MariaDB funcion
 </p>
 
 <p>
-Per defecte el servidor només "escolta" per la ip de localhost 127.0.0.1. Si volem que escolti també per la IP que veuran els Kodi, haurem d'afegir al fitxer /etc/mysql/my.conf un parell de línies com aquestes:<br />
+Per defecte el servidor només "escolta" per la ip de localhost 127.0.0.1. Si volem que escolti també per la IP que veuran els Kodi, haurem de canviar al fitxer /etc/mysql/mariadb.conf.d/50-server.cnf la línia de bind-address per:<br />
 </p>
 
 <pre>
-[mysqld]
+# la IP del servidor 
 bind-address            = 192.168.1.76
 </pre>
 
 <p>
 (o be posar bind-adress = 0.0.0.0 per a permetre que el servidor "escolti" per totes les seves interfícies de xarxa)<br />
+</p>
+
+<p>
+A sota aquesta també afegirem:<br />
+<code>default_authentication_plugin=mysql_native_password</code><br />
 </p>
 
 <p>
@@ -54,7 +59,16 @@ GRANT ALL ON *<span id="Connectar base de dades remota (en comptes de local) en 
 </p>
 <ol>
 <li>
-GRANT ALL PRIVILEGES ON *<span id="Connectar base de dades remota (en comptes de local) en kodi-."></span><strong id=".">.</strong>* TO 'kodi'@'%';      (pla B, si no funciona l'anterior)
+Pla B si no funciona l'anterior:
+
+<li>
+GRANT ALL PRIVILEGES ON *<span id="Connectar base de dades remota (en comptes de local) en kodi-."></span><strong id=".">.</strong>* TO 'kodi'@'%';     
+
+<li>
+Pla C si no funciona l'anterior:
+
+<li>
+CREATE USER 'kodi' IDENTIFIED WITH mysql_native_password BY 'kodi123#';
 
 </ol>
 <p>
