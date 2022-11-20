@@ -38,7 +38,8 @@
 
 <div id="ownCloud-Configurar (bàsic i ràpid) un servidor ownCloud a Debian 8 i 9"><h2 id="Configurar (bàsic i ràpid) un servidor ownCloud a Debian 8 i 9" class="header"><a href="#ownCloud-Configurar (bàsic i ràpid) un servidor ownCloud a Debian 8 i 9">Configurar (bàsic i ràpid) un servidor ownCloud a Debian 8 i 9</a></h2></div>
 <p>
-Última actualització: agost de 2017<br />
+:tagmysql,tagmariadb:<br />
+Última actualització: novembre de 2022<br />
 </p>
 
 <p>
@@ -64,6 +65,20 @@ Instal·lem el servidor de base de dades:<br />
 <p>
 <code>apt-get install mariadb-server</code><br />
 </p>
+
+<p>
+Per defecte el servidor només "escolta" per la ip de localhost 127.0.0.1. Si volem que escolti també per la IP que veuran els Kodi, haurem d'afegir al fitxer /etc/mysql/my.conf un parell de línies com aquestes:<br />
+</p>
+
+<p>
+[mysqld]<br />
+bind-address            = 192.168.1.176<br />
+</p>
+
+<p>
+(o be posar bind-adress = 0.0.0.0 per a permetre que el servidor "escolti" per totes les seves interfícies de xarxa)<br />
+</p>
+
 
 <p>
 Ara creem la base de dades. Primer ens loguem al servidor mariadb:<br />

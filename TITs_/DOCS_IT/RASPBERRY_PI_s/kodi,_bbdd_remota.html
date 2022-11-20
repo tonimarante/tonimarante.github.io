@@ -10,7 +10,8 @@
 
 <div id="Connectar base de dades remota (en comptes de local) en kodi"><h2 id="Connectar base de dades remota (en comptes de local) en kodi" class="header"><a href="#Connectar base de dades remota (en comptes de local) en kodi">Connectar base de dades remota (en comptes de local) en kodi</a></h2></div>
 <p>
-Última actualització: desembre de 2019<br />
+:tagmysql,tagmariadb:<br />
+Última actualització: novembre de 2022<br />
 </p>
 
 <p>
@@ -22,15 +23,16 @@ Primer necessitem tenir a la mateix xarxa un servidor de MySQL o MariaDB funcion
 </p>
 
 <p>
-Per defecte el servidor només "escolta" per la ip de localhost 127.0.0.1. Si volem que escolti també per la IP que veuran els Kodi, haurem d'afegir al fitxer /etc/mysql/my.conf una línia bind-address amb la IP corresponent:<br />
+Per defecte el servidor només "escolta" per la ip de localhost 127.0.0.1. Si volem que escolti també per la IP que veuran els Kodi, haurem d'afegir al fitxer /etc/mysql/my.conf un parell de línies com aquestes:<br />
 </p>
 
-<p>
-bind-address            = 192.168.1.76<br />
-</p>
+<pre>
+[mysqld]
+bind-address            = 192.168.1.76
+</pre>
 
 <p>
-(o be posar una sola línia bind-adress = 0.0.0.0 per a permetre que el servidor "escolti" per totes les seves interfícies de xarxa)<br />
+(o be posar bind-adress = 0.0.0.0 per a permetre que el servidor "escolti" per totes les seves interfícies de xarxa)<br />
 </p>
 
 <p>
@@ -46,7 +48,8 @@ Tenim que crear l'usuari kodi al servidor, que ha de tenir permís per a accedir
 </p>
 
 <p>
-mysql -u root -p CREATE USER 'kodi' IDENTIFIED BY 'kodi';<br />
+mysql -u root -p <br />
+CREATE USER 'kodi' IDENTIFIED BY 'kodi';<br />
 GRANT ALL ON *<span id="Connectar base de dades remota (en comptes de local) en kodi-."></span><strong id=".">.</strong>* TO 'kodi';   (atenció que hi han dos asteriscs a banda i banda del punt)<br />
 </p>
 <ol>
