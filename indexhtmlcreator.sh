@@ -4,7 +4,7 @@ ROOT="$HOME/Vimwiki_html/"
 OUTPUT="$HOME/Vimwiki_html/index.htm" 
 cat "$HOME/Vimwiki_html/READMEbase.htm" > "$OUTPUT"
 echo "<UL>" >> "$OUTPUT"
-for filepath in $(find "$ROOT"  -maxdepth 10 -mindepth 1 -name '*.html' | sort); do
+for filepath in $(find "$ROOT"  -maxdepth 10 -mindepth 1 -name '*.html' | sort -f); do
     FITXER=$(basename "$filepath")
     RUTA=${filepath:22}
     echo "    <LI> <font size="+1" face="Arial"> <a href=\"$RUTA\">  $FITXER</a></LI>" >> "$OUTPUT"
