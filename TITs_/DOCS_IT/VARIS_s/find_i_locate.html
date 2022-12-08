@@ -10,7 +10,7 @@
 
 <div id="find i locate"><h2 id="find i locate" class="header"><a href="#find i locate">find i locate</a></h2></div>
 <p>
-Última actualització: setembre 2018<br />
+Última actualització: novembre 2022<br />
 </p>
 
 
@@ -45,6 +45,12 @@ Llistar els fitxers modificats les últimes 24 h:<br />
 Esborrar logs més antics de 15 dies:<br />
 <code>find /var/log/mylogs -name  '*.tar.gz' -mtime +14 -exec rm -f {} \;</code><br />
 </p>
+
+<p>
+Comprimir fitxers amb un nom determinat:<br />
+<code>find ./someDir -name "*.php" -o -name "*.html" | tar -cf my_archive -T -</code><br />
+</p>
+
 
 
 <p>

@@ -8,23 +8,33 @@
 </head>
 <body>
 
-<div id="disc dur, test"><h2 id="disc dur, test" class="header"><a href="#disc dur, test">disc dur, test</a></h2></div>
+<div id="Disc dur, test"><h1 id="Disc dur, test" class="header"><a href="#Disc dur, test">Disc dur, test</a></h1></div>
 <p>
-*<span id="disc dur, test-Test (destructiu) de discs durs i SD"></span><strong id="Test (destructiu) de discs durs i SD">Test (destructiu) de discs durs i SD</strong>*<br />
-Última modificació: juny de 2017<br />
+:tagtestdisc,tagvelocitat,tagdiscdur:<br />
+Última modificació: novembre de 2022<br />
 </p>
 
-<p>
-Podem comprovar l'estat d'un disc dur o SD amb aquest test destructiu. Tenir en compte que s'esborraran totes les dades dels discs que testegem amb aquesta instrucció:<br />
-</p>
+<div id="Disc dur, test-Test (destructiu) de discs durs i SD"><h2 id="Test (destructiu) de discs durs i SD" class="header"><a href="#Disc dur, test-Test (destructiu) de discs durs i SD">Test (destructiu) de discs durs i SD</a></h2></div>
+<ul>
+<li>
+Podem comprovar l'estat d'un disc dur o SD amb aquest test destructiu. Tenir en compte que s'esborraran totes les dades dels discs que testegem amb aquesta instrucció:
+
+</ul>
 
 <p>
-<code>badblocks -wsv /dev/&lt;device&gt;</code><br />
+  <code>badblocks -wsv /dev/&lt;device&gt;</code><br />
 Si volem saber el temps que triga aquest test, podem fer:<br />
 </p>
 
 <p>
-<code>time badblocks -wsv /dev/&lt;device&gt;</code><br />
+  <code>time badblocks -wsv /dev/&lt;device&gt;</code><br />
+</p>
+
+
+<div id="Disc dur, test-Comprovar rendiment (velocitat) d'un disc dur"><h2 id="Comprovar rendiment (velocitat) d'un disc dur" class="header"><a href="#Disc dur, test-Comprovar rendiment (velocitat) d'un disc dur">Comprovar rendiment (velocitat) d'un disc dur</a></h2></div>
+
+<p>
+ <code>sudo hdparm -t --direct /dev/sda</code><br />
 </p>
 
 </body>
