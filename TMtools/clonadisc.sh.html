@@ -1,6 +1,6 @@
 #!/bin/bash
 # Clonadisc. 
-VERSIO="v20221208_0839"
+VERSIO="v20221208_1131"
 # Ajuda en la clonació de discs amb fsarchiver. Fins a 4 particions
 # Millor en Debian i derivades
 
@@ -310,6 +310,12 @@ RECOVER_IMAGE () {
 # ---------------------------------------------------
 # MAIN
 apt update
+clear
+echo "Si tens wget t'he baixat útima versió de https://tonimarante.github.io/TMtools/clonadisc.sh.html"
+echo "  Recorda treure el .html final i fer el fitxer executable per a utilitzar la nova versió."
+echo " "
+echo "***** Pulsa ENTER per a continuar"
+read -r HOLA
 clear
 echo "============= Clonadisc $VERSIO ================================="
 echo " "
