@@ -8,107 +8,316 @@
 </head>
 <body>
 
+<div id="Contents" class="toc"><h1 id="Contents">Contents</a></h1></div>
+<ul>
+<li>
+<a href="rsync.html#rsync">rsync</a>
+
+<li>
+<a href="rsync.html#Exclude">Exclude</a>
+
+<ul>
+<li>
+<a href="rsync.html#Exclude-Estratègies en exclude files">Estratègies en exclude files</a>
+
+</ul>
+<li>
+<a href="rsync.html#Sincronització de fitxers entre dos equips remots amb rsync">Sincronització de fitxers entre dos equips remots amb rsync</a>
+
+</ul>
+
 <div id="rsync"><h2 id="rsync" class="header"><a href="#rsync">rsync</a></h2></div>
 <p>
-Última modificació: agost de 2015<br />
+:tagrsync:<br />
+Última modificació: febrer de 2023<br />
 </p>
 
 <p>
-arj:<br />
-Ens pot anar molt bé per a fer backups. Podem fer, per exemple:<br />
-<code>		arj a -fury -v1000000k  /COPIES_SEG/etc.arj   /etc</code><br />
-a per afegir, f per refresh, u per update, r per recursiu, y per respondre "yes" a totes les preguntes i finalment amb v diem que es vagin fent fitxers amb la mida màxima que indiquem.<br />
-Desaventatges: (o ho podem prendre com un avantatge) amb aquest mètode anem guarden les succesives versions d'un fitxer, amb el qual l'arj de destí sempre anirà creixent.<br />
-Avantantges: els fitxers generats poden ser descomprimits per separat, per tant encara que es faci malbé un d'ells, podrem seguir accedint al contingut de la resta.<br />
+Modificadors:<br />
 </p>
 
+<p>
+-a, --archive mode; equival a -rlptgoD<br />
+</p>
+<blockquote>
+-r        recursive
+-l        preserve links
+-p        preserve permissions
+-t        preserve times
+-g        preserve group 
+-o        preserve owner
+-D        preserve device files, special files
+</blockquote>
+<blockquote>
+-n, --dry-run           mostra una simulació
+--link-dest=DIR         fa un hardlink als fitxers d'un DIR quan no han canviat
+-i, --itemize-changes   mostra informació del que va fent
+</blockquote>
 
 <p>
-rsync:<br />
+El modificador   <span id="rsync-i"></span><strong id="i">i</strong>   ens mostra info del que es va fent:<br />
+</p>
+<blockquote>
+&gt; especifica moviment, en aquest cas es copiarà de destí a origen
+f és un fitxer
+s hi ha diferència de mida entre els fitxers
+t hi ha diferència de data entre els fitxers
+o ha canviat el propietari
+g ha canviat el grup
+</blockquote>
+
+<p>
 Per a mantenir dos directoris amb el mateix contingut (esquerra mana a dreta):<br />
-<code>rsync -atv --delete   /etc   /COPIES_SEG/etc</code><br />
 </p>
+<blockquote>
+<code>rsync -avi --delete   /etc   /COPIES_SEG/etc</code>
+</blockquote>
 
 <p>
 Primer indiquem origen i després el destí. Si volem fer també subdirectoris:<br />
-<code>rsync -atrv --delete   /etc   /COPIES_SEG/etc</code><br />
 </p>
+<blockquote>
+<code>rsync -avi --delete   /etc   /COPIES_SEG/etc</code>
+</blockquote>
 
 <p>
 El mateix que l'anterior, però volem veure progrés de les còpies:<br />
-<code>rsync -atrv --delete --progress  /etc   /COPIES_SEG/etc</code><br />
 </p>
+<blockquote>
+<code>rsync -avi --delete --progress  /etc   /COPIES_SEG/etc</code>
+</blockquote>
 
 <p>
 Treballar només sobre els fitxers i directoris que comencin per P:<br />
-<code>rsync -atrv --delete --progress --include 'P*' --exclude '*' /etc  /COPIES_SEG/etc</code><br />
+</p>
+<blockquote>
+<code>rsync -avi --delete --progress --include 'P*' --exclude '*' /etc  /COPIES_SEG/etc</code>
+</blockquote>
+<p>
+Només podem posar un exclude i include en un oneliner. Si volem posar més excludes, hem d'especificar-lo en un fitxer. <br />
+Més avall s'explica com.<br />
 </p>
 
 <p>
-Només volem sincronitzar l'estructura de carpetes:<br />
-<code>rsync -v -d  /etc   /COPIES_SEG/etc</code><br />
+Si <span id="rsync-només"></span><strong id="només">només</strong> volem sincronitzar l'estructura de carpetes:<br />
 </p>
+<blockquote>
+<code>rsync -v -d  /etc   /COPIES_SEG/etc</code>
+</blockquote>
 
 <p>
 Sincro a un equip remot:<br />
-<code>rsync -atrv --delete   /etc   user@192.168.1.10:/home/user/COPIES_SEG/etc</code><br />
 </p>
+<blockquote>
+<code>rsync -avi --delete   /etc   user@192.168.1.10:/home/user/COPIES_SEG/etc</code>
+</blockquote>
+
+<p>
+Tenim poc espai a la destinació i primer volem esborrar abans de fer res:<br />
+</p>
+<blockquote>
+<code>rsync -avi --delete-before /etc   /COPIES_SEG/etc</code>
+</blockquote>
 
 <p>
 Veure només les diferències abans de fer res:<br />
-<code>rsync -avi  /etc   /COPIES_SEG/etc</code><br />
-ens mostra la llista de fitxers en els que te alguna cosa a fer, amb unes lletres a començament de cada fitxer que poden ser:<br />
-&gt; especifica moviment, en aquest cas es copiarà de destí a origen<br />
-f és un fitxer<br />
-s hi ha diferència de mida entre els fitxers<br />
-t hi ha diferència de data entre els fitxers<br />
-o ha canviat el propietaru<br />
-g ha canviat el grup<br />
+</p>
+<blockquote>
+<code>rsync -avi --dry-run /etc   /COPIES_SEG/etc</code>
+</blockquote>
+
+
+<div id="Exclude"><h2 id="Exclude" class="header"><a href="#Exclude">Exclude</a></h2></div>
+<p>
+La sintaxis és:<br />
+</p>
+  
+<p>
+--exclude-from=FILE<br />
+</p>
+
+<p>
+A tenir en compte:<br />
+</p>
+
+<ul>
+<li>
+Cada línia és un patró, que pot ser una string, un wildcard o un rang de caracters
+
+<li>
++ significa incloure, - és per excloure
+
+<li>
+Una ruta ha de començar amb /, però això no vol dir que comencem des de l'arrel
+
+<li>
+És important respectar exactament els patrons. P.e. no hem de posar espais en blanc que no existeixin
+
+</ul>
+
+<p>
+Un exemple:<br />
+</p>
+
+<p>
+Si fem:<br />
+<code>    rsync -ain --exclude-from=excludefile origen dest</code><br />
+</p>
+
+<p>
+I el contingut del fitxer excludefile és:<br />
++ /source1/.fileA<br />
+</p>
+<ul>
+<li>
+/source1/.*
+
+<li>
+/source1/junk/
+
+</ul>
+
+<p>
+En el cas de l'exemple anterior:<br />
+</p>
+<ul>
+<li>
+Es copia a la destinació el fitxer ocult .fileA
+
+<li>
+Es copien a la destinació tots els fitxers que siguin ocults del directori source1
+
+</ul>
+ 
+<ul>
+<li>
+A tenir en compte que el fitxer excludefile ha de tenir permisos 755
+
+<li>
+L'ordre de lectura del fitxer és important, de dalt a baix i s'interpreta la primera coincidència <span id="Exclude-exacta"></span><strong id="exacta">exacta</strong> que es trobi
+
+</ul>
+
+
+<p>
+Encanvi si canviem l'ordre de excludefile:<br />
+</p>
+<ul>
+<li>
+ /source1/.*
+
+</ul>
+<p>
++ /source1/.fileA<br />
+</p>
+<ul>
+<li>
+/source1/junk/
+
+</ul>
+
+<p>
+Ara:<br />
+</p>
+<ul>
+<li>
+El fitxer .fileA no serà copia, ja que la ruta a on estat ha estat exclosa amb anterioritat
+
+<li>
+Si que es copiaran tots els fitxers no siguin ocults del directori source1
+
+</ul>
+
+<div id="Exclude-Estratègies en exclude files"><h3 id="Estratègies en exclude files" class="header"><a href="#Exclude-Estratègies en exclude files">Estratègies en exclude files</a></h3></div>
+<p>
+Incloure només un fitxer i excloure la resta, no funcionaria, i és un error típic:<br />
+</p>
+
+<p>
++ /source1/junk/keep/this/fileX<br />
+</p>
+<ul>
+<li>
+/source1/junk/
+
+</ul>
+
+<p>
+Per què quan rsync recorre i arriba al directory junk, el primer match pattern que troba serà <br />
+</p>
+<ul>
+<li>
+/source1/junk/
+
+</ul>
+<p>
+I per tant exclou aquest directori i subdirectoris.<br />
+</p>
+
+<p>
+Per tant l'estratègia sempre ha de ser introduir tots els directoris que porten a fileX, abans de tot,<br />
+i saltar tots els fitxers no desitjats i directoris que no porten a fileX. <br />
+Això seria correcte:<br />
+</p>
+
+<p>
++ /source1/junk/keep/<br />
++ /source1/junk/keep/fileX<br />
+</p>
+<ul>
+<li>
+/source1/junk/*
+
+<li>
+/source1/junk/keep/*
+
+</ul>
+
+
+<div id="Sincronització de fitxers entre dos equips remots amb rsync"><h2 id="Sincronització de fitxers entre dos equips remots amb rsync" class="header"><a href="#Sincronització de fitxers entre dos equips remots amb rsync">Sincronització de fitxers entre dos equips remots amb rsync</a></h2></div>
+	
+<p>
+Última modificació: abril de 2015<br />
+</p>
+
+<p>
+Si no tenim instal·lat rsync (tant al servidor com al client):<br />
+</p>
+<blockquote>
+<code>apt-get install rsync</code>
+</blockquote>
+	
+<p>
+En el host remot, a /etc/default/rsync hem de activar rsync a la línia corresponent:<br />
+</p>
+
+<p>
+	<code>RSYNC_ENABLE=true</code><br />
+</p>
+
+	
+<p>
+Al fitxer /etc/rsyncd.conf configurarem les carpetes a compartir/sincronitzar:<br />
+</p>
+
+<p>
+	[carpetacompartida]<br />
+	path = /RSYNC/carpeta_compartida<br />
+	host allow = 10.0.0.23, 10.0.0.1<br />
+	host deny = *<br />
+	list = true<br />
+	uid = root<br />
+	gid = root<br />
+	read only = false<br />
 </p>
 
 
-<div id="rsync-Sincronització de fitxers entre dos equips remots amb rsync"><h5 id="Sincronització de fitxers entre dos equips remots amb rsync" class="header"><a href="#rsync-Sincronització de fitxers entre dos equips remots amb rsync">Sincronització de fitxers entre dos equips remots amb rsync</a></h5></div>
-	
 <p>
-	Última modificació: abril de 2015<br />
+Ara, des d'un dels dos equips autoritzats (10.0.0.32 i 10.0.0.1) podem sincronitzar una carpeta (en aquest exemple /root/scripts) amb una carpeta remota del equip en el que corre rsync com a dimoni:<br />
 </p>
-	
-<p>
-	Si no tenim instal·lat rsync (tant al servidor com al client):<br />
-</p>
-	
-<p>
-<code>	apt-get install rsync</code><br />
-</p>
-	
-<p>
-	En el host remot, a /etc/default/rsync hem de activar rsync a la línia corresponent:<br />
-</p>
-<pre>
-	RSYNC_ENABLE=true
-</pre>
-	
-<p>
-	Al fitxer /etc/rsyncd.conf configurarem les carpetes a compartir/sincronitzar:<br />
-</p>
-<pre>
-	[carpetacompartida]
-	path = /RSYNC/carpeta_compartida
-	host allow = 10.0.0.23, 10.0.0.1
-	host deny = *
-	list = true
-	uid = root
-	gid = root
-	read only = false
-</pre>
-
-<p>
-	Ara, des d'un dels dos equips autoritzats (10.0.0.32 i 10.0.0.1) podem sincronitzar una carpeta (en aquest exemple /root/scripts) amb una carpeta remota del equip en el que corre rsync com a dimoni:<br />
-</p>
-	
-<p>
-<code>	rsync -avz /root/scripts/  IP_host_remot::carpetacompartida</code><br />
-</p>
+<blockquote>
+<code>rsync -avz /root/scripts/  IP_host_remot::carpetacompartida</code>
+</blockquote>
 
 </body>
 </html>

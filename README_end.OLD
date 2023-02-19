@@ -1,0 +1,16 @@
+<br>
+<br>
+<form method="get" action="http://www.google.com/search"> 
+<input name="q" size="31" maxlength="255" autofocus="" type="text"> 
+<input value="Cerca a Google" type="submit">
+<br>
+<input name="sitesearch" value="" checked="checked" type="radio"> 
+<font color="#ffffff" face="Helvetica, Arial, sans-serif">a internet</font> 
+<input name="sitesearch"
+value="https://tonimarante.github.io"
+checked="cheched" type="radio"> 
+<font color="#ffffff" face="Helvetica, Arial, sans-serif">a aquest lloc web</font>
+<br>
+
+</body>
+</html>

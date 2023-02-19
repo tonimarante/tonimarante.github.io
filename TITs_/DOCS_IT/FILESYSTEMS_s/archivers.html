@@ -10,8 +10,8 @@
 
 <div id="Archivers"><h1 id="Archivers" class="header"><a href="#Archivers">Archivers</a></h1></div>
 <p>
-:tagarchive,tag7z:<br />
-Última modificació: gener de 2021<br />
+:tagarchive,tag7z,tagtar:<br />
+Última modificació: febrer de 2023<br />
 </p>
 
 <div id="Archivers-7z"><h2 id="7z" class="header"><a href="#Archivers-7z">7z</a></h2></div>
@@ -92,6 +92,15 @@ Descomprimir:<br />
 Si volem comprimir el mateix però amb bzip2, substituirem el paràmetre z per una j (en comptes de cvzf seria cvjf)<br />
 </p>
 
+<p>
+Si volem guardar un fitxer, però no tota la ruta a on era, hem de fer un canvi de directori amb -C:<br />
+</p>
+
+<p>
+tar cvzf home.tar.gz -C /home/toni/ .<br />
+</p>
+
+
 
 <div id="Archivers-zip"><h2 id="zip" class="header"><a href="#Archivers-zip">zip</a></h2></div>
 <p>
@@ -124,6 +133,18 @@ done
 
 
 <div id="Archivers-arj"><h2 id="arj" class="header"><a href="#Archivers-arj">arj</a></h2></div>
+<p>
+Ens pot anar molt bé per a fer backups. Podem fer, per exemple:<br />
+</p>
+<blockquote>
+arj a -fury -v1000000k  /COPIES_SEG/etc.arj   /etc
+</blockquote>
+<p>
+a per afegir, f per refresh, u per update, r per recursiu, y per respondre "yes" a totes les preguntes i finalment amb v diem  que es vagin fent fitxers amb la mida màxima que indiquem.<br />
+Desaventatges: (o ho podem prendre com un avantatge) amb aquest mètode anem guarden les succesives versions d'un fitxer, amb   el qual l'arj de destí sempre anirà creixent.<br />
+Avantantges: els fitxers generats poden ser descomprimits per separat, per tant encara que es faci malbé un d'ells, podrem     seguir accedint al contingut de la resta.<br />
+</p>
+
 <p>
 Per a Linux tenim la implementació en codi lliure (<a href="http://arj.sourceforge.net/)">http://arj.sourceforge.net/)</a> que intenta ser compatible al màxim amb l'original.<br />
 </p>
