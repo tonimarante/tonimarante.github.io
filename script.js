@@ -1,28 +1,33 @@
-window.addEventListener('DOMContentLoaded', function() {
-  var searchInput = document.getElementById('searchInput');
-  var resultsContainer = document.getElementById('results');
+const searchInput = document.getElementById('searchInput');
+const searchResults = document.getElementById('searchResults');
 
-  searchInput.addEventListener('input', function() {
-    var searchQuery = searchInput.value.toLowerCase();
-    var results = [];
+// Agrega un evento de escucha al campo de entrada para que se active cuando se escriba algo
+searchInput.addEventListener('input', function() {
+  const searchText = searchInput.value.toLowerCase();
 
-    // Realizar la búsqueda en tu contenido
-    // Puedes utilizar JavaScript para buscar en el DOM o en una fuente de datos externa
+  // Limpia los resultados de la búsqueda anteriores
+  searchResults.innerHTML = '';
 
-    // Ejemplo de búsqueda en el DOM
-    var items = document.getElementsByTagName('h1'); // Buscar en los títulos h1
-
-    for (var i = 0; i < items.length; i++) {
-      var item = items[i];
-      var itemText = item.textContent.toLowerCase();
-
-      if (itemText.includes(searchQuery)) {
-        results.push('<li>' + itemText + '</li>');
-      }
-    }
-
-    // Actualizar los resultados
-    resultsContainer.innerHTML = results.join('');
-  });
+  // Realiza una búsqueda en la API de GitHub
+  fetch('https://api.github.com/search/code?q=' + searchText)
+    .then(response => response.json())
+    .then(data => {
+      // Itera sobre los resultados y crea elementos de lista para mostrarlos
+      data.items.forEach(item => {
+        const li = document.createElement('li');
+        const link = document.createElement('a');
+        link.href = item.html_url;
+        link.textContent = item.name;
+        li.appendChild(link);
+        searchResults.appendChild(li);
+      });
+    });
 });
+
+
+
+
+
+
+
 
