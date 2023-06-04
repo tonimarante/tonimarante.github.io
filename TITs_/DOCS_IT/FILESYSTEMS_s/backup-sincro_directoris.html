@@ -2,36 +2,56 @@
 <html>
 <head>
 <link rel="Stylesheet" type="text/css" href="../../../style.css">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.xml">
 <title>backup-sincro_directoris</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
 
-<div id="Contents" class="toc"><h1 id="Contents">Contents</a></h1></div>
+<div id="Contents" class="toc"><h1 id="Contents" class="header"><a href="#Contents">Contents</a></h1></div>
 <ul>
 <li>
-<a href="backup-sincro_directoris.html#Backups i/o sincronització de directoris">Backups i/o sincronització de directoris</a>
+<a href="backup-sincro_directoris.html#Backups i/o sincronització de directoris">#Backups i/o sincronització de directoris</a>
 
 <ul>
 <li>
-<a href="backup-sincro_directoris.html#Backups i/o sincronització de directoris-arj">arj</a>
+<a href="backup-sincro_directoris.html#arj">#arj</a>
 
 <li>
-<a href="backup-sincro_directoris.html#Backups i/o sincronització de directoris-rsync">rsync</a>
+<a href="backup-sincro_directoris.html#rsync">#rsync</a>
 
 <li>
-<a href="backup-sincro_directoris.html#Backups i/o sincronització de directoris-rdiff-backup">rdiff-backup</a>
+<a href="backup-sincro_directoris.html#rdiff-backup">#rdiff-backup</a>
 
 <li>
-<a href="backup-sincro_directoris.html#Backups i/o sincronització de directoris-unison">unison</a>
+<a href="backup-sincro_directoris.html#Unison">#Unison</a>
+
+<li>
+<a href="backup-sincro_directoris.html#Borg">#Borg</a>
+
+<ul>
+<li>
+<a href="backup-sincro_directoris.html#Instal·lació">#Instal·lació</a>
+
+</ul>
+<li>
+<a href="backup-sincro_directoris.html#Conceptes i ús">#Conceptes i ús</a>
+
+<li>
+<a href="backup-sincro_directoris.html#Recuperar fitxers:">#Recuperar fitxers:</a>
+
+<li>
+<a href="backup-sincro_directoris.html#Backups a servidors remots">#Backups a servidors remots</a>
+
+<li>
+<a href="backup-sincro_directoris.html#Bibliografia">#Bibliografia</a>
 
 </ul>
 </ul>
-
 <div id="Backups i/o sincronització de directoris"><h1 id="Backups i/o sincronització de directoris" class="header"><a href="#Backups i/o sincronització de directoris">Backups i/o sincronització de directoris</a></h1></div>
 <p>
-Última modificació: agost de 2021<br />
+Última modificació: maig de 2023<br />
 </p>
 
 <div id="Backups i/o sincronització de directoris-arj"><h2 id="arj" class="header"><a href="#Backups i/o sincronització de directoris-arj">arj</a></h2></div>
@@ -73,31 +93,32 @@ Només volem sincronitzar l'estructura de carpetes:<br />
 </p>
 
 <p>
-Sincro a un equip remot:<br />
+Sincro a un equip remot (ens demanara passwd per a logar-nos via SSH al servidor remot):<br />
 <code>    rsync -atrv --delete   /etc   user@192.168.1.10:/home/user/COPIES_SEG/</code><br />
 </p>
+<pre><code>Si no volem haver de posar passwd, el més pràctic es configurar rsyncd al servidor remot i autoritzar la IP que ha de poder arribar.
+</code></pre>
 
 <p>
 Veure només les diferències abans de fer res:<br />
 <code>    rsync -avi  /etc   /COPIES_SEG/</code><br />
 </p>
-<blockquote>
-ens mostra la llista de fitxers en els que te alguna cosa a fer, amb unes lletres a començament de cada fitxer que poden ser:
-</blockquote>
-<blockquote>
-&gt; especifica moviment, en aquest cas es copiarà de destí a origen
+<pre><code>ens mostra la llista de fitxers en els que te alguna cosa a fer, amb unes lletres a començament de cada fitxer que poden ser:
+</code></pre>
+<pre><code>&gt; especifica moviment, en aquest cas es copiarà de destí a origen
 f és un fitxer
 s hi ha diferència de mida entre els fitxers
 t hi ha diferència de data entre els fitxers
 o ha canviat el propietaru
 g ha canviat el grup
-</blockquote>
+</code></pre>
 
 <p>
 Si no podem comparar correctament la data o permisos entre els fitxers d'origen i destinació, poden fer que rsync només comprovi per mida:<br />
 <code>    rsync -iirtv --no-times --size-only   --delete  /etc   /COPIES_SEG/</code><br />
 </p>
-    
+<pre><code>
+</code></pre>
 
 
 <div id="Backups i/o sincronització de directoris-rdiff-backup"><h2 id="rdiff-backup" class="header"><a href="#Backups i/o sincronització de directoris-rdiff-backup">rdiff-backup</a></h2></div>
@@ -106,7 +127,7 @@ rdiff-backup - remote incremental backup<br />
 </p>
 
 
-<div id="Backups i/o sincronització de directoris-unison"><h2 id="unison" class="header"><a href="#Backups i/o sincronització de directoris-unison">unison</a></h2></div>
+<div id="Backups i/o sincronització de directoris-Unison"><h2 id="Unison" class="header"><a href="#Backups i/o sincronització de directoris-Unison">Unison</a></h2></div>
 <p>
 Unison és una eina de sincronització de fitxers que admet actualitzacions bidireccionals d'arxius i directoris. Per sota utilitza rsync per a fer les sincros de fitxers i SSH com a mètode de transport per defecte.<br />
 Una configuració molt ràpida per a sincronitzar dues carpetes: crearem un fitxer de perfil a la ruta ~/.unison/. Per exemple si creem el fitxer sincro2.prf amb aquest contingut:<br />
@@ -134,6 +155,128 @@ sincronitzarem les dues carpetes /home/carpeta1 i /home/remot-carpeta2 cada cop 
 <p>
 En el perfil d'exemple es pot veure com fer algunes excepcions. <br />
 </p>
+
+
+<div id="Backups i/o sincronització de directoris-Borg"><h2 id="Borg" class="header"><a href="#Backups i/o sincronització de directoris-Borg">Borg</a></h2></div>
+<p>
+Manual: <a href="https://borgbackup.readthedocs.io">https://borgbackup.readthedocs.io</a><br />
+</p>
+
+<div id="Backups i/o sincronització de directoris-Borg-Instal·lació"><h3 id="Instal·lació" class="header justcenter"><a href="#Backups i/o sincronització de directoris-Borg-Instal·lació">Instal·lació</a></h3></div>
+<p>
+A Debian està als repositoris principals. No obstant si volem una versió més nova, la podem baixar de <a href="https://github.com/borgbackup/borg/releases">https://github.com/borgbackup/borg/releases</a> i posar el binari al path:<br />
+</p>
+
+<p>
+`sudo cp borg-linux64 /usr/local/bin/borg<br />
+sudo chown root:root /usr/local/bin/borg<br />
+sudo chmod 755 /usr/local/bin/borg`<br />
+</p>
+
+<p>
+Opcionalment podem crear un symlink per a tenir borgfs disponible, que és un alias de borg mount:<br />
+</p>
+
+<p>
+<code>ln -s /usr/local/bin/borg /usr/local/bin/borgfs</code><br />
+</p>
+
+<div id="Backups i/o sincronització de directoris-Conceptes i ús"><h2 id="Conceptes i ús" class="header justcenter"><a href="#Backups i/o sincronització de directoris-Conceptes i ús">Conceptes i ús</a></h2></div>
+<p>
+Borg treballa amb el concepte de repositori, que és crea, encriptat, a un directori.<br />
+Cada cop que generem una nova còpia, és fa un archive (en l'argot borg) a dintre del repositori indicat.<br />
+</p>
+
+<p>
+Inicialitzar un directori:<br />
+<code>borg init --encryption=repokey /home/BORGexample/</code><br />
+</p>
+<pre><code>Un cop iniciat el repositori, hem de guardar password i clau privada de repositori. La clau privada la podem extreure:
+</code></pre>
+<p>
+<code>    borg key export /home/BORGexample/ borgkey.txt</code><br />
+</p>
+<pre><code>Aquesta clau també està al fitxer config a dintre del repositori borg.
+</code></pre>
+<p>
+Fer un backup:<br />
+<code>borg create --progress --stats /home/BORGexample::20230423  ~/ownCloud/ ~/Images</code><br />
+</p>
+
+<p>
+Amb compressió:<br />
+<code>borg create --compression zstd /home/BORGexample::20230423  ~/ownCloud/ ~/Images</code><br />
+</p>
+<pre><code>la compressió pot ser també lzma (ràpid, poca compressió) i zlib (una mica més de compressió) 
+</code></pre>
+
+<p>
+Llistar archives a un repositori:<br />
+<code>borg list /home/BORGexample/</code><br />
+</p>
+
+<p>
+Llistar contingut d'un arxiu:<br />
+<code>borg list /home/BORGexample/::20230423</code><br />
+</p>
+
+<p>
+Recuperar espai, compactant:<br />
+<code>borg compact /home/BORGexample/</code><br />
+</p>
+
+<p>
+Esborrar un arxiu (a tenir en compte que no alliberem espai):<br />
+<code>borg delete /home/BORGexample/::20230423</code><br />
+</p>
+
+<div id="Backups i/o sincronització de directoris-Recuperar fitxers:"><h2 id="Recuperar fitxers:" class="header justcenter"><a href="#Backups i/o sincronització de directoris-Recuperar fitxers:">Recuperar fitxers:</a></h2></div>
+<p>
+Tenim dues opcions, si sabem exactament quin fitxer o directori volem recuperar (ens poden ajudar de grep):<br />
+<code>borg list /home/BORGexample/::20230423 | grep edifici</code><br />
+</p>
+<pre><code>Ara, sabent la ruta, farem, p.e.:
+<code>borg extract /home/BORGexample/::20230423 home/Images/background_edifici.png </code>
+(ull, la ruta comença sense la barra /)
+</code></pre>
+
+
+<p>
+La segona opció és muntar el repositori i navegar fins que trobem el fitxer o directori, en la versió desitjada:<br />
+Com a requisit necessitem:<br />
+<code>sudo apt install python3-llfuse</code><br />
+Ara, muntem el repositori:<br />
+<code>borg mount /home/BORGexample/ ~/Recupera_borg/</code><br />
+Busquem el nostre fitxer:<br />
+<code>cd ~/Recupera_borg/</code><br />
+<code>find . -iname *background_edifici.png*</code><br />
+</p>
+
+<div id="Backups i/o sincronització de directoris-Backups a servidors remots"><h2 id="Backups a servidors remots" class="header justcenter"><a href="#Backups i/o sincronització de directoris-Backups a servidors remots">Backups a servidors remots</a></h2></div>
+<p>
+Necessitarem accés remot via SSH, borg instal·lat al servidor remot i tenir copiada la nostra clau privada al servidor remot, a authorized keys. Llavors:<br />
+<code>borg init user@hostname:/pathrepo </code><br />
+Així amb la resta d'instrucció borg que llencem.<br />
+</p>
+
+<p>
+Si no podem tenir borg al servidor remot, la segona opció es muntar el directori remot amb sshfs:<br />
+<code>sshfs user@hostname:/pathremot /pathlocal</code><br />
+<code>borg init /pathlocal/repositori</code><br />
+<code>fusermount -u /pathlocal</code><br />
+</p>
+
+<div id="Backups i/o sincronització de directoris-Bibliografia"><h2 id="Bibliografia" class="header justcenter"><a href="#Backups i/o sincronització de directoris-Bibliografia">Bibliografia</a></h2></div>
+<p>
+A <a href="https://borgbackup.readthedocs.io/en/stable/quickstart.html#remote-repositories">https://borgbackup.readthedocs.io/en/stable/quickstart.html#remote-repositories</a> hi ha un script per a fer backukps automatitzats que preserva 7 copies diàries, 4 setmanals i 6 mensuals.<br />
+</p>
+
+
+<ul>
+<li>
+* * * * * * * * * * * * * * * * *
+
+</ul>
 
 </body>
 </html>

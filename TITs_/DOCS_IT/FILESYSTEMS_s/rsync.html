@@ -2,34 +2,34 @@
 <html>
 <head>
 <link rel="Stylesheet" type="text/css" href="../../../style.css">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.xml">
 <title>rsync</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
 
-<div id="Contents" class="toc"><h1 id="Contents">Contents</a></h1></div>
+<div id="Contents" class="toc"><h1 id="Contents" class="header"><a href="#Contents">Contents</a></h1></div>
 <ul>
 <li>
-<a href="rsync.html#rsync">rsync</a>
+<a href="rsync.html#rsync">#rsync</a>
 
 <li>
-<a href="rsync.html#Exclude">Exclude</a>
+<a href="rsync.html#Exclude">#Exclude</a>
 
 <ul>
 <li>
-<a href="rsync.html#Exclude-Estratègies en exclude files">Estratègies en exclude files</a>
+<a href="rsync.html#Estratègies en exclude files">#Estratègies en exclude files</a>
 
 </ul>
 <li>
-<a href="rsync.html#Sincronització de fitxers entre dos equips remots amb rsync">Sincronització de fitxers entre dos equips remots amb rsync</a>
+<a href="rsync.html#Sincronització de fitxers entre dos equips remots amb rsync">#Sincronització de fitxers entre dos equips remots amb rsync</a>
 
 </ul>
-
 <div id="rsync"><h2 id="rsync" class="header"><a href="#rsync">rsync</a></h2></div>
 <p>
 :tagrsync:<br />
-Última modificació: febrer de 2023<br />
+Última modificació: abril de 2023<br />
 </p>
 
 <p>
@@ -39,92 +39,86 @@ Modificadors:<br />
 <p>
 -a, --archive mode; equival a -rlptgoD<br />
 </p>
-<blockquote>
--r        recursive
+<pre><code>-r        recursive
 -l        preserve links
 -p        preserve permissions
 -t        preserve times
 -g        preserve group 
 -o        preserve owner
 -D        preserve device files, special files
-</blockquote>
-<blockquote>
+
 -n, --dry-run           mostra una simulació
 --link-dest=DIR         fa un hardlink als fitxers d'un DIR quan no han canviat
 -i, --itemize-changes   mostra informació del que va fent
-</blockquote>
+</code></pre>
 
 <p>
 El modificador   <span id="rsync-i"></span><strong id="i">i</strong>   ens mostra info del que es va fent:<br />
 </p>
-<blockquote>
-&gt; especifica moviment, en aquest cas es copiarà de destí a origen
+<pre><code>&gt; especifica moviment, en aquest cas es copiarà de destí a origen
 f és un fitxer
 s hi ha diferència de mida entre els fitxers
 t hi ha diferència de data entre els fitxers
 o ha canviat el propietari
 g ha canviat el grup
-</blockquote>
+</code></pre>
 
 <p>
 Per a mantenir dos directoris amb el mateix contingut (esquerra mana a dreta):<br />
 </p>
-<blockquote>
-<code>rsync -avi --delete   /etc   /COPIES_SEG/etc</code>
-</blockquote>
+<pre><code><code>rsync -avi --delete   /etc   /COPIES_SEG/etc</code>
+</code></pre>
 
 <p>
 Primer indiquem origen i després el destí. Si volem fer també subdirectoris:<br />
 </p>
-<blockquote>
-<code>rsync -avi --delete   /etc   /COPIES_SEG/etc</code>
-</blockquote>
+<pre><code><code>rsync -avi --delete   /etc   /COPIES_SEG/etc</code>
+</code></pre>
 
 <p>
 El mateix que l'anterior, però volem veure progrés de les còpies:<br />
 </p>
-<blockquote>
-<code>rsync -avi --delete --progress  /etc   /COPIES_SEG/etc</code>
-</blockquote>
+<pre><code><code>rsync -avi --delete --progress  /etc   /COPIES_SEG/etc</code>
+</code></pre>
 
 <p>
 Treballar només sobre els fitxers i directoris que comencin per P:<br />
 </p>
-<blockquote>
-<code>rsync -avi --delete --progress --include 'P*' --exclude '*' /etc  /COPIES_SEG/etc</code>
-</blockquote>
+<pre><code><code>rsync -avi --delete --progress --include 'P*' --exclude '*' /etc  /COPIES_SEG/etc</code>
+</code></pre>
 <p>
 Només podem posar un exclude i include en un oneliner. Si volem posar més excludes, hem d'especificar-lo en un fitxer. <br />
 Més avall s'explica com.<br />
 </p>
 
 <p>
+Sincronitzar només directori, sense subdirectoris (per defecte rsync es recursiu), fitxers més grans de 240 KB i esborra origen un cop copiat el fitxer a la destinació.<br />
+<code>rsync -avi --remove-source-files --exclude='*/' --min-size=0.25K /etc   /COPIES_SEG/etc</code><br />
+</p>
+
+<p>
 Si <span id="rsync-només"></span><strong id="només">només</strong> volem sincronitzar l'estructura de carpetes:<br />
 </p>
-<blockquote>
-<code>rsync -v -d  /etc   /COPIES_SEG/etc</code>
-</blockquote>
+<pre><code><code>rsync -v -d  /etc   /COPIES_SEG/etc</code>
+</code></pre>
 
 <p>
 Sincro a un equip remot:<br />
 </p>
-<blockquote>
-<code>rsync -avi --delete   /etc   user@192.168.1.10:/home/user/COPIES_SEG/etc</code>
-</blockquote>
+<pre><code><code>rsync -avi --delete   /etc   user@192.168.1.10:/home/user/COPIES_SEG/etc</code>
+</code></pre>
 
 <p>
 Tenim poc espai a la destinació i primer volem esborrar abans de fer res:<br />
 </p>
-<blockquote>
-<code>rsync -avi --delete-before /etc   /COPIES_SEG/etc</code>
-</blockquote>
+<pre><code><code>rsync -avi --delete-before /etc   /COPIES_SEG/etc</code>
+</code></pre>
 
 <p>
 Veure només les diferències abans de fer res:<br />
 </p>
-<blockquote>
-<code>rsync -avi --dry-run /etc   /COPIES_SEG/etc</code>
-</blockquote>
+<pre><code><code>rsync -avi --dry-run /etc   /COPIES_SEG/etc</code>
+</code></pre>
 
 
 <div id="Exclude"><h2 id="Exclude" class="header"><a href="#Exclude">Exclude</a></h2></div>
@@ -154,7 +148,6 @@ Una ruta ha de començar amb /, però això no vol dir que comencem des de l'arr
 És important respectar exactament els patrons. P.e. no hem de posar espais en blanc que no existeixin
 
 </ul>
-
 <p>
 Un exemple:<br />
 </p>
@@ -176,7 +169,6 @@ I el contingut del fitxer excludefile és:<br />
 /source1/junk/
 
 </ul>
-
 <p>
 En el cas de l'exemple anterior:<br />
 </p>
@@ -197,8 +189,6 @@ A tenir en compte que el fitxer excludefile ha de tenir permisos 755
 L'ordre de lectura del fitxer és important, de dalt a baix i s'interpreta la primera coincidència <span id="Exclude-exacta"></span><strong id="exacta">exacta</strong> que es trobi
 
 </ul>
-
-
 <p>
 Encanvi si canviem l'ordre de excludefile:<br />
 </p>
@@ -215,7 +205,6 @@ Encanvi si canviem l'ordre de excludefile:<br />
 /source1/junk/
 
 </ul>
-
 <p>
 Ara:<br />
 </p>
@@ -227,7 +216,6 @@ El fitxer .fileA no serà copia, ja que la ruta a on estat ha estat exclosa amb 
 Si que es copiaran tots els fitxers no siguin ocults del directori source1
 
 </ul>
-
 <div id="Exclude-Estratègies en exclude files"><h3 id="Estratègies en exclude files" class="header"><a href="#Exclude-Estratègies en exclude files">Estratègies en exclude files</a></h3></div>
 <p>
 Incloure només un fitxer i excloure la resta, no funcionaria, i és un error típic:<br />
@@ -241,7 +229,6 @@ Incloure només un fitxer i excloure la resta, no funcionaria, i és un error t�
 /source1/junk/
 
 </ul>
-
 <p>
 Per què quan rsync recorre i arriba al directory junk, el primer match pattern que troba serà <br />
 </p>
@@ -272,8 +259,6 @@ Això seria correcte:<br />
 /source1/junk/keep/*
 
 </ul>
-
-
 <div id="Sincronització de fitxers entre dos equips remots amb rsync"><h2 id="Sincronització de fitxers entre dos equips remots amb rsync" class="header"><a href="#Sincronització de fitxers entre dos equips remots amb rsync">Sincronització de fitxers entre dos equips remots amb rsync</a></h2></div>
 	
 <p>
@@ -283,9 +268,8 @@ Això seria correcte:<br />
 <p>
 Si no tenim instal·lat rsync (tant al servidor com al client):<br />
 </p>
-<blockquote>
-<code>apt-get install rsync</code>
-</blockquote>
+<pre><code><code>apt-get install rsync</code>
+</code></pre>
 	
 <p>
 En el host remot, a /etc/default/rsync hem de activar rsync a la línia corresponent:<br />
@@ -315,9 +299,8 @@ Al fitxer /etc/rsyncd.conf configurarem les carpetes a compartir/sincronitzar:<b
 <p>
 Ara, des d'un dels dos equips autoritzats (10.0.0.32 i 10.0.0.1) podem sincronitzar una carpeta (en aquest exemple /root/scripts) amb una carpeta remota del equip en el que corre rsync com a dimoni:<br />
 </p>
-<blockquote>
-<code>rsync -avz /root/scripts/  IP_host_remot::carpetacompartida</code>
-</blockquote>
+<pre><code><code>rsync -avz /root/scripts/  IP_host_remot::carpetacompartida</code>
+</code></pre>
 
 </body>
 </html>

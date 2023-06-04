@@ -2,16 +2,35 @@
 <html>
 <head>
 <link rel="Stylesheet" type="text/css" href="../../../style.css">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.xml">
 <title>iptables_Debian</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
 
-<div id="iptables Debian"><h2 id="iptables Debian" class="header"><a href="#iptables Debian">iptables Debian</a></h2></div>
+<div id="Contents" class="toc"><h1 id="Contents" class="header"><a href="#Contents">Contents</a></h1></div>
+<ul>
+<li>
+<a href="iptables_Debian.html#iptables Debian">iptables Debian</a>
+
+<ul>
+<li>
+<a href="iptables_Debian.html#iptables Debian-Esborrar regles d'iptables">Esborrar regles d'iptables</a>
+
+<li>
+<a href="iptables_Debian.html#iptables Debian-Exemple configiració bàsica iptables. Start i stop">Exemple configiració bàsica iptables. Start i stop</a>
+
+<li>
+<a href="iptables_Debian.html#iptables Debian-nftables és el nou iptables">nftables és el nou iptables</a>
+
+</ul>
+</ul>
+<div id="iptables Debian"><h1 id="iptables Debian" class="header"><a href="#iptables Debian">iptables Debian</a></h1></div>
 <p>
+:tagiptables:<br />
 *<span id="iptables Debian-iptables en Debian"></span><strong id="iptables en Debian">iptables en Debian</strong>*<br />
-Última actualització: desembre de 2019<br />
+Última actualització: desembre de 2022<br />
 </p>
 
 <p>
@@ -26,82 +45,81 @@ Creem primer un fitxer /etc/iptables.up.rules. Un possible contingut de sortida 
 <p>
 *filter<br />
 </p>
-<ol>
+<ul>
 <li>
 Per a filtrar paquets que van o surten de la pròpia màquina farem servir INPUT i OUTPUT.
 
 <li>
 Per a filtrar paquets que van a altres equips remots, fem servir FORWARD.
 
-</ol>
-
+</ul>
 <p>
 :INPUT ACCEPT [0:0]<br />
 :FORWARD ACCEPT [0:0]<br />
 :OUTPUT ACCEPT [0:0]<br />
 </p>
-<ol>
+<ul>
 <li>
 permet tot el trafic de loopback però fa un drop a tot el trafic que va a 127/8 i que no fa servir lo0
 
-</ol>
+</ul>
 <p>
 -A INPUT -i lo -j ACCEPT<br />
 -A INPUT -d 127.0.0.0/8 ! -i lo -j REJECT --reject-with icmp-port-unreachable<br />
 </p>
-<ol>
+<ul>
 <li>
 accepta l'entrada a totes les connexions establertes
 
-</ol>
+</ul>
 <p>
 -A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT<br />
 </p>
 
-<ol>
+<ul>
 <li>
 les meves regles
 
-</ol>
+</ul>
 <p>
 -A INPUT  -s 192.168.1.200 -j ACCEPT<br />
 -A INPUT  -s 192.168.2.0/24 -j ACCEPT<br />
 -A INPUT -p tcp -m tcp --dport 80 -j ACCEPT<br />
 -A INPUT -p tcp -m tcp --dport 443 -j ACCEPT<br />
 </p>
-<ol>
+<ul>
 <li>
 permet ssh al port 30000
 
-</ol>
+</ul>
 <p>
 -A INPUT -p tcp -m state --state NEW -m tcp --dport 30000 -j ACCEPT<br />
 </p>
 
-<ol>
+<ul>
 <li>
 permet ping (o no)
 
-</ol>
+</ul>
 <p>
 #-A INPUT -p icmp -m icmp --icmp-type 8 -j REJECT<br />
 -A INPUT -p icmp -m icmp --icmp-type 8 -j ACCEPT<br />
 </p>
 
-<ol>
+<ul>
 <li>
 log iptables denied calls (access via 'dmesg' command)
 
-</ol>
+</ul>
 <p>
 -A INPUT -m limit --limit 5/min -j LOG --log-prefix "iptables denied: " --log-level 7<br />
 </p>
 
-<ol>
+<ul>
 <li>
 Denega tot el que no hagi estat autoritzat abans
 
-</ol>
+</ul>
 <p>
 -A INPUT -j REJECT --reject-with icmp-port-unreachable<br />
 -A FORWARD -j REJECT --reject-with icmp-port-unreachable<br />
@@ -175,22 +193,132 @@ iptables -A INPUT -m tcp -p tcp --dport 22 -j ACCEPT<br />
 <p>
 #Si volem permetre ssh, http i https, descomenten següent línia<br />
 </p>
-<ol>
+<ul>
 <li>
 iptables -A INPUT -p tcp -m state --state NEW -m multiport --dports ssh,http,https -j ACCEPT
 
-</ol>
-
+</ul>
 <p>
 #Si volem permetre ssh, http i https però només per eth0, descomenten següent línia<br />
 </p>
-<ol>
+<ul>
 <li>
 iptables -A INPUT -i eth0 -s 192.168.1.0/24 -p tcp -m state --state NEW -m multiport --dports http,https -j ACCEPT
 
-</ol>
+</ul>
+<div id="iptables Debian-Esborrar regles d'iptables"><h2 id="Esborrar regles d'iptables" class="header"><a href="#iptables Debian-Esborrar regles d'iptables">Esborrar regles d'iptables</a></h2></div>
+<p>
+Llistar regles amb números:<br />
+<code>sudo iptables -L --line-numbers</code><br />
+</p>
 
-<div id="iptables Debian-nftables és el nou iptables"><h3 id="nftables és el nou iptables" class="header"><a href="#iptables Debian-nftables és el nou iptables">nftables és el nou iptables</a></h3></div>
+<p>
+Esborrar una regla:<br />
+<code>sudo iptables -D INPUT numregla</code><br />
+</p>
+
+<p>
+Esborrar totes les regles de firewall:<br />
+<code>sudo iptables -t nat -F</code><br />
+<code>sudo iptables -t mangle -F</code><br />
+<code>sudo iptables -F</code><br />
+<code>sudo iptables -X</code><br />
+</p>
+
+
+<div id="iptables Debian-Exemple configiració bàsica iptables. Start i stop"><h2 id="Exemple configiració bàsica iptables. Start i stop" class="header"><a href="#iptables Debian-Exemple configiració bàsica iptables. Start i stop">Exemple configiració bàsica iptables. Start i stop</a></h2></div>
+<p>
+#!/bin/sh<br />
+</p>
+<ul>
+<li>
+This file is auto-generated by openmediavault (<a href="https://www.openmediavault.org)">https://www.openmediavault.org)</a>
+
+<li>
+WARNING: Do not edit this file, your changes will get lost.
+
+</ul>
+<p>
+. /usr/share/openmediavault/scripts/helper-functions<br />
+</p>
+
+<p>
+set -e<br />
+</p>
+
+<ul>
+<li>
+Make sure that only one instance of this shell script is running at
+
+<li>
+the same time.
+
+</ul>
+<p>
+LOCK_FILE=/run/openmediavault-iptables.lock<br />
+if ! mkdir "${LOCK_FILE}"; then<br />
+</p>
+<pre><code>omv_error "Locking failed, another job is running"
+exit 0
+</code></pre>
+<p>
+fi<br />
+</p>
+
+<p>
+trap "rm -rf ${LOCK_FILE}" 0 1 2 3 5 15<br />
+</p>
+
+<p>
+case "$1" in<br />
+</p>
+<pre><code>start)
+iptables -t filter -F INPUT
+iptables -t filter -F OUTPUT
+iptables -A INPUT -p all -j ACCEPT -m state --state RELATED,ESTABLISHED
+iptables -A INPUT -p all -j ACCEPT -m conntrack --ctstate RELATED,ESTABLISHED
+iptables -A INPUT -p all --source 185.23.118.242 -j ACCEPT
+iptables -A INPUT -p all --source 213.4.15.37 -j ACCEPT
+iptables -A INPUT -p all --source 213.151.105.114 -j ACCEPT
+iptables -A OUTPUT -p all --destination 213.151.105.114 -j ACCEPT
+iptables -A INPUT -p all --source 213.151.122.252 -j ACCEPT
+iptables -A INPUT -p all --source 77.224.137.34 -j ACCEPT
+iptables -A INPUT -p all --source 77.225.175.34 -j ACCEPT
+iptables -A INPUT -p all --source 77.227.11.252 -j ACCEPT
+iptables -A INPUT -p all --source 10.0.0.0/23 -j ACCEPT
+iptables -A INPUT -p all -j REJECT --reject-with icmp-port-unreachable
+iptables -A INPUT -p tcp --dport 22 -j REJECT
+iptables -A INPUT -p tcp --dport 80 -j REJECT
+iptables -A INPUT -p tcp --dport 111 -j REJECT
+iptables -A INPUT -p tcp --dport 139 -j REJECT
+iptables -A INPUT -p tcp --dport 445 -j REJECT
+iptables -A INPUT -p tcp --dport 5357 -j REJECT
+iptables -A INPUT -p tcp --source 93.176.142.26 -j REJECT
+iptables -A OUTPUT -p tcp --destination 93.176.142.26 -j REJECT
+;;
+</code></pre>
+<pre><code>stop)
+iptables -t filter -F INPUT
+iptables -t filter -F OUTPUT
+iptables -P INPUT ACCEPT
+iptables -P OUTPUT ACCEPT
+ip6tables -t filter -F INPUT
+ip6tables -t filter -F OUTPUT
+ip6tables -P INPUT ACCEPT
+ip6tables -P OUTPUT ACCEPT
+;;
+</code></pre>
+<p>
+esac<br />
+</p>
+
+<p>
+exit 0<br />
+</p>
+
+
+
+<div id="iptables Debian-nftables és el nou iptables"><h2 id="nftables és el nou iptables" class="header"><a href="#iptables Debian-nftables és el nou iptables">nftables és el nou iptables</a></h2></div>
 <p>
 nftables va ser inclós al kernel de Linux al 2014, per a solucionar algunes coses d'iptables com simplificar la sintaxi, proporcionar escalabilitat i evitar haver de duplicar les regles iptables per a IPv4 i IPv6 (que es gestionen amb iptables i ip6tables respectivament).<br />
 </p>
@@ -202,11 +330,9 @@ El funcionament de nftables és també amb chains i rules, però a diferència d
 <p>
 Per a instal·lar-ho a Debian, farem:<br />
 </p>
-<blockquote>
-apt install nftables
+<pre><code>apt install nftables
 sudo systemctl enable nftables
-</blockquote>
-    
+</code></pre>
 <p>
 I ja està. Per a poder convertir antics scripts iptables o simplement si encara no dominem la sintaxi nftables, però si la d'iptables, tenim el conversor iptables-translate. Un parell d'exemples:<br />
 </p>
@@ -217,15 +343,14 @@ Si volem bloquejar totes les entrades provinents de 192.168.1.1:
 <br />    linux@box:~$ iptables-translate -A INPUT -s 192.168.1.1 -j DROP
 <br />    nft add rule ip filter INPUT ip saddr 192.168.2.1 counter drop
 
-</ul>
-
-<ul>
 <li>
 Si volem permetre que es pugui accedir al servidor SSH, desde un rang d'adreces:
 <br />    linux@box:~$ iptables-translate -A INPUT -p tcp -s 192.168.1.0/24 --dport 22 -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
 <br />    nft add rule ip filter INPUT ip saddr 192.168.1.0/24 tcp dport 22 ct state new,established counter accept
 
 </ul>
+<pre><code>
+</pre></code>
 
 </body>
 </html>

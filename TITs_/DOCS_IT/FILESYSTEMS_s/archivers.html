@@ -2,6 +2,7 @@
 <html>
 <head>
 <link rel="Stylesheet" type="text/css" href="../../../style.css">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.xml">
 <title>archivers</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -136,9 +137,8 @@ done
 <p>
 Ens pot anar molt bé per a fer backups. Podem fer, per exemple:<br />
 </p>
-<blockquote>
-arj a -fury -v1000000k  /COPIES_SEG/etc.arj   /etc
-</blockquote>
+<pre><code>arj a -fury -v1000000k  /COPIES_SEG/etc.arj   /etc
+</code></pre>
 <p>
 a per afegir, f per refresh, u per update, r per recursiu, y per respondre "yes" a totes les preguntes i finalment amb v diem  que es vagin fent fitxers amb la mida màxima que indiquem.<br />
 Desaventatges: (o ho podem prendre com un avantatge) amb aquest mètode anem guarden les succesives versions d'un fitxer, amb   el qual l'arj de destí sempre anirà creixent.<br />
@@ -198,9 +198,8 @@ En comptes de: atool -x, podem fer servir aunpack (extreure o descomprimir)
 I en comptes de: atool -a, podem fer servir apack (afegir o crear)
 
 </ul>
-
 <p>
-I n'hi han alguns més. <a href="http://www.nongnu.org/atool/<br">http://www.nongnu.org/atool/<br</a> />
+I n'hi han alguns més. <a href="http://www.nongnu.org/atool/">http://www.nongnu.org/atool/</a><br />
 </p>
 
 
@@ -216,9 +215,6 @@ Comprimeix tots els fitxers que hi hagi a un directori, deixant com a sortida un
 		done
 </pre>
 
-</ul>
-
-<ul>
 <li>
 El mateix però amb zip, sense comprimir (només store) i funciona amb noms de directoris i fitxers que continguis espais (ideal per acomprimir directoris de mp3 reproduïbles amb l'VLC):
 <pre>

@@ -2,6 +2,7 @@
 <html>
 <head>
 <link rel="Stylesheet" type="text/css" href="../../../style.css">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.xml">
 <title>que_passa_a_Debian-info_sistema</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -11,7 +12,7 @@
 <div id="Que està passant a la nostra Debian. Informació del sistema"><h1 id="Que està passant a la nostra Debian. Informació del sistema" class="header"><a href="#Que està passant a la nostra Debian. Informació del sistema">Que està passant a la nostra Debian. Informació del sistema</a></h1></div>
 <p>
 :tagdebianinfo:<br />
-Última modificació: agost de 2020<br />
+Última modificació: maig de 2023<br />
 </p>
 
 
@@ -36,7 +37,8 @@ Obtenim el nom del sistema, kernel en ús, arquitectura de la màquina.<br />
 <span id="Que està passant a la nostra Debian. Informació del sistema-Nom de la màquina i altre informació:"></span><strong id="Nom de la màquina i altre informació:">Nom de la màquina i altre informació:</strong><br />
 <code>    hotnamectl</code><br />
 </p>
-    
+<pre><code>
+</code></pre>
 <p>
 <span id="Que està passant a la nostra Debian. Informació del sistema-Dia i hora, amb detall de timezone i altres:"></span><strong id="Dia i hora, amb detall de timezone i altres:">Dia i hora, amb detall de timezone i altres:</strong><br />
 <code>    timedatectl</code><br />
@@ -63,7 +65,8 @@ Eliminar la informació sensible (números de sèrie, p.e.) del resultat:<br />
 <span id="Que està passant a la nostra Debian. Informació del sistema-Maquinari-També tenim inxi"></span><strong id="També tenim inxi">També tenim inxi</strong><br />
 <code>    apt install inxi</code><br />
 </p>
-    
+<pre><code>
+</code></pre>
 <p>
 Per a veure totes les opcions disponibles: man inxi. Segurament ens estarà bé, de sortida:<br />
 <code>    inxi -b</code><br />
@@ -131,6 +134,11 @@ Llista de processos; també podem instal·lar htop<br />
 obtenim un llistat de tots els processos corrent al sistema amb l'usuari que els ha llençat. Podem creuar aquesta info amb la que ens proporciona who (o w) per a saber si algun procés determinat s'ha llençat interactivament o no.<br />
 </p>
 
+<p>
+Monitor de CPU:<br />
+</p>
+<pre><code><code>s-tui</code>
+</code></pre>
 
 <p>
 Memòria RAM<br />

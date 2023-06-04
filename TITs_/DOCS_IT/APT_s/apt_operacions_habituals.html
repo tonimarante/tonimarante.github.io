@@ -2,6 +2,7 @@
 <html>
 <head>
 <link rel="Stylesheet" type="text/css" href="../../../style.css">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.xml">
 <title>apt_operacions_habituals</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -11,7 +12,7 @@
 <div id="apt operacions habituals"><h2 id="apt operacions habituals" class="header"><a href="#apt operacions habituals">apt operacions habituals</a></h2></div>
 <p>
 :tagapt:<br />
-Última modificació: desembre de 2021       <br />
+Última modificació: novembre de 2022       <br />
 </p>
 
 <p>
@@ -111,7 +112,8 @@ Instal.lar un versió determinada de paquet
 
 </ul>
 <p>
-<code>        apt-get install paquet=versió</code>  (o diu paquet hem de posar el nom de paquet, seguit de = i la versió a instal·lar)<br />
+<code>        apt-get install paquet=versió</code>  <br />
+   (on diu "paquet" hem de posar el nom de paquet, seguit de = i la versió a instal·lar)<br />
 </p>
 
 <ul>
@@ -122,17 +124,15 @@ Congelar un paquet en una versió determinada
 <p>
 <code>        apt-mark hold  paquet</code><br />
 </p>
-<blockquote>
-Veure paquets congelats
-</blockquote>
+<pre><code>Veure paquets congelats
+</code></pre>
 <p>
-<code>            apt-mark showhold</code><br />
+<code>       apt-mark showhold</code><br />
 </p>
-<blockquote>
-Descongelar un paquet
-</blockquote>
+<pre><code>Descongelar un paquet
+</code></pre>
 <p>
-<code>            apt-mark unhold  paquet </code><br />
+<code>       apt-mark unhold  paquet </code><br />
 </p>
 
 <ul>
@@ -147,14 +147,11 @@ Actualitzar sistema
 <ul>
 <li>
 Upgradar a una nova versió:
+<pre>
+        apt-get dist-upgrade
+        apt full-upgrade
+</pre>
 
-</ul>
-<p>
-<code>        apt-get dist-upgrade</code><br />
-<code>        apt full-upgrade</code><br />
-</p>
-
-<ul>
 <li>
 Netejar arxius descarregats:
 
@@ -166,11 +163,15 @@ Netejar arxius descarregats:
 <ul>
 <li>
 Veure versions:
-<pre         apt-show-versions -p paquet>
-        apt-cache policy vlc
-        apt-cache madison vlc
-</pre>
 
+</ul>
+<p>
+<code>        apt-show-versions -p paquet</code><br />
+<code>        apt-cache policy vlc</code><br />
+<code>        apt-cache madison vlc</code><br />
+</p>
+
+<ul>
 <li>
 Veure llistat de programes actualitzables:
 
@@ -216,9 +217,8 @@ Veure dependències:
 <p>
 <code>        apt-cache depends paquet</code><br />
 </p>
-<blockquote>
-també:
-</blockquote>
+<pre><code>també:
+</code></pre>
 <p>
 <code>        apt-cache show mc | grep -i depends</code><br />
 </p>
@@ -273,15 +273,11 @@ Buscar quin paquet te un fitxer determinat (hem d'instal.lar apt-file):
 
 
 <p>
-Si tenim mala memòria, ens facilitarà molt la vida wajig  (<a href="http://www.togaware.com/wajig/)">http://www.togaware.com/wajig/)</a> <br />
-</p>
-
-
-<p>
 cron-apt: Ens permet mantenir actualitzat el nostre sistema Linux. S'ha de tenir en compte, però, que cron-apt descarrega automàticament les actualitzacions però no les instal·la. Ens ho notifica (via mail, p.e.) i nosaltres haurem d'entrar i executar l'actualització fent un:<br />
 <code>            apt full-upgrade</code><br />
 </p>
-            
+<pre><code>
+</code></pre>
 
 <p>
 Cada paquet te al seu directori de documentació (/usr/share/doc/packagename) un arxiu que es diu changelog.Debian.gz que conté la llista de canvis del paquet des de l'última versió. Podem lleguir aquests arxius amb zless, però es millor instal.lar apt-listchanges. Un cop estigui instal.lat, abans de que apt instal.li paquets, ens mostrarà la llista de canvis.<br />
@@ -296,9 +292,8 @@ Si una instal.lació termina de mala manera (l'equip s'apaga en mig d'un apt-get
 <code>        apt-get -f install</code><br />
 <code>        dpkg --configure -a</code><br />
 </p>
-<blockquote>
-I després tornem a provar. A vegades es necessari executar la segona comanda varies vegades.
-</blockquote>
+<pre><code>I després tornem a provar. A vegades es necessari executar la segona comanda varies vegades.
+</code></pre>
 
 <p>
 Si tenim problemes després de fer un autoremove, ens pot ajudar veure quins paquets hem eliminat:<br />
